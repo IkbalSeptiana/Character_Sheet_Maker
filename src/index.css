@@ -1,0 +1,35 @@
+@import "tailwindcss";
+
+:root {
+  /* GLOBAL DESIGN TOKENS */
+  --bg: #09090b;          /* Very dark zinc */
+  --surface: #131316;     /* Elevated surface */
+  --surface-2: #1c1c20;   /* Cards and inputs */
+  --border: #27272a;      /* Subtle borders */
+  --border-hover: #3f3f46;
+  
+  --accent: #d4af37;      /* Classic Gold */
+  --accent-hover: #fcd34d;
+  --accent-dim: #8a6e24;
+  --accent-faint: rgba(212, 175, 55, 0.08);
+  
+  --text-1: #fafafa;      /* Pure white for headings */
+  --text-2: #a1a1aa;      /* Muted text */
+  --text-3: #52525b;      /* Disabled text */
+  
+  --success: #10b981;
+  --error: #ef4444;
+  --danger-faint: rgba(239, 68, 68, 0.15);
+}
+
+body { 
+  background-color: var(--bg); 
+  color: var(--text-1); 
+  min-height: 100vh; 
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: var(--border-hover); }
