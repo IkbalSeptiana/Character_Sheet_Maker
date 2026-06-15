@@ -8,50 +8,52 @@ const DEFAULT_TPL_SYSTEM = `You are an elite AI photography creative director an
 ABSOLUTE RULES:
 1. DENSE DESCRIPTIONS: Write in thick, continuous sentences. Never use lazy one-liners.
 2. SUBJECT IDENTITY IS SACRED: Use ONLY the character data in the SUBJECT IDENTITY block. Never add, modify, or invent any physical traits not present there.
-3. STYLING RULE: In "Subject Identity & Styling", ONLY write clothing and accessories. Do NOT re-describe hair color, eye color, skin tone, or facial features — those are already locked in INSTRUCTION [LOCKED]. The only exception is "Hairstyling matching the provided character reference sheet" for the hairstyling line.
-4. ANATOMICAL POSE: Use "WITH" chains for body mechanics.
-5. FOREGROUND LOGIC: If angle is "high-angle", "top-down", "overhead", "drone", or "bird's eye" → foreground = "None". Otherwise write a specific 20-word physical object blocking part of the lens.
-6. COLOR PALETTE: Always end Environment with "Overall scene features a [vibe] color palette of [exactly 6 specific named colors]."
-7. OUTPUT FORMAT: Follow the structural template EXACTLY. No extra commentary.
-8. Start output directly with "INSTRUCTION [LOCKED]:"`;
+3. STYLING RULE: In "Subject Identity & Styling", ONLY write clothing and accessories. Do NOT re-describe hair color, eye color, skin tone, or facial features — those are already locked in INSTRUCTION [LOCKED]. The only exception is the hairstyling line.
+4. ANATOMICAL POSE: Use "WITH" chains for body mechanics. Track every arm, forearm, hand, and finger individually. Example: "Torso bladed 45 degrees left WITH right arm hanging naturally at side WITH left forearm folded upward WITH index finger resting lightly against lower lip."
+5. FOREGROUND LOGIC: If Camera angle contains "aerial", "top-down", "overhead", "drone", or "bird's eye" → write "None." Otherwise, write a 20-25 word hyper-specific physical obstruction pressed against the lens: name the exact plant species, material, texture, color, and how it physically blocks the frame corners or bottom.
+6. ENVIRONMENT — SIGN TEXT REQUIRED: Every scene MUST include one legible real-world sign, marker, or trail post with text in the local language. Format: 'Legible [language] text on [sign description] reading "[actual text in local language]".' Research realistic sign text for the specific named location.
+7. COLOR PALETTE: Always end Environment with "Overall scene features a [vibe] color palette of [exactly 6 specific named colors]."
+8. CAMERA — FILM STOCK REQUIRED: Specify exact lens mm, f/stop, shutter speed, ISO, and a real named film stock (Fujifilm Velvia 50 / Fujifilm Pro 400H / Kodak Portra 400 / Kodak Ektar 100 / Kodak Ultramax 400 / Ilford HP5 etc.). Describe the color science outcome in one sentence (e.g. "warm-leaning tones with lifted cyan shadows and fine grain").
+9. OUTPUT FORMAT: Follow the structural template EXACTLY. No extra commentary.
+10. Start output directly with "INSTRUCTION [LOCKED]:"`;
 
 const DEFAULT_TPL_COUPLE = `=== COUPLE TEMPLATE ===
-INSTRUCTION [LOCKED]: Use the provided character reference sheets as the primary visual guides. Maintain an extremely strong and accurate resemblance to both characters.
-- For the female character: Preserve all facial features, facial structure, hair, skin tone, eye shape, and every distinctive marker exactly as shown in the character sheet.
-- For the male character: Preserve all facial features, facial structure, hair, skin tone, eye shape, and every distinctive marker exactly as shown in the character sheet.
-Do not stylize, exaggerate, or modify the core identity of either person.
+INSTRUCTION [LOCKED]: Use the provided character reference sheet as the primary visual guides. Maintain an extremely strong and accurate resemblance to both subjects shown in the references.
+- For the female subject: Preserve facial features, facial structure, hair color/style, skin tone, eye shape, nose, lips, and distinctive facial markers.
+- For the male subject: Preserve facial features, facial structure, hair color/style, skin tone, eye shape, nose, lips, and distinctive facial markers.
+Do not stylize, exaggerate, or significantly modify the core identity, bone structure, or proportions of either person. Allow only small natural variations typical of real photography, lighting, and pose.
 Positive Prompt:
 Core Aesthetic: Photorealistic authentic lifestyle snapshot of two subjects in [LOCATION], [MOOD].
-Foreground obstruction: [FOREGROUND LOGIC].
+Foreground obstruction: [FOREGROUND LOGIC — 20-25 words, hyper-specific plant species or material pressed against lens].
 Subject Identity & Styling (Female): Hairstyling matching the provided character reference sheet. Exact face matching the provided character reference sheet. Clothing: [30-word hyper-specific expansion — exact fabric, color, cut, fit, wear pattern. NO hair/face/skin]. Wearable Accessories: [Body/head/face accessories only, or "No accessories"].
 Subject Identity & Styling (Male): Hairstyling matching the provided character reference sheet. Exact face matching the provided character reference sheet. Clothing: [30-word hyper-specific expansion — exact fabric, color, cut, fit, wear pattern. NO hair/face/skin]. Wearable Accessories: [Body/head/face accessories only, or "No accessories"].
-Pose and Action (Shared Interaction): Two subjects [spatial proximity]. [Female: 20-word anatomical WITH-chain]. [Male: 20-word anatomical WITH-chain]. Female exhibiting [15-word micro-expression]. Male exhibiting [15-word micro-expression]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
-Environment & Lighting: [LOCATION FULL NAME], [60-word hyper-specific background]. [Lighting setup]. Overall scene features a [vibe] color palette of [6 specific named colors].
-Camera & Technical Specs: Shot framed as [SHOT TYPE] from [angle]. [Lens mm, f/aperture, shutter speed, ISO, film stock, grain, color science].
+Pose and Action (Shared Interaction): Two subjects [spatial proximity]. [Female: 20-word anatomical WITH-chain tracking each arm and hand]. [Male: 20-word anatomical WITH-chain tracking each arm and hand]. Female exhibiting [15-word micro-expression]. Male exhibiting [15-word micro-expression]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
+Environment & Lighting: [LOCATION FULL NAME], [60-word hyper-specific background]. Legible [language] text on [sign type] reading "[local-language sign text]". [Lighting direction, quality, shadows]. Overall scene features a [vibe] color palette of [6 specific named colors].
+Camera & Technical Specs: Shot on [camera type]. Framed as [SHOT TYPE] from [angle]. [Lens mm], f/[aperture], [shutter speed], ISO [ISO], [film stock name], [grain description], [color science outcome in one sentence].
 Negative Prompt:
 Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, floating limbs, disconnected arms, amputated hands, professional retouching, artificial bounce light, rim light, full body, shallow depth of field, bokeh, blurred background, tilt shift, soft focus, watermark.`;
 
 const DEFAULT_TPL_SOLO_F = `=== SOLO FEMALE TEMPLATE ===
-INSTRUCTION [LOCKED]: Use the provided female character reference sheet as the primary visual guide. Maintain an extremely strong and accurate resemblance to the character shown. Preserve every facial feature, structure, hair, skin tone, and distinctive marker exactly as in the sheet.
+INSTRUCTION [LOCKED]: Use the provided character reference sheet as the primary visual guide. Maintain an extremely strong and accurate resemblance to the subject shown in the reference. Preserve facial features, facial structure, hair color/style, skin tone, eye shape, nose, lips, and distinctive facial markers. Do not stylize, exaggerate, or significantly modify the core identity, bone structure, or proportions. Allow only small natural variations typical of real photography, lighting, and pose.
 Positive Prompt:
 Core Aesthetic: Photorealistic authentic lifestyle snapshot of one female subject in [LOCATION], [MOOD].
-Foreground obstruction: [FOREGROUND LOGIC].
+Foreground obstruction: [FOREGROUND LOGIC — 20-25 words, hyper-specific plant species or material pressed against lens].
 Subject Identity & Styling (Female): Hairstyling matching the provided character reference sheet. Exact face matching the provided character reference sheet. Clothing: [30-word hyper-specific expansion — exact fabric, color, cut, fit, wear pattern. NO hair/face/skin]. Wearable Accessories: [Body/head/face accessories only, or "No accessories"].
-Pose and Action (Female): [25-word anatomical WITH-chain]. Female exhibiting [15-word micro-expression and eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
-Environment & Lighting: [LOCATION FULL NAME], [60-word hyper-specific background]. [Lighting setup]. Overall scene features a [vibe] color palette of [6 specific named colors].
-Camera & Technical Specs: Shot framed as [SHOT TYPE] from [angle]. [Lens mm, f/aperture, shutter speed, ISO, film stock, grain, color science].
+Pose and Action (Female): [25-word anatomical WITH-chain tracking each arm individually]. Female exhibiting [15-word micro-expression and eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
+Environment & Lighting: [LOCATION FULL NAME], [60-word hyper-specific background]. Legible [language] text on [sign type] reading "[local-language sign text]". [Lighting direction, quality, shadows]. Overall scene features a [vibe] color palette of [6 specific named colors].
+Camera & Technical Specs: Shot on [camera type]. Framed as [SHOT TYPE] from [angle]. [Lens mm], f/[aperture], [shutter speed], ISO [ISO], [film stock name], [grain description], [color science outcome in one sentence].
 Negative Prompt:
 Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, arms, hands, fingers, torso, waist down, full body, shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus.`;
 
 const DEFAULT_TPL_SOLO_M = `=== SOLO MALE TEMPLATE ===
-INSTRUCTION [LOCKED]: Use the provided male character reference sheet as the primary visual guide. Maintain an extremely strong and accurate resemblance to the character shown. Preserve every facial feature, structure, hair, skin tone, and distinctive marker exactly as in the sheet.
+INSTRUCTION [LOCKED]: Use the provided character reference sheet as the primary visual guide. Maintain an extremely strong and accurate resemblance to the subject shown in the reference. Preserve facial features, facial structure, hair color/style, skin tone, eye shape, nose, lips, and distinctive facial markers. Do not stylize, exaggerate, or significantly modify the core identity, bone structure, or proportions. Allow only small natural variations typical of real photography, lighting, and pose.
 Positive Prompt:
 Core Aesthetic: Photorealistic authentic lifestyle snapshot of one male subject in [LOCATION], [MOOD].
-Foreground obstruction: [FOREGROUND LOGIC].
+Foreground obstruction: [FOREGROUND LOGIC — 20-25 words, hyper-specific plant species or material pressed against lens].
 Subject Identity & Styling (Male): Hairstyling matching the provided character reference sheet. Exact face matching the provided character reference sheet. Clothing: [30-word hyper-specific expansion — exact fabric, color, cut, fit, wear pattern. NO hair/face/skin]. Wearable Accessories: [Body/head/face accessories only, or "No accessories"].
-Pose and Action (Male): [25-word anatomical WITH-chain]. Male exhibiting [15-word micro-expression and eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
-Environment & Lighting: [LOCATION FULL NAME], [60-word hyper-specific background]. [Lighting setup]. Overall scene features a [vibe] color palette of [6 specific named colors].
-Camera & Technical Specs: Shot framed as [SHOT TYPE] from [angle]. [Lens mm, f/aperture, shutter speed, ISO, film stock, grain, color science].
+Pose and Action (Male): [25-word anatomical WITH-chain tracking each arm individually]. Male exhibiting [15-word micro-expression and eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
+Environment & Lighting: [LOCATION FULL NAME], [60-word hyper-specific background]. Legible [language] text on [sign type] reading "[local-language sign text]". [Lighting direction, quality, shadows]. Overall scene features a [vibe] color palette of [6 specific named colors].
+Camera & Technical Specs: Shot on [camera type]. Framed as [SHOT TYPE] from [angle]. [Lens mm], f/[aperture], [shutter speed], ISO [ISO], [film stock name], [grain description], [color science outcome in one sentence].
 Negative Prompt:
 Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, arms, hands, fingers, torso, waist down, full body, shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus.`;
 
@@ -73,25 +75,34 @@ const GENRES = [
 
 // ─── PROMPTS ──────────────────────────────────────────────────────────────────
 
-// Analisis foto style — HANYA aesthetic/mood/kamera, BUKAN orang
-const SYSTEM_ANALYZE_STYLE = `You are an expert photography AI analyst. Analyze the uploaded photo(s) for their VISUAL AESTHETIC ONLY — not the people in them.
+// Analisis foto style — extract both scenario pattern AND camera aesthetic
+const SYSTEM_ANALYZE_STYLE = `You are an expert photography AI analyst and creative director. Analyze the uploaded photo(s).
 
-Extract:
-1. The overall photography style and aesthetic feel
-2. Camera technique, lens feel, angle
-3. Color grading and film stock character
-4. Mood and atmosphere
+Extract TWO things:
+
+A. PHOTOGRAPHIC STYLE (camera, light, color — for film stock selection):
+- Overall visual aesthetic and feel
+- Camera technique: lens feel, angle, depth of field
+- Color grading, film stock character, grain
+- Lighting setup and mood palette
+
+B. SCENE SCENARIO (what's happening — for generating scene idea variations):
+- What is the interaction type between subjects? (e.g. lying together looking at camera, walking side by side, facing each other)
+- What is the pose/framing concept? (e.g. overhead high-angle close-up, straight-on eye-level waist-up)
+- What is the emotional vibe and intimacy level?
+- Is it a multi-panel/grid format? If so, how many panels and what varies between them?
 
 Return ONLY a valid JSON object:
 {
-  "styleAnalysis": "2-3 sentence description of the photo's aesthetic, vibe, and visual style",
+  "styleAnalysis": "2-3 sentence description of the photo's aesthetic and visual style",
   "inferredCameraStyle": "inferred lens mm, aperture feel, film stock or digital look",
   "inferredMoodPalette": "dominant mood and exactly 5-6 specific color names visible in the photo",
   "suggestedGenre": "one of: Lifestyle snapshot | Cinematic film still | Street photography | Travel editorial | Acubi / Korean aesthetic | Golden hour portrait",
-  "locationContext": "if a specific place is identifiable, name it, else empty string"
-}
-
-IMPORTANT: Do NOT describe or analyze any people, faces, hair, clothing, or body in this response. Focus ONLY on the photographic style, lighting, colors, and atmosphere.`;
+  "locationContext": "if a specific place is identifiable, name it, else empty string",
+  "scenarioPattern": "describe the SCENE TYPE and INTERACTION: what subjects are doing, how they're positioned, the emotional dynamic. Used as a template for variations. E.g. 'couple lying side by side on ground, faces close together, overhead bird's eye angle, looking up at camera with varied candid expressions across 3 panels'",
+  "framingConcept": "shot framing and angle: e.g. 'high-angle overhead close-up, faces filling the frame, visible shoulders only'",
+  "panelFormat": "if multi-panel: describe the grid format and how expressions/poses vary across panels. If single image, write 'single image'"
+}`;
 
 // Analisis character sheet — extract identitas penuh dari sheet
 const SYSTEM_ANALYZE_CHARACTER = (gender) => `You are an expert AI character analyst. You are looking at a CHARACTER REFERENCE SHEET for a ${gender} character.
@@ -134,37 +145,64 @@ Return ONLY a valid JSON object:
   "hands": "nail shape, length, color, hand skin tone from hand detail panel"
 }`;
 
-// Generate ideas dari style analysis
-const buildIdeasPrompt = (styleAnalysis, charFemale, charMale, userDirectives) => {
-  const hasStyle = !!styleAnalysis;
+// Generate ideas
+// Mode A — style photo uploaded, directives blank: generate 15 variations of the reference scenario
+// Mode B — directives provided: generate from directives (style only influences camera/film at generation time)
+const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis) => {
   const hasFemale = !!charFemale;
   const hasMale = !!charMale;
+  const useScenarioMode = !!styleAnalysis?.scenarioPattern && !userDirectives?.trim();
 
   const genderCtx = hasFemale && hasMale ? "a couple (one female, one male)"
     : hasFemale ? "a solo female subject"
     : hasMale ? "a solo male subject"
     : "lifestyle subjects";
 
-  const styleBlock = hasStyle
-    ? `STYLE REFERENCE (from uploaded mood/style photos — use this to anchor ALL ideas visually):
-- Overall Aesthetic: ${styleAnalysis.styleAnalysis}
-- Camera Feel: ${styleAnalysis.inferredCameraStyle}
-- Mood & Colors: ${styleAnalysis.inferredMoodPalette}
-- Genre: ${styleAnalysis.suggestedGenre}
-RULE: Every idea's cameraStyle and mood MUST feel like a natural extension of this aesthetic.`
-    : "No style reference — use warm, natural, clean lifestyle aesthetic.";
+  if (useScenarioMode) {
+    return `You are an elite photography creative director. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
+
+SCENE REFERENCE (uploaded by user — generate 15 variations of this scenario type):
+- Scenario Pattern: ${styleAnalysis.scenarioPattern}
+- Framing Concept: ${styleAnalysis.framingConcept}
+- Panel Format: ${styleAnalysis.panelFormat}
+- Genre Feel: ${styleAnalysis.suggestedGenre}
+
+YOUR JOB: Keep the SAME interaction type, pose pattern, and framing concept — but change EVERYTHING ELSE across 15 ideas: location, setting, outfit, time of day, country, mood.
+
+STRICT RULES:
+1. SAME SCENARIO, DIFFERENT WORLD: Every idea must follow the same interaction pattern and framing as the reference. A person lying on grass with overhead angle → variations: lying on sand dunes, lying on flower field, lying on wooden dock, lying on autumn leaves, lying on rooftop, etc.
+2. REAL WORLD LOCATIONS: Specific named places with city/country. Never generic.
+3. OUTFIT ONLY: The "clothing" field = SHORT outfit concept max 15 words. NO hair/face/skin.
+4. VARY LOCATIONS AGGRESSIVELY: Different countries, continents, settings. Mix outdoor/indoor, nature/urban.
+5. CAMERA: Keep the same framing concept as the reference (angle, shot type). Leave cameraStyle as a brief concept — no film stock yet.
+
+Return ONLY a valid JSON array of exactly 15 objects:
+[
+  {
+    "id": 1,
+    "sceneName": "max 5-word evocative title",
+    "location": "Specific Place Name, City, Country",
+    "mood": "atmospheric mood, max 10 words",
+    "clothing": "BRIEF outfit concept only, max 15 words",
+    "pose": "brief action/pose following the same scenario pattern as reference, max 20 words",
+    "cameraStyle": "same framing/angle concept as reference, brief — no film stock",
+    "suggestedShotType": "one of: Close-up (chin to crown) | Medium close-up (chest up) | Medium shot (waist up) | Full body | POV selfie | Over-the-shoulder",
+    "suggestedCrop": "one of: lower chest | mid-torso | waist | mid-thigh | knees",
+    "genre": "one of: Lifestyle snapshot | Cinematic film still | Street photography | Travel editorial | Acubi / Korean aesthetic | Golden hour portrait"
+  }
+]`;
+  }
 
   return `You are an elite photography creative director. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
 
-${styleBlock}
-
-USER DIRECTIVES: ${userDirectives || "Generate lifestyle scenes — romantic, candid, cinematic."}
+USER DIRECTIVES: ${userDirectives}
 
 STRICT RULES:
-1. REAL WORLD LOCATIONS: Use specific named places with city/country (e.g., "% Arabica, Arashiyama, Kyoto, Japan").
+1. REAL WORLD LOCATIONS: Use specific named places with city/country (e.g., "% Arabica, Arashiyama, Kyoto, Japan"). Never generic places.
 2. OUTFIT ONLY: The "clothing" field = SHORT outfit concept max 15 words. NO hair, face, or skin descriptions.
-3. VARY: Mix indoor/outdoor, day/night, urban/nature, different countries across 15 ideas.
-4. FOREGROUND: For overhead/drone/high-angle ideas, note "aerial" in cameraStyle so foreground = None later.
+3. VARY AGGRESSIVELY: Mix indoor/outdoor, day/night, urban/nature, across different countries and continents. No two scenes should share the same vibe or setting type.
+4. FOREGROUND: For overhead/drone/high-angle ideas, write "aerial" in cameraStyle. For all others, note a natural obstruction type (grass, flowers, leaves, etc.) to generate foreground later.
+5. CAMERA: Leave cameraStyle as a brief concept (e.g. "85mm, f/2.8, golden hour, film grain") — the final film stock will be assigned during prompt generation.
 
 Return ONLY a valid JSON array of exactly 15 objects:
 [
@@ -175,7 +213,7 @@ Return ONLY a valid JSON array of exactly 15 objects:
     "mood": "atmospheric mood, max 10 words",
     "clothing": "BRIEF outfit concept only, max 15 words",
     "pose": "brief action/pose, max 20 words",
-    "cameraStyle": "lens feel, angle, film stock inspired by style reference",
+    "cameraStyle": "lens concept and angle only — no film stock",
     "suggestedShotType": "one of: Close-up (chin to crown) | Medium close-up (chest up) | Medium shot (waist up) | Full body | POV selfie | Over-the-shoulder",
     "suggestedCrop": "one of: lower chest | mid-torso | waist | mid-thigh | knees",
     "genre": "one of: Lifestyle snapshot | Cinematic film still | Street photography | Travel editorial | Acubi / Korean aesthetic | Golden hour portrait"
@@ -230,7 +268,7 @@ export default function PhotoPromptBuilder() {
   const charMInputRef = useRef(null);
 
   const [templates, setTemplates] = useState(() => {
-    const saved = localStorage.getItem("pb_templates_v3");
+    const saved = localStorage.getItem("pb_templates_v4");
     return saved ? JSON.parse(saved) : {
       system: DEFAULT_TPL_SYSTEM,
       couple: DEFAULT_TPL_COUPLE,
@@ -346,10 +384,12 @@ export default function PhotoPromptBuilder() {
     }
   };
 
+
   // ─── GENERATE IDEAS ───────────────────────────────────────────────────────
   const handleGenerateIdeas = async () => {
-    if (styleImages.length === 0 && !userDirectives.trim() && !charSheetF && !charSheetM) {
-      triggerToast("Upload style photo, character sheet, or fill directives.");
+    // Validation: need either style photo OR directives
+    if (styleImages.length === 0 && !userDirectives.trim()) {
+      triggerToast("Upload a style reference photo, or fill in Directives.");
       return;
     }
     if (!activeConfig?.apiKey) { triggerToast("API Key not set."); return; }
@@ -357,11 +397,13 @@ export default function PhotoPromptBuilder() {
     setStage("LOADING_IDEAS");
 
     try {
-      // Fase 1: Analisis style photos (jika ada)
+      // Fase 1: Analisis style photos
+      // When directives blank + style uploaded → extract SCENARIO PATTERN for idea variation
+      // When directives filled + style uploaded → extract CAMERA/FILM for injection at generation time
       let sAnalysis = styleAnalysis;
       if (styleImages.length > 0 && !sAnalysis) {
         const raw = await fetchFromLLM(activeConfig,
-          "Analyze the visual aesthetic and style of these photos.",
+          "Analyze this photo for scene scenario pattern and photographic style.",
           SYSTEM_ANALYZE_STYLE,
           true,
           styleImages
@@ -371,11 +413,13 @@ export default function PhotoPromptBuilder() {
       }
 
       // Fase 2: Generate ideas
+      // If style uploaded + no directives: use scenario pattern to generate variations
+      // If directives provided: use directives (style only affects camera at generation time)
       const ideasPrompt = buildIdeasPrompt(
-        sAnalysis,
         charSheetF?.analysis,
         charSheetM?.analysis,
-        userDirectives
+        userDirectives,
+        sAnalysis
       );
       const rawIdeas = await fetchFromLLM(activeConfig,
         "Generate 15 scene ideas.",
@@ -408,48 +452,54 @@ export default function PhotoPromptBuilder() {
   // ─── SELECTIONS ───────────────────────────────────────────────────────────
   const toggleSelection = (id) => setSelections(prev => {
     const u = { ...prev };
-    if (u[id]) delete u[id]; else u[id] = '♂♀';
+    if (u[id]) delete u[id]; else u[id] = 'MF';
     return u;
   });
   const setCardType = (id, type) => setSelections(prev => ({ ...prev, [id]: type }));
   const updateCardSetting = (id, field, val) =>
     setCardSettings(prev => ({ ...prev, [id]: { ...(prev[id] || {}), [field]: val } }));
-  const handleSelectAll = () => { const u = {}; ideas.forEach(i => { u[i.id] = '♂♀'; }); setSelections(u); };
+  const handleSelectAll = () => { const u = {}; ideas.forEach(i => { u[i.id] = 'MF'; }); setSelections(u); };
   const handleDeselectAll = () => setSelections({});
   const handleBlurEditable = (id, field, val) =>
     setIdeas(prev => prev.map(idea => idea.id === id ? { ...idea, [field]: val } : idea));
 
   // ─── GENERATE PROMPTS ─────────────────────────────────────────────────────
   const buildCharacterBlock = (apiType) => {
-    const hasF = charSheetF?.analysis;
-    const hasM = charSheetM?.analysis;
+    const hasF = !!charSheetF?.analysis;
+    const hasM = !!charSheetM?.analysis;
 
     if (!hasF && !hasM) return "SUBJECT IDENTITY: No character sheets provided. Generate a photorealistic person.";
 
-    const fBlock = hasF ? `FEMALE CHARACTER (from character sheet):
-- Hair: ${hasF.hair?.length}, ${hasF.hair?.texture}, ${hasF.hair?.color}, ${hasF.hair?.style}. ${hasF.hair?.special || ""}
-- Eyes: ${hasF.face?.eyes}
-- Brows: ${hasF.face?.brows}
-- Nose: ${hasF.face?.nose}
-- Lips: ${hasF.face?.lips}
-- Face shape: ${hasF.face?.shape}, Jaw: ${hasF.face?.jaw}, Cheeks: ${hasF.face?.cheeks}
-- Distinctive marks: ${hasF.face?.distinctiveMarks}
-- Skin: ${hasF.skin?.tone}, ${hasF.skin?.undertone}
-- Accessories always on: ${hasF.accessories}
-- Build: ${hasF.bodyBuild}` : null;
+    const fBlock = hasF ? (() => {
+      const a = charSheetF.analysis;
+      return `FEMALE CHARACTER (from character sheet):
+- Hair: ${a.hair?.length}, ${a.hair?.texture}, ${a.hair?.color}, ${a.hair?.style}. ${a.hair?.special || ""}
+- Eyes: ${a.face?.eyes}
+- Brows: ${a.face?.brows}
+- Nose: ${a.face?.nose}
+- Lips: ${a.face?.lips}
+- Face shape: ${a.face?.shape}, Jaw: ${a.face?.jaw}, Cheeks: ${a.face?.cheeks}
+- Distinctive marks: ${a.face?.distinctiveMarks}
+- Skin: ${a.skin?.tone}, ${a.skin?.undertone}
+- Accessories always on: ${a.accessories}
+- Build: ${a.bodyBuild}`;
+    })() : null;
 
-    const mBlock = hasM ? `MALE CHARACTER (from character sheet):
-- Hair: ${hasM.hair?.length}, ${hasM.hair?.texture}, ${hasM.hair?.color}, ${hasM.hair?.style}. ${hasM.hair?.special || ""}
-- Facial Hair: ${hasM.facialHair}
-- Eyes: ${hasM.face?.eyes}
-- Brows: ${hasM.face?.brows}
-- Nose: ${hasM.face?.nose}
-- Lips: ${hasM.face?.lips}
-- Face shape: ${hasM.face?.shape}, Jaw: ${hasM.face?.jaw}, Cheeks: ${hasM.face?.cheeks}
-- Distinctive marks: ${hasM.face?.distinctiveMarks}
-- Skin: ${hasM.skin?.tone}, ${hasM.skin?.undertone}
-- Accessories always on: ${hasM.accessories}
-- Build: ${hasM.bodyBuild}` : null;
+    const mBlock = hasM ? (() => {
+      const a = charSheetM.analysis;
+      return `MALE CHARACTER (from character sheet):
+- Hair: ${a.hair?.length}, ${a.hair?.texture}, ${a.hair?.color}, ${a.hair?.style}. ${a.hair?.special || ""}
+- Facial Hair: ${a.facialHair}
+- Eyes: ${a.face?.eyes}
+- Brows: ${a.face?.brows}
+- Nose: ${a.face?.nose}
+- Lips: ${a.face?.lips}
+- Face shape: ${a.face?.shape}, Jaw: ${a.face?.jaw}, Cheeks: ${a.face?.cheeks}
+- Distinctive marks: ${a.face?.distinctiveMarks}
+- Skin: ${a.skin?.tone}, ${a.skin?.undertone}
+- Accessories always on: ${a.accessories}
+- Build: ${a.bodyBuild}`;
+    })() : null;
 
     if (apiType === 'COUPLE') return [fBlock, mBlock].filter(Boolean).join("\n\n");
     if (apiType === 'SOLO FEMALE') return fBlock || "No female character sheet provided.";
@@ -467,6 +517,15 @@ export default function PhotoPromptBuilder() {
 
     const charBlock = buildCharacterBlock(targetTask.apiType);
 
+    // Style camera/film is always injected at generation time regardless of how ideas were generated
+    const styleBlock = styleAnalysis ? `
+VISUAL STYLE REFERENCE — CAMERA & FILM ONLY (DO NOT let this influence location, pose, or clothing):
+- Film Feel: ${styleAnalysis.inferredCameraStyle}
+- Color Palette: ${styleAnalysis.inferredMoodPalette}
+- Photographic Aesthetic: ${styleAnalysis.styleAnalysis}
+APPLY to: exact film stock name, color science sentence, lighting feel, grain in Camera & Technical Specs ONLY.
+` : '';
+
     const userMsg = `Generate a prompt for this scene.
 Type: ${targetTask.apiType}
 Scene Name: ${idea.sceneName}
@@ -478,16 +537,18 @@ Camera Style: ${idea.cameraStyle}
 Shot Type: ${shotType}
 Crop Point: ${cropPoint}
 Genre: ${settings.genre || idea.genre || "Lifestyle snapshot"}
-
-CHARACTER IDENTITY (CRITICAL — USE EXACTLY AS PROVIDED, DO NOT MODIFY OR ADD TO IT):
+${styleBlock}
+CHARACTER IDENTITY (CRITICAL — USE EXACTLY AS PROVIDED, DO NOT MODIFY):
 ${charBlock}
 
-CRITICAL RULES FOR THIS GENERATION:
-- In "Subject Identity & Styling", write ONLY clothing and accessories. DO NOT re-describe hair color, eye color, skin tone, or face. Just write "Hairstyling matching the provided character reference sheet" and "Exact face matching the provided character reference sheet".
-- Expand Clothing into a 30-word hyper-specific description (fabric, color, cut, fit, texture).
-- Expand Pose into precise anatomical WITH-chain mechanics.
-- Expand Camera Style into exact lens/aperture/shutter/ISO/film stock.
-- Follow the structural template precisely.`;
+CRITICAL RULES:
+- In "Subject Identity & Styling", write ONLY clothing and accessories. Use "character reference sheet" for hairstyling and face lines.
+- Expand Clothing to 30 words: exact fabric, color, cut, fit, wear pattern.
+- Expand Pose to full anatomical WITH-chain tracking each arm/hand/finger individually.
+- Environment MUST include a legible local-language sign with realistic text for this specific location.
+- Camera MUST name a real film stock (Fujifilm Velvia/Pro 400H, Kodak Portra/Ektar/Ultramax, etc.) and describe color science in one sentence.
+- If Camera Style is NOT aerial/drone/top-down: write a 20-25 word hyper-specific foreground obstruction (exact plant species, material, texture).
+- Follow the structural template EXACTLY.`;
 
     try {
       const res = await fetchFromLLM(activeConfig, userMsg, fullSystemPrompt, false, []);
@@ -511,12 +572,12 @@ CRITICAL RULES FOR THIS GENERATION:
       if (!idea) return;
       const settings = cardSettings[id] || {};
 
-      if (type === '2×') {
-        taskList.push({ taskKey: `${id}_F`, idea, settings, typeDisplay: 'SOLO ♀', apiType: 'SOLO FEMALE', status: 'pending' });
-        taskList.push({ taskKey: `${id}_C`, idea, settings, typeDisplay: 'COUPLE ♂♀', apiType: 'COUPLE', status: 'pending' });
+      if (type === '2x') {
+        taskList.push({ taskKey: `${id}_F`, idea, settings, typeDisplay: 'SOLO F', apiType: 'SOLO FEMALE', status: 'pending' });
+        taskList.push({ taskKey: `${id}_C`, idea, settings, typeDisplay: 'COUPLE', apiType: 'COUPLE', status: 'pending' });
       } else {
-        const apiType = type === '♂' ? 'SOLO MALE' : type === '♀' ? 'SOLO FEMALE' : 'COUPLE';
-        const typeDisplay = type === '♂' ? 'SOLO ♂' : type === '♀' ? 'SOLO ♀' : 'COUPLE ♂♀';
+        const apiType = type === 'M' ? 'SOLO MALE' : type === 'F' ? 'SOLO FEMALE' : 'COUPLE';
+        const typeDisplay = type === 'M' ? 'SOLO M' : type === 'F' ? 'SOLO F' : 'COUPLE';
         taskList.push({ taskKey: `${id}_${type}`, idea, settings, typeDisplay, apiType, status: 'pending' });
       }
     });
@@ -629,7 +690,7 @@ CRITICAL RULES FOR THIS GENERATION:
 
             {/* Row: Character Sheets */}
             <div>
-              <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent-dim) mb-3">Character Sheets <span className="text-(--text-3) normal-case tracking-normal">(optional — untuk mengunci identitas)</span></div>
+              <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent-dim) mb-3">Character Sheets <span className="text-(--text-3) normal-case tracking-normal">(optional — dari tab Character Reference)</span></div>
               <div className="grid grid-cols-2 gap-4">
 
                 {/* Female Character */}
@@ -637,27 +698,22 @@ CRITICAL RULES FOR THIS GENERATION:
                   <div className="text-xs text-(--text-3) mb-2">Female Character</div>
                   <input ref={charFInputRef} type="file" accept="image/*" className="hidden" onChange={e => handleCharFile(e.target.files, 'female')} />
                   {!charSheetF ? (
-                    <DragDropZone
-                      onDrop={files => handleCharFile(files, 'female')}
-                      isDragging={isDraggingCharF}
-                      setIsDragging={setIsDraggingCharF}
-                      className="char-box"
-                      activeClassName="char-box drag-over"
-                    >
-                      <div className="text-2xl mb-2">Drag image here</div>
-                      <div className="text-(--text-3) text-xs">or click to upload</div>
-                      <div className="text-(--accent) text-[10px] mt-2 opacity-70">Drag & drop supported</div>
+                    <DragDropZone onDrop={files => handleCharFile(files, 'female')} isDragging={isDraggingCharF} setIsDragging={setIsDraggingCharF} className="char-box" activeClassName="char-box drag-over">
+                      <div onClick={() => charFInputRef.current?.click()}>
+                        <div className="text-xl mb-1.5">Drag sheet here</div>
+                        <div className="text-(--text-3) text-xs">or click to upload</div>
+                      </div>
                     </DragDropZone>
                   ) : (
                     <div className={`char-box loaded ${charSheetF.analyzing ? 'analyzing' : ''}`}>
                       <div className="flex items-center gap-3">
-                        <img src={charSheetF.url} className="w-14 h-14 object-cover rounded-lg flex-shrink-0" alt="char-f" />
+                        {charSheetF.url && <img src={charSheetF.url} className="w-14 h-14 object-cover rounded-lg flex-shrink-0" alt="char-f" />}
                         <div className="text-left flex-1 min-w-0">
                           {charSheetF.analyzing && <div className="text-(--accent) text-xs animate-pulse mb-1">Analyzing...</div>}
                           {charSheetF.analysis && (
                             <>
                               <div className="font-semibold text-(--text-1) text-sm">{charSheetF.analysis.name || "Female Character"}</div>
-                              <div className="text-(--text-3) text-[11px] truncate">{charSheetF.analysis.hair?.color} . {charSheetF.analysis.face?.eyes?.split(',')[0]}</div>
+                              <div className="text-(--text-3) text-[11px] truncate">{charSheetF.analysis.hair?.color} · {charSheetF.analysis.face?.eyes?.split(',')[0]}</div>
                               <button onClick={() => setShowCharModal('female')} className="text-(--accent) text-[11px] bg-transparent border-none cursor-pointer p-0 mt-0.5 hover:opacity-70">View details</button>
                             </>
                           )}
@@ -674,27 +730,22 @@ CRITICAL RULES FOR THIS GENERATION:
                   <div className="text-xs text-(--text-3) mb-2">Male Character</div>
                   <input ref={charMInputRef} type="file" accept="image/*" className="hidden" onChange={e => handleCharFile(e.target.files, 'male')} />
                   {!charSheetM ? (
-                    <DragDropZone
-                      onDrop={files => handleCharFile(files, 'male')}
-                      isDragging={isDraggingCharM}
-                      setIsDragging={setIsDraggingCharM}
-                      className="char-box"
-                      activeClassName="char-box drag-over"
-                    >
-                      <div className="text-2xl mb-2">Drag image here</div>
-                      <div className="text-(--text-3) text-xs">or click to upload</div>
-                      <div className="text-(--accent) text-[10px] mt-2 opacity-70">Drag & drop supported</div>
+                    <DragDropZone onDrop={files => handleCharFile(files, 'male')} isDragging={isDraggingCharM} setIsDragging={setIsDraggingCharM} className="char-box" activeClassName="char-box drag-over">
+                      <div onClick={() => charMInputRef.current?.click()}>
+                        <div className="text-xl mb-1.5">Drag sheet here</div>
+                        <div className="text-(--text-3) text-xs">or click to upload</div>
+                      </div>
                     </DragDropZone>
                   ) : (
                     <div className={`char-box loaded ${charSheetM.analyzing ? 'analyzing' : ''}`}>
                       <div className="flex items-center gap-3">
-                        <img src={charSheetM.url} className="w-14 h-14 object-cover rounded-lg flex-shrink-0" alt="char-m" />
+                        {charSheetM.url && <img src={charSheetM.url} className="w-14 h-14 object-cover rounded-lg flex-shrink-0" alt="char-m" />}
                         <div className="text-left flex-1 min-w-0">
                           {charSheetM.analyzing && <div className="text-(--accent) text-xs animate-pulse mb-1">Analyzing...</div>}
                           {charSheetM.analysis && (
                             <>
                               <div className="font-semibold text-(--text-1) text-sm">{charSheetM.analysis.name || "Male Character"}</div>
-                              <div className="text-(--text-3) text-[11px] truncate">{charSheetM.analysis.hair?.color} . {charSheetM.analysis.face?.eyes?.split(',')[0]}</div>
+                              <div className="text-(--text-3) text-[11px] truncate">{charSheetM.analysis.hair?.color} · {charSheetM.analysis.face?.eyes?.split(',')[0]}</div>
                               <button onClick={() => setShowCharModal('male')} className="text-(--accent) text-[11px] bg-transparent border-none cursor-pointer p-0 mt-0.5 hover:opacity-70">View details</button>
                             </>
                           )}
@@ -710,7 +761,12 @@ CRITICAL RULES FOR THIS GENERATION:
 
             {/* Style Reference Photos */}
             <div>
-              <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent-dim) mb-3">Style Reference Photos <span className="text-(--text-3) normal-case tracking-normal">(optional — untuk aesthetic & mood)</span></div>
+              <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent-dim) mb-1.5">Style Reference Photo</div>
+              <div className="text-(--text-3) text-xs mb-3">
+                {!userDirectives.trim()
+                  ? "Upload a photo to use as scene inspiration — AI will generate 15 variations of the same scenario in different settings. Or fill in Directives below instead."
+                  : "Uploaded photo will contribute film stock, lighting, and color palette to the final prompts."}
+              </div>
               <input ref={styleInputRef} type="file" accept="image/*" multiple className="hidden" onChange={e => handleStyleFiles(e.target.files)} />
               {styleImages.length > 0 && (
                 <div className="flex gap-2 flex-wrap mb-3">
@@ -731,15 +787,17 @@ CRITICAL RULES FOR THIS GENERATION:
                   className="border-[1.5px] border-dashed border-(--border-hover) rounded-lg p-6 text-center cursor-pointer hover:border-(--accent) transition-colors bg-(--surface)"
                   activeClassName="border-(--accent) bg-(--accent-faint)"
                 >
-                  <div className="text-xl mb-1">Drag photos here</div>
-                  <div className="text-(--text-2) text-sm">or click to upload style/mood reference</div>
-                  <div className="text-(--text-3) text-xs mt-1">Aesthetic, camera feel, and color palette will be extracted</div>
+                  <div className="text-xl mb-1">Drag photo here</div>
+                  <div className="text-(--text-2) text-sm">or click to upload scene reference</div>
+                  <div className="text-(--text-3) text-xs mt-1">Leave Directives blank to generate variations of this scene type</div>
                 </DragDropZone>
               )}
               {styleAnalysis && (
-                <div className="mt-2 p-3 bg-(--surface) border border-(--accent) rounded-lg text-[12px] text-(--text-2)">
-                  Style analyzed: {styleAnalysis.styleAnalysis?.slice(0, 100)}...
-                  <button onClick={() => setStyleAnalysis(null)} className="ml-2 text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs">re-analyze</button>
+                <div className="mt-2 p-3 bg-(--surface) border border-(--accent) rounded-lg text-[12px] text-(--text-2) flex flex-col gap-1">
+                  <div className="text-(--accent) text-[10px] font-semibold uppercase tracking-wider">Camera/Film Extracted</div>
+                  <div><span className="text-(--text-3)">Film feel: </span>{styleAnalysis.inferredCameraStyle}</div>
+                  <div><span className="text-(--text-3)">Palette: </span>{styleAnalysis.inferredMoodPalette}</div>
+                  <button onClick={() => { setStyleAnalysis(null); setStyleImages([]); }} className="mt-1 text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs text-left">Clear & re-upload</button>
                 </div>
               )}
             </div>
@@ -966,7 +1024,7 @@ CRITICAL RULES FOR THIS GENERATION:
             </div>
             <div className="p-5 border-t border-(--border) flex justify-end gap-3 bg-(--surface-2) rounded-b-xl">
               <button className="bg-transparent border border-(--border) text-(--text-2) px-4 py-2 rounded-md cursor-pointer text-sm" onClick={() => { if (confirm("Reset to default?")) setTemplates({ system: DEFAULT_TPL_SYSTEM, couple: DEFAULT_TPL_COUPLE, solo_f: DEFAULT_TPL_SOLO_F, solo_m: DEFAULT_TPL_SOLO_M }); }}>Reset Default</button>
-              <button className="bg-(--text-1) text-(--bg) px-4 py-2 rounded-md font-semibold cursor-pointer text-sm" onClick={() => { localStorage.setItem("pb_templates_v3", JSON.stringify(templates)); setShowTplModal(false); triggerToast("Saved!"); }}>Save</button>
+              <button className="bg-(--text-1) text-(--bg) px-4 py-2 rounded-md font-semibold cursor-pointer text-sm" onClick={() => { localStorage.setItem("pb_templates_v4", JSON.stringify(templates)); setShowTplModal(false); triggerToast("Saved!"); }}>Save</button>
             </div>
           </div>
         </div>
