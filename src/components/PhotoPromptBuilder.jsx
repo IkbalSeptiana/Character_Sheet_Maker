@@ -3,81 +3,98 @@ import { ApiContext } from "../context/ApiContext";
 import { fetchFromLLM } from "../utils/api";
 
 // ─── TEMPLATES ────────────────────────────────────────────────────────────────
-const DEFAULT_TPL_SYSTEM = `You are an elite AI photography creative director and prompt engineer. Your job is to generate hyper-detailed, technically precise image generation prompts that produce photorealistic authentic lifestyle snapshots — NOT studio shoots, NOT editorial, NOT stock photography.
+const DEFAULT_TPL_SYSTEM = `You are an elite AI photography creative director and prompt engineer. Your job is to generate hyper-detailed, technically precise image generation prompts that produce ALIVE, NATURAL, authentic lifestyle photos — NOT empty museum shots, NOT staged studio, NOT editorial spreads.
 
 ABSOLUTE RULES:
 1. INSTRUCTION [LOCKED] IS SACRED: Always start with the exact INSTRUCTION [LOCKED] block from the template. This preserves character identity. Never modify its wording.
-2. CORE AESTHETIC: First line must be "Photorealistic authentic lifestyle snapshot of [subject count] [gender] subject(s) in [specific real location], [2-3 word mood/vibe]." This sets the entire tone. NEVER write "studio", "editorial", or "stock".
-3. FOREGROUND OBSTRUCTION: If shot type is aerial/drone/top-down/overhead → write "None." Otherwise, write a 20-25 word hyper-specific physical obstruction pressed against the lens: name the exact plant species, material, texture, color, and how it physically blocks the frame corners or bottom. This grounds the image in reality.
-4. SUBJECT IDENTITY & STYLING: Split into "Hairstyling" line + "Exact face" line + "Clothing:" line + "Wearable Accessories:" line. Clothing must be 30+ words: exact fabric, color, cut, fit, layering, wear pattern. Accessories are body/head/face items only. NEVER re-describe hair color, eye color, skin tone, or facial features in clothing/accessories — those are locked in INSTRUCTION and the hairstyling/face lines.
-5. POSE AND ACTION: Use "WITH" chains for body mechanics. Track every arm, forearm, hand, and finger individually. Specify torso angle, head angle, expression (15+ word micro-expression), eye contact direction, and crop point. End with "All other hands and limbs completely hidden from view out of frame. Cropped exactly at [crop point]."
-6. ENVIRONMENT & LIGHTING — THIS IS THE MOST IMPORTANT SECTION:
-   a. Start with the SPECIFIC REAL LOCATION full name (e.g., "Mindungsan Mountain summit plateau", "Suncheonman Bay National Garden", "Hampyeong Butterfly Festival Wildflower Fields").
-   b. Write 60+ words of hyper-specific background detail: terrain, vegetation species names, sky condition, distant landmarks, architectural details, water features, wildlife silhouettes.
-   c. MANDATORY SIGN TEXT: Include one legible real-world sign, marker, or trail post with text in the LOCAL LANGUAGE of that location. Format: 'Legible text on [sign description] reading "[actual text in local language]".' Research realistic sign text for the specific named location. Korean locations get Korean text, Japanese locations get Japanese text, etc. This is CRITICAL for grounding the image in reality and preventing AI-generated "sign-like" blobs.
-   d. Describe lighting: direction, quality (hard/soft/diffused), shadows, light source, ambient fill.
-   e. End with "Overall scene features a [vibe] color palette of [exactly 6-9 specific named colors]."
-7. CAMERA & TECHNICAL SPECS: Must include:
+2. CORE AESTHETIC: First line must be "Photorealistic authentic lifestyle snapshot of [subject count] [gender] subject(s) in [specific real location], [2-3 word mood/vibe]." NEVER write "studio", "editorial", or "stock".
+3. SUBJECT IDENTITY & STYLING: Split into "Hairstyling" line + "Exact face" line + "Clothing:" line + "Wearable Accessories:" line. Clothing must be 30+ words: exact fabric, color, cut, fit, layering, wear pattern. Accessories are body/head/face items only. NEVER re-describe hair color, eye color, skin tone, or facial features in clothing/accessories — those are locked in INSTRUCTION and the hairstyling/face lines.
+4. POSE AND ACTION: Use "WITH" chains for body mechanics. Track every arm, forearm, hand, and finger individually. Specify torso angle, head angle, expression (15+ word micro-expression), eye contact direction, and crop point. End with "All other hands and limbs completely hidden from view out of frame. Cropped exactly at [crop point]."
+5. ENVIRONMENT & LIGHTING — THE SOUL OF THE IMAGE:
+   a. Start with the SPECIFIC REAL LOCATION full name.
+   b. Write 80+ words of SPECIFIC, ALIVE environment detail:
+      - PUBLIC PLACES (tourist spots, observation decks, markets, plazas, landmarks): MUST include natural human activity — other visitors walking, taking photos, couples, families, groups of friends. Describe their approximate positions, activities, clothing colors. A famous place should NEVER look empty.
+      - NATURE (mountains, beaches, forests, parks): Include visible wildlife (birds, insects), other hikers/visitors in the distance, movement of vegetation in wind.
+      - URBAN STREETS: Include pedestrians, cyclists, cars, shop activity, street vendors.
+      - INDOOR VENUES (cafes, museums, malls): Include other patrons, staff, ambient activity.
+   c. Describe lighting with direction, quality, shadows, ambient fill.
+   d. End with "Overall scene features a [vibe] color palette of [exactly 6-9 specific named colors]."
+   e. CRITICAL: Empty famous landmarks feel wrong. Shibuya Sky without other visitors, Louvre without crowds, beach without people — these look fake. Add natural human presence appropriate to the location's popularity and time of day.
+6. CAMERA & TECHNICAL SPECS: Must include:
    - Camera type (smartphone / premium interchangeable optic)
    - Shot framing and angle
    - Perspective description
    - Exact lens mm, f/stop, shutter speed
    - Depth of field description
    - ISO
-   - REAL NAMED FILM STOCK (Fujifilm Velvia 50, Fujifilm Pro 400H, Kodak Portra 400/800, Kodak Ektar 100, Kodak Ultramax 400, Ilford HP5, etc.)
-   - One sentence describing the color science outcome of that specific film stock
+   - REAL NAMED FILM STOCK (Fujifilm Velvia 50, Fujifilm Pro 400H, Kodak Portra 400/800, Kodak Ektar 100, etc.)
+   - One sentence describing the color science outcome
    - Grain description
-8. NEGATIVE PROMPT: Comprehensive list preventing AI artifacts, studio look, and unwanted framing. Must include context-specific exclusions based on crop point.
-9. OUTPUT FORMAT: Follow the structural template EXACTLY. No extra commentary, no markdown, no code blocks. Start output directly with "INSTRUCTION [LOCKED]:".`;
+7. NEGATIVE PROMPT: Comprehensive list preventing AI artifacts, empty scenes, studio look.
+8. OUTPUT FORMAT: Follow the structural template EXACTLY. No extra commentary, no markdown, no code blocks. Start output directly with "INSTRUCTION [LOCKED]:".`;
 
 const DEFAULT_TPL_COUPLE = `INSTRUCTION [LOCKED]: Use the provided reference image1 and image2 as the primary visual guides. Maintain an extremely strong and accurate resemblance to both subjects shown in the references.
 - For the female subject: Preserve facial features, facial structure, hair color/style, skin tone, eye shape, nose, lips, and distinctive facial markers.
 - For the male subject: Preserve facial features, facial structure, hair color/style, skin tone, eye shape, nose, lips, and distinctive facial markers.
 Do not stylize, exaggerate, or significantly modify the core identity, bone structure, or proportions of either person. Allow only small natural variations typical of real photography, lighting, and pose.
 Positive Prompt:
-Core Aesthetic: Photorealistic authentic lifestyle snapshot of two subjects in [SPECIFIC REAL LOCATION], [2-3 WORD MOOD/VIBE]. Foreground obstruction: [20-25 word hyper-specific plant/material obstruction pressed against lens, or "None." for aerial shots].
+Core Aesthetic: Photorealistic authentic lifestyle snapshot of two subjects in [SPECIFIC REAL LOCATION], [2-3 WORD MOOD/VIBE].
 Subject Identity & Styling (Female): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement or adjustment]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern, how fabric interacts with body. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Subject Identity & Styling (Male): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement if any]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Pose and Action (Shared Interaction): Two subjects [spatial proximity description]. Female [torso angle + 20-word anatomical WITH-chain tracking each arm and hand individually]. Female exhibiting [15-word micro-expression with eye contact direction]. Male [torso angle + 20-word anatomical WITH-chain tracking each arm and hand individually]. Male exhibiting [15-word micro-expression with eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
-Environment & Lighting: [LOCATION FULL REAL NAME], [60+ word hyper-specific background: terrain type, named vegetation species, sky condition, distant landmarks, architectural details, water features, wildlife silhouettes, atmospheric details]. Legible text on [specific sign type description] reading '[actual text in local language of this location]'. [Lighting: direction from compass, quality, key light source, ambient fill, shadow character, reflections]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
-Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome specific to this film stock], [grain description].
+Environment & Lighting: [LOCATION FULL REAL NAME], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
+Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
 Negative Prompt:
-Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, floating limbs, disconnected arms, amputated hands, professional retouching, [context-specific: glossy skin / artificial bounce light / on camera flash / direct flash / harsh shadows / flash glare], [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], wide room, landscape, shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, [selfie-specific if POV: missing shoulder connection / disembodied selfie arm / camera floating in air / amputated limb / finger over lens / holding device / camera in frame / third person view / photographer visible], both shoulders raised, self-touching, ghost hand, third arm, extra wrist, hand passing through body, fused bodies, floating hand, watermark.`;
+Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects, floating limbs, disconnected arms, amputated hands, professional retouching, [context-specific: glossy skin / artificial bounce light / on camera flash / direct flash / harsh shadows / flash glare], [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], wide room, landscape, shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, [selfie-specific if POV: missing shoulder connection / disembodied selfie arm / camera floating in air / amputated limb / finger over lens / holding device / camera in frame / third person view / photographer visible], both shoulders raised, self-touching, ghost hand, third arm, extra wrist, hand passing through body, fused bodies, floating hand, watermark.`;
 
 const DEFAULT_TPL_SOLO_F = `INSTRUCTION [LOCKED]: Use the provided reference image as the primary visual guide. Maintain an extremely strong and accurate resemblance to the subject shown in the reference. Preserve facial features, facial structure, hairstyle, skin tone, eye shape, nose, lips, and distinctive facial markers. Do not stylize, exaggerate, or significantly modify the core identity, bone structure, or proportions. Allow only small natural variations typical of real photography, lighting, and pose.
 Positive Prompt:
-Core Aesthetic: Photorealistic authentic lifestyle snapshot of one female subject in [SPECIFIC REAL LOCATION], [2-3 WORD MOOD/VIBE]. Foreground obstruction: [20-25 word hyper-specific plant/material obstruction pressed against lens, or "None." for aerial shots].
+Core Aesthetic: Photorealistic authentic lifestyle snapshot of one female subject in [SPECIFIC REAL LOCATION], [2-3 WORD MOOD/VIBE].
 Subject Identity & Styling (Female): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement or adjustment]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern, how fabric interacts with body. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Pose and Action (Female): One subject [position/stance]. [Torso angle + 25-word anatomical WITH-chain tracking each arm and hand individually]. Female exhibiting [15-word micro-expression with eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
-Environment & Lighting: [LOCATION FULL REAL NAME], [60+ word hyper-specific background: terrain type, named vegetation species, sky condition, distant landmarks, architectural details, water features, wildlife silhouettes, atmospheric details]. Legible text on [specific sign type description] reading '[actual text in local language of this location]'. [Lighting: direction from compass, quality, key light source, ambient fill, shadow character, reflections]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
-Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome specific to this film stock], [grain description].
+Environment & Lighting: [LOCATION FULL REAL NAME], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
+Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
 Negative Prompt:
-Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, arms, hands, fingers, [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation.`;
+Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subject, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, arms, hands, fingers, [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation.`;
 
 const DEFAULT_TPL_SOLO_M = `INSTRUCTION [LOCKED]: Use the provided reference image as the primary visual guide. Maintain an extremely strong and accurate resemblance to the subject shown in the reference. Preserve facial features, facial structure, hairstyle, skin tone, eye shape, nose, lips, and distinctive facial markers. Do not stylize, exaggerate, or significantly modify the core identity, bone structure, or proportions. Allow only small natural variations typical of real photography, lighting, and pose.
 Positive Prompt:
-Core Aesthetic: Photorealistic authentic lifestyle snapshot of one male subject in [SPECIFIC REAL LOCATION], [2-3 WORD MOOD/VIBE]. Foreground obstruction: [20-25 word hyper-specific plant/material obstruction pressed against lens, or "None." for aerial shots].
+Core Aesthetic: Photorealistic authentic lifestyle snapshot of one male subject in [SPECIFIC REAL LOCATION], [2-3 WORD MOOD/VIBE].
 Subject Identity & Styling (Male): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement if any]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern, how fabric interacts with body. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Pose and Action (Male): One subject [position/stance]. [Torso angle + 25-word anatomical WITH-chain tracking each arm and hand individually]. Male exhibiting [15-word micro-expression with eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
-Environment & Lighting: [LOCATION FULL REAL NAME], [60+ word hyper-specific background: terrain type, named vegetation species, sky condition, distant landmarks, architectural details, water features, wildlife silhouettes, atmospheric details]. Legible text on [specific sign type description] reading '[actual text in local language of this location]'. [Lighting: direction from compass, quality, key light source, ambient fill, shadow character, reflections]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
-Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome specific to this film stock], [grain description].
+Environment & Lighting: [LOCATION FULL REAL NAME], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
+Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
 Negative Prompt:
-Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, [crop-specific exclusions: lower legs / footwear / feet / ground / floor / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, on camera flash, flash glare, self-touching, ghost hand, third arm, extra wrist, hand passing through body, floating hand, object fused to body.`;
+Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subject, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, [crop-specific exclusions: lower legs / footwear / feet / ground / floor / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, on camera flash, flash glare, self-touching, ghost hand, third arm, extra wrist, hand passing through body, floating hand, object fused to body.`;
 
 // ─── OPTIONS ──────────────────────────────────────────────────────────────────
 const SHOT_TYPES = [
   "Close-up (chin to crown)", "Medium close-up (chest up)", "Medium shot (waist up)",
   "Medium-long shot (thigh up)", "Full body", "Extreme close-up (face only)",
-  "Over-the-shoulder", "POV selfie"
+  "Over-the-shoulder", "POV selfie", "Three-quarter shot (knees up)",
+  "Cowboy shot (mid-thigh up)", "American shot (knees up)",
+  "Italian shot (thighs up)", "Choker extreme close-up",
+  "Bird's eye view", "Worm's eye view", "Dutch angle shot",
+  "Low-angle hero shot", "High-angle vulnerable shot",
+  "Profile silhouette", "Back view shot", "Split-screen duo"
 ];
 const CROP_POINTS = [
   "lower chest", "mid-chest", "upper chest", "collarbone", "shoulders",
-  "waist", "mid-torso", "hips", "mid-thigh", "knees"
+  "waist", "mid-torso", "hips", "mid-thigh", "knees",
+  "upper thighs", "ankles", "just below shoulders", "neck",
+  "forehead", "chin", "mid-calf", "elbows"
 ];
 const GENRES = [
   "Lifestyle snapshot", "Cinematic film still", "Street photography",
   "Travel editorial", "Aesthetic OOTD", "Candid documentary",
-  "Acubi / Korean aesthetic", "Moodboard editorial", "Golden hour portrait"
+  "Acubi / Korean aesthetic", "Moodboard editorial", "Golden hour portrait",
+  "Film noir", "Retro vintage", "Editorial fashion", "High fashion",
+  "Paparazzi candid", "Wedding photography", "Couple portrait",
+  "Engagement shoot", "Dating app profile", "Social media aesthetic",
+  "Instagram influencer", "TikTok aesthetic", "Pinterest mood",
+  "Music video still", "K-pop idol concept", "J-drama still",
+  "Anime-inspired", "Indie film aesthetic", "New retro",
+  "Y2K aesthetic", "Cyberpunk neon", "Dreamy ethereal"
 ];
 
 // ─── PROMPTS ──────────────────────────────────────────────────────────────────
@@ -152,8 +169,8 @@ Return ONLY a valid JSON object:
   "hands": "nail shape, length, color, hand skin tone from hand detail panel"
 }`;
 
-// Generate ideas — now emphasizing REAL locations with REAL environment details
-const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis) => {
+// Generate ideas — now emphasizing REAL locations with ALIVE atmosphere
+const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis, existingLocations = []) => {
   const hasFemale = !!charFemale;
   const hasMale = !!charMale;
   const useScenarioMode = !!styleAnalysis?.scenarioPattern && !userDirectives?.trim();
@@ -163,8 +180,12 @@ const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis) =
     : hasMale ? "a solo male subject"
     : "lifestyle subjects";
 
+  const exclusionBlock = existingLocations.length > 0
+    ? `\n\nCRITICAL: DO NOT reuse these already-generated locations. Generate COMPLETELY DIFFERENT locations:\n${existingLocations.map((loc, i) => `${i + 1}. ${loc}`).join('\n')}`
+    : '';
+
   if (useScenarioMode) {
-    return `You are an elite photography creative director specializing in AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
+    return `You are an elite photography creative director specializing in ALIVE, NATURAL lifestyle scenes at AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
 
 SCENE REFERENCE (uploaded by user — generate 15 variations of this scenario type):
 - Scenario Pattern: ${styleAnalysis.scenarioPattern}
@@ -173,14 +194,15 @@ SCENE REFERENCE (uploaded by user — generate 15 variations of this scenario ty
 - Genre Feel: ${styleAnalysis.suggestedGenre}
 
 YOUR JOB: Keep the SAME interaction type, pose pattern, and framing concept — but change EVERYTHING ELSE across 15 ideas: location, setting, outfit, time of day, country, mood.
+${exclusionBlock}
 
-CRITICAL RULES FOR LOCATIONS:
-1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. Examples: "Mindungsan Mountain summit, Gangwon-do, South Korea", "Suncheonman Bay National Garden, Jeollanam-do, South Korea", "Hampyeong Butterfly Festival Fields, Hampyeong, South Korea", "Byeonsanbando National Park coastal cliffs, Buan, South Korea", "Cheongsando Island terraced fields, Wando, South Korea", "Arashiyama Bamboo Grove, Kyoto, Japan", "Hallasan National Park, Jeju, South Korea", "Kiyomizu-dera temple grounds, Higashiyama, Kyoto, Japan". NEVER use generic names like "a field", "a beach", "a city street".
-2. ENVIRONMENT DETAIL: Each location must suggest rich, specific environmental details — real vegetation species, real terrain features, real architectural elements, real landmarks visible in background. The final prompt will need 60+ words of environment description and a legible local-language sign.
+CRITICAL RULES FOR NATURAL, ALIVE SCENES:
+1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. Examples: "Mindungsan Mountain summit, Gangwon-do, South Korea", "Suncheonman Bay National Garden, Jeollanam-do, South Korea", "Shibuya Sky Observation Deck, Tokyo, Japan", "Arashiyama Bamboo Grove, Kyoto, Japan", "N Seoul Tower, Seoul, South Korea", "Gyeongbokgung Palace, Seoul, South Korea". NEVER use generic names.
+2. ALIVE ATMOSPHERE: Famous tourist spots, observation decks, landmarks MUST feel populated. Describe what other visitors would be doing — walking, taking photos, chatting, eating. Nature locations have birds, insects, hikers in distance. Urban streets have pedestrians, cars, shop activity.
 3. OUTFIT ONLY: The "clothing" field = SHORT outfit concept max 15 words. NO hair/face/skin.
-4. VARY LOCATIONS AGGRESSIVELY: Different countries, continents, settings. Mix outdoor/indoor, nature/urban, coastal/mountain/field/forest. Prioritize East Asian locations (Korea, Japan, Taiwan) but include global variety.
-5. CAMERA: Keep the same framing concept as the reference (angle, shot type). Leave cameraStyle as a brief concept — no film stock yet.
-6. FOREGROUND: For each outdoor idea, suggest a natural foreground element native to that specific location (e.g., "silver pampas grass" for Mindungsan, "golden reed stalks" for Suncheonman, "barley stalks" for Cheongsando). For indoor/POV ideas, write "indoor/POV — no foreground obstruction".
+4. VARY LOCATIONS AGGRESSIVELY: Different countries, continents, settings. Mix outdoor/indoor, nature/urban, coastal/mountain.
+5. CAMERA: Keep the same framing concept as the reference.
+6. NO FORCED ELEMENTS: No mandatory foreground obstruction. No mandatory signs. These are ONLY added if user explicitly requests them in directives.
 
 Return ONLY a valid JSON array of exactly 15 objects:
 [
@@ -188,12 +210,11 @@ Return ONLY a valid JSON array of exactly 15 objects:
     "id": 1,
     "sceneName": "max 5-word evocative title",
     "location": "Specific Real Place Name, City/Region, Country",
-    "locationEnvironmentHint": "3-5 word hint about what makes this place visually unique (terrain, vegetation, landmark)",
+    "locationEnvironmentHint": "3-5 word hint about what makes this place visually unique (terrain, vegetation, landmark, AND activity level — busy/quiet)",
     "mood": "atmospheric mood, max 10 words",
     "clothing": "BRIEF outfit concept only, max 15 words",
     "pose": "brief action/pose following the same scenario pattern as reference, max 20 words",
     "cameraStyle": "same framing/angle concept as reference, brief — no film stock",
-    "foregroundHint": "specific natural element native to this location for foreground obstruction, or 'none' for aerial/indoor/POV",
     "suggestedShotType": "one of: Close-up (chin to crown) | Medium close-up (chest up) | Medium shot (waist up) | Full body | POV selfie | Over-the-shoulder",
     "suggestedCrop": "one of: lower chest | mid-torso | waist | mid-thigh | knees",
     "genre": "one of: Lifestyle snapshot | Cinematic film still | Street photography | Travel editorial | Acubi / Korean aesthetic | Golden hour portrait"
@@ -201,16 +222,17 @@ Return ONLY a valid JSON array of exactly 15 objects:
 ]`;
   }
 
-  return `You are an elite photography creative director specializing in AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
+  return `You are an elite photography creative director specializing in ALIVE, NATURAL lifestyle scenes at AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
 
 USER DIRECTIVES: ${userDirectives}
+${exclusionBlock}
 
-CRITICAL RULES FOR LOCATIONS:
-1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. Examples: "Mindungsan Mountain summit, Gangwon-do, South Korea", "Suncheonman Bay National Garden, Jeollanam-do, South Korea", "Hampyeong Butterfly Festival Fields, Hampyeong, South Korea", "Byeonsanbando National Park coastal cliffs, Buan, South Korea", "Cheongsando Island terraced fields, Wando, South Korea", "Arashiyama Bamboo Grove, Kyoto, Japan", "Hallasan National Park, Jeju, South Korea", "Kiyomizu-dera temple grounds, Higashiyama, Kyoto, Japan". NEVER use generic names like "a field", "a beach", "a city street".
-2. ENVIRONMENT DETAIL: Each location must suggest rich, specific environmental details — real vegetation species, real terrain features, real architectural elements, real landmarks visible in background. The final prompt will need 60+ words of environment description and a legible local-language sign.
+CRITICAL RULES FOR NATURAL, ALIVE SCENES:
+1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. Examples: "Mindungsan Mountain summit, Gangwon-do, South Korea", "Suncheonman Bay National Garden, Jeollanam-do, South Korea", "Shibuya Sky Observation Deck, Tokyo, Japan", "Arashiyama Bamboo Grove, Kyoto, Japan", "N Seoul Tower, Seoul, South Korea", "Gyeongbokgung Palace, Seoul, South Korea". NEVER use generic names.
+2. ALIVE ATMOSPHERE: Famous tourist spots, observation decks, landmarks MUST feel populated. Describe what other visitors would be doing — walking, taking photos, chatting, eating. Nature locations have birds, insects, hikers in distance. Urban streets have pedestrians, cars, shop activity.
 3. OUTFIT ONLY: The "clothing" field = SHORT outfit concept max 15 words. NO hair/face/skin.
-4. VARY AGGRESSIVELY: Mix indoor/outdoor, day/night, urban/nature, across different countries and continents. No two scenes should share the same vibe or setting type. Prioritize East Asian locations but include global variety.
-5. FOREGROUND: For each outdoor idea, suggest a natural foreground element native to that specific location. For indoor/POV/selfie ideas, write "indoor/POV — no foreground obstruction".
+4. VARY AGGRESSIVELY: Mix indoor/outdoor, day/night, urban/nature, across different countries and continents. No two scenes should share the same vibe or setting type.
+5. NO FORCED ELEMENTS: No mandatory foreground obstruction. No mandatory signs. Only add these if user explicitly mentions them.
 
 Return ONLY a valid JSON array of exactly 15 objects:
 [
@@ -218,12 +240,11 @@ Return ONLY a valid JSON array of exactly 15 objects:
     "id": 1,
     "sceneName": "max 5-word evocative title",
     "location": "Specific Real Place Name, City/Region, Country",
-    "locationEnvironmentHint": "3-5 word hint about what makes this place visually unique (terrain, vegetation, landmark)",
+    "locationEnvironmentHint": "3-5 word hint about visual uniqueness AND activity level (busy/quiet)",
     "mood": "atmospheric mood, max 10 words",
     "clothing": "BRIEF outfit concept only, max 15 words",
     "pose": "brief action/pose, max 20 words",
     "cameraStyle": "lens concept and angle only — no film stock",
-    "foregroundHint": "specific natural element native to this location for foreground obstruction, or 'none' for aerial/indoor/POV",
     "suggestedShotType": "one of: Close-up (chin to crown) | Medium close-up (chest up) | Medium shot (waist up) | Full body | POV selfie | Over-the-shoulder",
     "suggestedCrop": "one of: lower chest | mid-torso | waist | mid-thigh | knees",
     "genre": "one of: Lifestyle snapshot | Cinematic film still | Street photography | Travel editorial | Acubi / Korean aesthetic | Golden hour portrait"
@@ -236,16 +257,42 @@ export default function PhotoPromptBuilder() {
   const { activeConfig } = useContext(ApiContext);
 
   // Stage: INPUT | LOADING_IDEAS | SELECT | GENERATING
-  const [stage, setStage] = useState("INPUT");
-  const [userDirectives, setUserDirectives] = useState("");
+  const [stage, setStage] = useState(() => {
+    const saved = localStorage.getItem("pb_stage");
+    return saved || "INPUT";
+  });
+  const [userDirectives, setUserDirectives] = useState(() => {
+    const saved = localStorage.getItem("pb_directives");
+    return saved || "";
+  });
 
   // Style reference photos (untuk aesthetic/mood/ideas)
-  const [styleImages, setStyleImages] = useState([]);
-  const [styleAnalysis, setStyleAnalysis] = useState(null);
+  const [styleImages, setStyleImages] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_styleImages");
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
+  const [styleAnalysis, setStyleAnalysis] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_styleAnalysis");
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  });
 
   // Character sheets
-  const [charSheetF, setCharSheetF] = useState(null);
-  const [charSheetM, setCharSheetM] = useState(null);
+  const [charSheetF, setCharSheetF] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_charSheetF");
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  });
+  const [charSheetM, setCharSheetM] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_charSheetM");
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  });
 
   // Saved characters from localStorage
   const [savedCharacters, setSavedCharacters] = useState(() => {
@@ -254,12 +301,32 @@ export default function PhotoPromptBuilder() {
   });
 
   // Ideas + selections
-  const [ideas, setIdeas] = useState([]);
-  const [selections, setSelections] = useState({});
-  const [cardSettings, setCardSettings] = useState({});
+  const [ideas, setIdeas] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_ideas");
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
+  const [selections, setSelections] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_selections");
+      return saved ? JSON.parse(saved) : {};
+    } catch { return {}; }
+  });
+  const [cardSettings, setCardSettings] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_cardSettings");
+      return saved ? JSON.parse(saved) : {};
+    } catch { return {}; }
+  });
 
   // Results
-  const [results, setResults] = useState([]);
+  const [results, setResults] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_results");
+      return saved ? JSON.parse(saved) : [];
+    } catch { return []; }
+  });
 
   // UI
   const [toast, setToast] = useState(null);
@@ -267,6 +334,7 @@ export default function PhotoPromptBuilder() {
   const [showCharModal, setShowCharModal] = useState(null);
   const [showSavedCharsPanel, setShowSavedCharsPanel] = useState(false);
   const [editingCharName, setEditingCharName] = useState(null);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   // Drag states
   const [isDraggingStyle, setIsDraggingStyle] = useState(false);
@@ -290,6 +358,19 @@ export default function PhotoPromptBuilder() {
   const triggerToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
 
   // ─── SAVE TO LOCALSTORAGE ON CHANGE ───────────────────────────────────────────
+  // Persist workflow state
+  useEffect(() => { localStorage.setItem("pb_stage", stage); }, [stage]);
+  useEffect(() => { localStorage.setItem("pb_directives", userDirectives); }, [userDirectives]);
+  useEffect(() => { localStorage.setItem("pb_styleImages", JSON.stringify(styleImages)); }, [styleImages]);
+  useEffect(() => { localStorage.setItem("pb_styleAnalysis", JSON.stringify(styleAnalysis)); }, [styleAnalysis]);
+  useEffect(() => { localStorage.setItem("pb_charSheetF", JSON.stringify(charSheetF)); }, [charSheetF]);
+  useEffect(() => { localStorage.setItem("pb_charSheetM", JSON.stringify(charSheetM)); }, [charSheetM]);
+  useEffect(() => { localStorage.setItem("pb_ideas", JSON.stringify(ideas)); }, [ideas]);
+  useEffect(() => { localStorage.setItem("pb_selections", JSON.stringify(selections)); }, [selections]);
+  useEffect(() => { localStorage.setItem("pb_cardSettings", JSON.stringify(cardSettings)); }, [cardSettings]);
+  useEffect(() => { localStorage.setItem("pb_results", JSON.stringify(results)); }, [results]);
+
+  // Persist saved characters
   useEffect(() => {
     try {
       const charsToSave = savedCharacters.map(c => ({
@@ -410,7 +491,8 @@ export default function PhotoPromptBuilder() {
         charSheetF?.analysis,
         charSheetM?.analysis,
         userDirectives,
-        sAnalysis
+        sAnalysis,
+        [] // No existing locations for first generation
       );
       const rawIdeas = await fetchFromLLM(activeConfig,
         "Generate 15 scene ideas with specific real-world locations.",
@@ -422,8 +504,9 @@ export default function PhotoPromptBuilder() {
       let parsed = JSON.parse(cleaned);
       if (!Array.isArray(parsed) && parsed.ideas) parsed = parsed.ideas;
 
-      setIdeas(parsed.map(p => ({
+      setIdeas(parsed.map((p, idx) => ({
         ...p,
+        id: idx + 1,
         clothing: p.clothing || "Casual everyday wear",
         pose: p.pose || "Standing naturally",
         cameraStyle: p.cameraStyle || "50mm, f/2.0, natural light",
@@ -431,7 +514,7 @@ export default function PhotoPromptBuilder() {
         suggestedCrop: p.suggestedCrop || "lower chest",
         genre: p.genre || "Lifestyle snapshot",
         locationEnvironmentHint: p.locationEnvironmentHint || "",
-        foregroundHint: p.foregroundHint || ""
+        foregroundHint: p.foregroundHint || "none"
       })));
       setSelections({});
       setCardSettings({});
@@ -439,6 +522,56 @@ export default function PhotoPromptBuilder() {
     } catch (err) {
       triggerToast("Failed: " + err.message);
       setStage("INPUT");
+    }
+  };
+
+  // ─── GENERATE MORE IDEAS ───────────────────────────────────────────────────
+  const handleGenerateMoreIdeas = async () => {
+    if (!activeConfig?.apiKey) { triggerToast("API Key not set."); return; }
+
+    setIsLoadingMore(true);
+
+    try {
+      const existingLocations = ideas.map(i => i.location);
+      const sAnalysis = styleAnalysis;
+
+      const ideasPrompt = buildIdeasPrompt(
+        charSheetF?.analysis,
+        charSheetM?.analysis,
+        userDirectives,
+        sAnalysis,
+        existingLocations
+      );
+      const rawIdeas = await fetchFromLLM(activeConfig,
+        "Generate 15 MORE scene ideas with DIFFERENT real-world locations.",
+        ideasPrompt,
+        true,
+        []
+      );
+      const cleaned = rawIdeas.replace(/```json/g, '').replace(/```/g, '').trim();
+      let parsed = JSON.parse(cleaned);
+      if (!Array.isArray(parsed) && parsed.ideas) parsed = parsed.ideas;
+
+      const startingId = ideas.length + 1;
+      const newIdeas = parsed.map((p, idx) => ({
+        ...p,
+        id: startingId + idx,
+        clothing: p.clothing || "Casual everyday wear",
+        pose: p.pose || "Standing naturally",
+        cameraStyle: p.cameraStyle || "50mm, f/2.0, natural light",
+        suggestedShotType: p.suggestedShotType || "Medium close-up (chest up)",
+        suggestedCrop: p.suggestedCrop || "lower chest",
+        genre: p.genre || "Lifestyle snapshot",
+        locationEnvironmentHint: p.locationEnvironmentHint || "",
+        foregroundHint: p.foregroundHint || "none"
+      }));
+
+      setIdeas(prev => [...prev, ...newIdeas]);
+      triggerToast(`Added ${newIdeas.length} new ideas!`);
+    } catch (err) {
+      triggerToast("Failed: " + err.message);
+    } finally {
+      setIsLoadingMore(false);
     }
   };
 
@@ -505,9 +638,9 @@ export default function PhotoPromptBuilder() {
 
     const idea = targetTask.idea;
     const settings = targetTask.settings || {};
-    const shotType = settings.shotType || idea.suggestedShotType || "Medium close-up (chest up)";
-    const cropPoint = settings.crop || idea.suggestedCrop || "lower chest";
-    const genre = settings.genre || idea.genre || "Lifestyle snapshot";
+    const shotType = settings.shotType !== undefined ? settings.shotType : (idea.suggestedShotType || "Medium close-up (chest up)");
+    const cropPoint = settings.crop !== undefined ? settings.crop : (idea.suggestedCrop || "lower chest");
+    const genre = settings.genre !== undefined ? settings.genre : (idea.genre || "Lifestyle snapshot");
 
     const charBlock = buildCharacterBlock(targetTask.apiType);
 
@@ -519,13 +652,12 @@ VISUAL STYLE REFERENCE — CAMERA & FILM ONLY (DO NOT let this influence locatio
 APPLY TO: exact film stock name, color science sentence, lighting feel, grain in Camera & Technical Specs ONLY.
 ` : '';
 
-    const envHint = idea.locationEnvironmentHint ? `\nLocation Environment Hint: ${idea.locationEnvironmentHint}` : '';
-    const fgHint = idea.foregroundHint ? `\nForeground Obstruction Hint: ${idea.foregroundHint}` : '';
+    const envHint = idea.locationEnvironmentHint ? `\nLocation Hint: ${idea.locationEnvironmentHint}` : '';
 
     const userMsg = `Generate a prompt for this scene.
 Type: ${targetTask.apiType}
 Scene Name: ${idea.sceneName}
-Location: ${idea.location}${envHint}${fgHint}
+Location: ${idea.location}${envHint}
 Mood: ${idea.mood}
 Clothing Concept: ${idea.clothing}
 Pose Concept: ${idea.pose}
@@ -538,20 +670,23 @@ CHARACTER IDENTITY (CRITICAL — USE EXACTLY AS PROVIDED, DO NOT MODIFY):
 ${charBlock}
 
 CRITICAL RULES FOR THIS GENERATION:
-1. INSTRUCTION [LOCKED]: Start with the exact INSTRUCTION [LOCKED] block from the template for this type (${targetTask.apiType}). Never modify its wording.
+1. INSTRUCTION [LOCKED]: Start with the exact INSTRUCTION [LOCKED] block from the template. Never modify its wording.
 2. CORE AESTHETIC: Must read "Photorealistic authentic lifestyle snapshot of..." — never "studio", "editorial", "stock".
-3. FOREGROUND OBSTRUCTION: ${idea.foregroundHint === 'none' || idea.foregroundHint?.includes('indoor') || idea.foregroundHint?.includes('POV') || shotType.toLowerCase().includes('overhead') || shotType.toLowerCase().includes('aerial') ? 'Write "None." (this is an indoor/POV/aerial shot).' : `Write a 20-25 word hyper-specific physical obstruction using the foreground hint "${idea.foregroundHint}" — name exact plant species, material, texture, color, how it physically blocks the lens.`}
-4. SUBJECT IDENTITY & STYLING: Hairstyling line references "the provided target reference image". Exact face line references "the provided target reference image". Clothing expands to 30+ words of specific fabric/color/cut/fit/layering. Wearable Accessories lists body/head/face items. NEVER re-describe hair color, eye color, skin tone in clothing/accessories.
-5. POSE AND ACTION: Full anatomical WITH-chain tracking each arm/hand/finger. Micro-expression 15+ words. End with "All other hands and limbs completely hidden from view out of frame. Cropped exactly at ${cropPoint}."
-6. ENVIRONMENT & LIGHTING — MOST IMPORTANT SECTION:
+3. SUBJECT IDENTITY & STYLING: Hairstyling line references "the provided target reference image". Exact face line references "the provided target reference image". Clothing expands to 30+ words. Wearable Accessories lists body/head/face items.
+4. POSE AND ACTION: Full anatomical WITH-chain tracking each arm/hand/finger. Micro-expression 15+ words. End with "All other hands and limbs hidden from view. Cropped exactly at ${cropPoint}."
+5. ENVIRONMENT & LIGHTING — THE SOUL OF THE IMAGE:
    - Start with "${idea.location}" as the full real location name
-   - Write 60+ words of hyper-specific background: real terrain, real vegetation species names, sky, distant landmarks, architecture, water features, wildlife silhouettes. Use the environment hint "${idea.locationEnvironmentHint}" to guide this.
-   - MANDATORY SIGN: Include "Legible text on [sign type] reading '[text in the LOCAL LANGUAGE of ${idea.location}]'" — research realistic sign text for this specific location. Korean locations get Korean text, Japanese get Japanese, etc. This is CRITICAL.
+   - Write 80+ words of ALIVE, NATURAL environment:
+     * PUBLIC TOURIST SPOTS (observation decks, landmarks, markets, plazas): MUST describe other visitors — walking, taking photos, chatting in groups, couples, families. Include their approximate positions and activities. A famous place should NEVER look empty.
+     * NATURE (mountains, beaches, forests, parks): Include visible wildlife (birds, insects), other hikers/visitors in the distance, movement of vegetation.
+     * URBAN STREETS: Include pedestrians, cyclists, cars, shop activity, street vendors.
+     * INDOOR VENUES (cafes, museums, malls): Include other patrons, staff, ambient activity.
+   - Use the location hint "${idea.locationEnvironmentHint}" to understand the crowd/activity level
    - Describe lighting with direction, quality, shadows, ambient fill
    - End with "Overall scene features a [vibe] color palette of [6-9 specific named colors]."
-7. CAMERA & TECHNICAL SPECS: Must name a REAL film stock (Fujifilm Velvia 50, Fujifilm Pro 400H, Kodak Portra 400/800, Kodak Ektar 100, Kodak Ultramax 400, Ilford HP5, etc.). Describe that film stock's specific color science in one sentence. Specify ISO, grain description.
-8. NEGATIVE PROMPT: Comprehensive list. Include context-specific exclusions based on crop point "${cropPoint}" and shot type.
-9. Follow the structural template EXACTLY. No extra commentary or markdown.`;
+6. CAMERA & TECHNICAL SPECS: Must name a REAL film stock. Describe its color science in one sentence. Specify ISO, grain.
+7. NEGATIVE PROMPT: Include "empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects" — famous public places must NOT look empty.
+8. Follow the structural template EXACTLY. No extra commentary or markdown.`;
 
     try {
       const res = await fetchFromLLM(activeConfig, userMsg, fullSystemPrompt, false, []);
@@ -591,7 +726,19 @@ CRITICAL RULES FOR THIS GENERATION:
 
   const resetAll = () => {
     setStage("INPUT"); setUserDirectives(""); setStyleImages([]); setStyleAnalysis(null);
+    setCharSheetF(null); setCharSheetM(null);
     setIdeas([]); setSelections({}); setCardSettings({}); setResults([]);
+    // Clear localStorage
+    localStorage.removeItem("pb_stage");
+    localStorage.removeItem("pb_directives");
+    localStorage.removeItem("pb_styleImages");
+    localStorage.removeItem("pb_styleAnalysis");
+    localStorage.removeItem("pb_charSheetF");
+    localStorage.removeItem("pb_charSheetM");
+    localStorage.removeItem("pb_ideas");
+    localStorage.removeItem("pb_selections");
+    localStorage.removeItem("pb_cardSettings");
+    localStorage.removeItem("pb_results");
   };
 
   // ─── DRAG DROP ZONE COMPONENT ─────────────────────────────────────────────
@@ -617,6 +764,7 @@ CRITICAL RULES FOR THIS GENERATION:
         .ef:focus { background:black; border:1px dashed var(--accent); color:var(--accent); }
         .csel { background:var(--surface-2); border:1px solid var(--border); color:var(--text-2); border-radius:6px; padding:4px 8px; font-size:11px; cursor:pointer; outline:none; }
         .csel:hover { border-color:var(--border-hover); }
+        .csel:focus { border-color:var(--accent); box-shadow:0 0 0 2px var(--accent-faint); }
         .char-box { border:1.5px dashed var(--border-hover); border-radius:12px; padding:16px; cursor:pointer; transition:all .2s; text-align:center; }
         .char-box:hover { border-color:var(--accent); background:var(--surface); }
         .char-box.loaded { border-style:solid; border-color:var(--accent); cursor:default; }
@@ -796,10 +944,17 @@ CRITICAL RULES FOR THIS GENERATION:
                 </DragDropZone>
               )}
               {styleAnalysis && (
-                <div className="mt-2 p-3 bg-(--surface) border border-(--accent) rounded-lg text-[12px] text-(--text-2) flex flex-col gap-1">
-                  <div className="text-(--accent) text-[10px] font-semibold uppercase tracking-wider">Camera/Film Extracted</div>
-                  <div><span className="text-(--text-3)">Film feel: </span>{styleAnalysis.inferredCameraStyle}</div>
-                  <div><span className="text-(--text-3)">Palette: </span>{styleAnalysis.inferredMoodPalette}</div>
+                <div className="mt-2 p-3 bg-(--surface) border border-(--accent) rounded-lg text-[12px] text-(--text-2) flex flex-col gap-1.5">
+                  <div className="text-(--accent) text-[10px] font-semibold uppercase tracking-wider">Style Analysis from Reference</div>
+                  <div className="text-(--text-1) leading-relaxed">{styleAnalysis.styleAnalysis}</div>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1 mt-1">
+                    <div><span className="text-(--text-3)">Scenario:</span> {styleAnalysis.scenarioPattern}</div>
+                    <div><span className="text-(--text-3)">Framing:</span> {styleAnalysis.framingConcept}</div>
+                  </div>
+                  <div className="flex flex-wrap gap-x-4 gap-y-1">
+                    <div><span className="text-(--text-3)">Film feel:</span> {styleAnalysis.inferredCameraStyle}</div>
+                    <div><span className="text-(--text-3)">Palette:</span> {styleAnalysis.inferredMoodPalette}</div>
+                  </div>
                   <button onClick={() => { setStyleAnalysis(null); setStyleImages([]); }} className="mt-1 text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs text-left">Clear & re-upload</button>
                 </div>
               )}
@@ -836,6 +991,24 @@ CRITICAL RULES FOR THIS GENERATION:
         {/* ══ SELECT ══ */}
         {stage === "SELECT" && (
           <div className="pb-24">
+            {/* Style Analysis Summary Bar */}
+            {styleAnalysis && (
+              <div className="mb-5 p-4 bg-(--surface) border border-(--accent-faint) rounded-xl">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent) mb-2 font-semibold">Reference Style Analysis</div>
+                    <div className="text-(--text-2) text-[13px] leading-relaxed">{styleAnalysis.styleAnalysis}</div>
+                  </div>
+                  <button onClick={() => { setStyleAnalysis(null); setStyleImages([]); triggerToast("Style cleared"); }} className="text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs flex-shrink-0">Clear</button>
+                </div>
+                <div className="flex flex-wrap gap-x-6 gap-y-2 mt-3 text-[12px]">
+                  <div><span className="text-(--text-3)">Scenario:</span> <span className="text-(--text-1)">{styleAnalysis.scenarioPattern}</span></div>
+                  <div><span className="text-(--text-3)">Framing:</span> <span className="text-(--text-1)">{styleAnalysis.framingConcept}</span></div>
+                  <div><span className="text-(--text-3)">Film feel:</span> <span className="text-(--text-1)">{styleAnalysis.inferredCameraStyle}</span></div>
+                  <div><span className="text-(--text-3)">Palette:</span> <span className="text-(--text-1)">{styleAnalysis.inferredMoodPalette}</span></div>
+                </div>
+              </div>
+            )}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {ideas.map(idea => {
                 const isSelected = !!selections[idea.id];
@@ -857,18 +1030,45 @@ CRITICAL RULES FOR THIS GENERATION:
                       <div><span className="text-(--text-3)">Outfit: </span><span className="ef" contentEditable suppressContentEditableWarning onBlur={e => handleBlurEditable(idea.id, 'clothing', e.target.textContent)}>{idea.clothing}</span></div>
                       <div><span className="text-(--text-3)">Pose: </span><span className="ef" contentEditable suppressContentEditableWarning onBlur={e => handleBlurEditable(idea.id, 'pose', e.target.textContent)}>{idea.pose}</span></div>
                       <div><span className="text-(--text-3)">Camera: </span><span className="ef" contentEditable suppressContentEditableWarning onBlur={e => handleBlurEditable(idea.id, 'cameraStyle', e.target.textContent)}>{idea.cameraStyle}</span></div>
-                      {idea.foregroundHint && idea.foregroundHint !== 'none' && <div><span className="text-(--text-3)">FG: </span>{idea.foregroundHint}</div>}
+                      {idea.foregroundHint && idea.foregroundHint !== 'none' && idea.foregroundHint !== '' && <div><span className="text-(--text-3)">FG: </span>{idea.foregroundHint}</div>}
                     </div>
                     <div className="px-4 pb-3 flex flex-wrap gap-2">
-                      <select className="csel flex-1 min-w-0" value={settings.shotType || idea.suggestedShotType || ""} onChange={e => updateCardSetting(idea.id, 'shotType', e.target.value)} onClick={e => e.stopPropagation()}>
-                        {SHOT_TYPES.map(s => <option key={s} value={s}>{s}</option>)}
-                      </select>
-                      <select className="csel flex-1 min-w-0" value={settings.crop || idea.suggestedCrop || ""} onChange={e => updateCardSetting(idea.id, 'crop', e.target.value)} onClick={e => e.stopPropagation()}>
-                        {CROP_POINTS.map(c => <option key={c} value={c}>{c}</option>)}
-                      </select>
-                      <select className="csel w-full" value={settings.genre || idea.genre || ""} onChange={e => updateCardSetting(idea.id, 'genre', e.target.value)} onClick={e => e.stopPropagation()}>
-                        {GENRES.map(g => <option key={g} value={g}>{g}</option>)}
-                      </select>
+                      <input
+                        type="text"
+                        list="shot-types"
+                        className="csel flex-1 min-w-0"
+                        placeholder="Shot type..."
+                        value={settings.shotType !== undefined ? settings.shotType : (idea.suggestedShotType || "")}
+                        onChange={e => updateCardSetting(idea.id, 'shotType', e.target.value)}
+                        onClick={e => e.stopPropagation()}
+                      />
+                      <datalist id="shot-types">
+                        {SHOT_TYPES.map(s => <option key={s} value={s} />)}
+                      </datalist>
+                      <input
+                        type="text"
+                        list="crop-points"
+                        className="csel flex-1 min-w-0"
+                        placeholder="Crop at..."
+                        value={settings.crop !== undefined ? settings.crop : (idea.suggestedCrop || "")}
+                        onChange={e => updateCardSetting(idea.id, 'crop', e.target.value)}
+                        onClick={e => e.stopPropagation()}
+                      />
+                      <datalist id="crop-points">
+                        {CROP_POINTS.map(c => <option key={c} value={c} />)}
+                      </datalist>
+                      <input
+                        type="text"
+                        list="genres"
+                        className="csel w-full"
+                        placeholder="Genre/style..."
+                        value={settings.genre !== undefined ? settings.genre : (idea.genre || "")}
+                        onChange={e => updateCardSetting(idea.id, 'genre', e.target.value)}
+                        onClick={e => e.stopPropagation()}
+                      />
+                      <datalist id="genres">
+                        {GENRES.map(g => <option key={g} value={g} />)}
+                      </datalist>
                     </div>
                     {isSelected && (
                       <div className="px-4 pb-4 flex gap-2 border-t border-(--border) pt-3">
@@ -958,6 +1158,10 @@ CRITICAL RULES FOR THIS GENERATION:
             )}
             <div className="w-px h-6 bg-(--border) mx-1" />
             <button onClick={resetAll} className="bg-transparent border border-(--border-hover) text-(--text-2) px-3 py-2 rounded-md cursor-pointer hover:text-(--text-1) text-sm">Reset</button>
+            <button onClick={handleGenerateMoreIdeas} disabled={isLoadingMore} className="bg-transparent border border-(--accent-dim) text-(--accent) px-3 py-2 rounded-md cursor-pointer hover:bg-(--accent-faint) text-sm flex items-center gap-1.5 disabled:opacity-50 disabled:cursor-not-allowed">
+              {isLoadingMore ? <span className="animate-pulse">...</span> : <span className="text-base">+</span>}
+              {isLoadingMore ? "Loading..." : "More Ideas"}
+            </button>
             {Object.keys(selections).length > 0
               ? <button onClick={handleDeselectAll} className="bg-transparent border border-(--border-hover) text-(--text-2) px-3 py-2 rounded-md cursor-pointer hover:text-(--text-1) text-sm">Deselect All</button>
               : <button onClick={handleSelectAll} className="bg-transparent border border-(--border-hover) text-(--text-2) px-3 py-2 rounded-md cursor-pointer hover:text-(--text-1) text-sm">Select All</button>
