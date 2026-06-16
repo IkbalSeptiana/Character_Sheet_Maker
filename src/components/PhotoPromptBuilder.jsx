@@ -97,6 +97,15 @@ const GENRES = [
   "Y2K aesthetic", "Cyberpunk neon", "Dreamy ethereal"
 ];
 
+const REMIX_ASPECTS = [
+  { key: "camera", label: "Camera & Lens", desc: "Different lens, angle, film stock" },
+  { key: "pose", label: "Pose & Action", desc: "Different body pose, expression, hand placement" },
+  { key: "outfit", label: "Outfit & Styling", desc: "Different clothing, accessories, color palette" },
+  { key: "mood", label: "Mood & Lighting", desc: "Different time of day, weather, emotional vibe" },
+  { key: "genre", label: "Genre & Aesthetic", desc: "Different photographic genre (street, cinematic, etc.)" },
+  { key: "crop", label: "Framing & Crop", desc: "Different shot type and crop point" }
+];
+
 // ─── PROMPTS ──────────────────────────────────────────────────────────────────
 
 // Analisis foto style — extract both scenario pattern AND camera aesthetic
@@ -169,6 +178,28 @@ Return ONLY a valid JSON object:
   "hands": "nail shape, length, color, hand skin tone from hand detail panel"
 }`;
 
+// Detect if user directives contain a specific named location
+const detectLockedLocation = (directives) => {
+  if (!directives?.trim()) return null;
+  // Pattern: "Location: Place, City, Country" or "at Place, City" or "Place, City, Country" after keywords
+  const locationKeywords = /(?:location|place|at|in|set\s+(?:at|in)|scene\s+(?:at|in)|shot\s+(?:at|in))[:\s]+/i;
+  const match = directives.match(locationKeywords);
+  if (match) {
+    const after = directives.slice(match.index + match[0].length).trim();
+    // Take until newline or end — this is the locked location
+    const loc = after.split(/[\n\r]/)[0].trim().replace(/[.,;]?\s*$/, '');
+    if (loc.length > 3) return loc;
+  }
+  // Also detect if the directive itself IS a location (e.g. "Tower Bridge Walkway, London")
+  // Heuristic: contains a comma and a known country/city pattern, or user explicitly named a place
+  const commaCount = (directives.match(/,/g) || []).length;
+  if (commaCount >= 1 && directives.trim().length < 200 && !directives.toLowerCase().includes('surprise') && !directives.toLowerCase().includes('any')) {
+    // Likely a location directive — use the whole thing as locked location
+    return directives.trim();
+  }
+  return null;
+};
+
 // Generate ideas — now emphasizing REAL locations with ALIVE atmosphere
 const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis, existingLocations = []) => {
   const hasFemale = !!charFemale;
@@ -180,9 +211,25 @@ const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis, e
     : hasMale ? "a solo male subject"
     : "lifestyle subjects";
 
+  const lockedLocation = detectLockedLocation(userDirectives);
+
   const exclusionBlock = existingLocations.length > 0
     ? `\n\nCRITICAL: DO NOT reuse these already-generated locations. Generate COMPLETELY DIFFERENT locations:\n${existingLocations.map((loc, i) => `${i + 1}. ${loc}`).join('\n')}`
     : '';
+
+  // When a specific location is locked, generate variations AT that location
+  const locationLockBlock = lockedLocation
+    ? `\n\nLOCATION LOCK [HIGHEST PRIORITY]: The user specified this exact location: "${lockedLocation}".
+ALL 15 ideas MUST use this EXACT location. Do NOT change the city, country, or landmark.
+Vary ONLY: mood, outfit, pose, camera angle, time of day, weather, and specific SPOTS within this location (e.g. different areas, viewpoints, rooms, floors of the same place).
+For example, if the location is "Tower Bridge Walkway, London", vary across: the glass floor walkway, the north tower staircase, the south tower viewing platform, the engine room, the pedestrian walkway at sunset, etc. — but NEVER leave London or Tower Bridge.
+The "location" field in EVERY object MUST contain "${lockedLocation}" or a sub-area of it (e.g. "${lockedLocation} - Glass Floor Walkway").
+NEVER place the scene in a different city, country, or landmark. This is a strict constraint.`
+    : '';
+
+  const varyRule = lockedLocation
+    ? `4. LOCATION IS LOCKED: Do NOT vary location. All 15 ideas use "${lockedLocation}" or specific sub-areas within it. Vary mood, outfit, pose, angle, time of day, and specific spot within the location instead.`
+    : `4. VARY LOCATIONS AGGRESSIVELY: Different countries, continents, settings. Mix outdoor/indoor, nature/urban, coastal/mountain.`;
 
   if (useScenarioMode) {
     return `You are an elite photography creative director specializing in ALIVE, NATURAL lifestyle scenes at AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
@@ -193,14 +240,15 @@ SCENE REFERENCE (uploaded by user — generate 15 variations of this scenario ty
 - Panel Format: ${styleAnalysis.panelFormat}
 - Genre Feel: ${styleAnalysis.suggestedGenre}
 
-YOUR JOB: Keep the SAME interaction type, pose pattern, and framing concept — but change EVERYTHING ELSE across 15 ideas: location, setting, outfit, time of day, country, mood.
+YOUR JOB: Keep the SAME interaction type, pose pattern, and framing concept — but change outfit, time of day, mood${lockedLocation ? '' : ', location, country'} across 15 ideas.
+${locationLockBlock}
 ${exclusionBlock}
 
 CRITICAL RULES FOR NATURAL, ALIVE SCENES:
-1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. Examples: "Mindungsan Mountain summit, Gangwon-do, South Korea", "Suncheonman Bay National Garden, Jeollanam-do, South Korea", "Shibuya Sky Observation Deck, Tokyo, Japan", "Arashiyama Bamboo Grove, Kyoto, Japan", "N Seoul Tower, Seoul, South Korea", "Gyeongbokgung Palace, Seoul, South Korea". NEVER use generic names.
-2. ALIVE ATMOSPHERE: Famous tourist spots, observation decks, landmarks MUST feel populated. Describe what other visitors would be doing — walking, taking photos, chatting, eating. Nature locations have birds, insects, hikers in distance. Urban streets have pedestrians, cars, shop activity.
+1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. NEVER use generic names.
+2. ALIVE ATMOSPHERE: Famous tourist spots, observation decks, landmarks MUST feel populated. Describe what other visitors would be doing. Nature locations have birds, insects, hikers in distance. Urban streets have pedestrians, cars, shop activity.
 3. OUTFIT ONLY: The "clothing" field = SHORT outfit concept max 15 words. NO hair/face/skin.
-4. VARY LOCATIONS AGGRESSIVELY: Different countries, continents, settings. Mix outdoor/indoor, nature/urban, coastal/mountain.
+${varyRule}
 5. CAMERA: Keep the same framing concept as the reference.
 6. NO FORCED ELEMENTS: No mandatory foreground obstruction. No mandatory signs. These are ONLY added if user explicitly requests them in directives.
 
@@ -225,13 +273,16 @@ Return ONLY a valid JSON array of exactly 15 objects:
   return `You are an elite photography creative director specializing in ALIVE, NATURAL lifestyle scenes at AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
 
 USER DIRECTIVES: ${userDirectives}
+${locationLockBlock}
 ${exclusionBlock}
 
 CRITICAL RULES FOR NATURAL, ALIVE SCENES:
-1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. Examples: "Mindungsan Mountain summit, Gangwon-do, South Korea", "Suncheonman Bay National Garden, Jeollanam-do, South Korea", "Shibuya Sky Observation Deck, Tokyo, Japan", "Arashiyama Bamboo Grove, Kyoto, Japan", "N Seoul Tower, Seoul, South Korea", "Gyeongbokgung Palace, Seoul, South Korea". NEVER use generic names.
-2. ALIVE ATMOSPHERE: Famous tourist spots, observation decks, landmarks MUST feel populated. Describe what other visitors would be doing — walking, taking photos, chatting, eating. Nature locations have birds, insects, hikers in distance. Urban streets have pedestrians, cars, shop activity.
+1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. NEVER use generic names.
+2. ALIVE ATMOSPHERE: Famous tourist spots, observation decks, landmarks MUST feel populated. Describe what other visitors would be doing. Nature locations have birds, insects, hikers in distance. Urban streets have pedestrians, cars, shop activity.
 3. OUTFIT ONLY: The "clothing" field = SHORT outfit concept max 15 words. NO hair/face/skin.
-4. VARY AGGRESSIVELY: Mix indoor/outdoor, day/night, urban/nature, across different countries and continents. No two scenes should share the same vibe or setting type.
+${lockedLocation
+    ? `4. LOCATION IS LOCKED: All 15 ideas MUST use "${lockedLocation}" or sub-areas within it. Vary mood, outfit, pose, angle, time of day, and specific spot within the location instead. Do NOT change the city, country, or landmark.`
+    : `4. VARY AGGRESSIVELY: Mix indoor/outdoor, day/night, urban/nature, across different countries and continents. No two scenes should share the same vibe or setting type.`}
 5. NO FORCED ELEMENTS: No mandatory foreground obstruction. No mandatory signs. Only add these if user explicitly mentions them.
 
 Return ONLY a valid JSON array of exactly 15 objects:
@@ -335,6 +386,14 @@ export default function PhotoPromptBuilder() {
   const [showSavedCharsPanel, setShowSavedCharsPanel] = useState(false);
   const [editingCharName, setEditingCharName] = useState(null);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+
+  // Remix / style variation state
+  const [remixTaskKey, setRemixTaskKey] = useState(null);
+  const [remixAspects, setRemixAspects] = useState({});
+  const [remixCount, setRemixCount] = useState(3);
+  const [remixVariations, setRemixVariations] = useState({});
+  const [remixLoading, setRemixLoading] = useState(false);
+  const [remixDirective, setRemixDirective] = useState("");
 
   // Drag states
   const [isDraggingStyle, setIsDraggingStyle] = useState(false);
@@ -645,7 +704,7 @@ export default function PhotoPromptBuilder() {
     const charBlock = buildCharacterBlock(targetTask.apiType);
 
     const styleBlock = styleAnalysis ? `
-VISUAL STYLE REFERENCE — CAMERA & FILM ONLY (DO NOT let this influence location, pose, or clothing):
+VISUAL STYLE REFERENCE — CAMERA & FILM ONLY (DO NOT let this influence location, pose, or clothing. The location is already specified above and MUST NOT change):
 - Film Feel: ${styleAnalysis.inferredCameraStyle}
 - Color Palette: ${styleAnalysis.inferredMoodPalette}
 - Photographic Aesthetic: ${styleAnalysis.styleAnalysis}
@@ -666,17 +725,19 @@ Shot Type: ${shotType}
 Crop Point: ${cropPoint}
 Genre: ${genre}
 ${styleBlock}
+LOCATION INTEGRITY [CRITICAL]: The location for this scene is "${idea.location}". You MUST use this EXACT location. Do NOT substitute, change, relocate, or replace it with a different city, country, or landmark. The environment description must accurately describe THIS specific place.
+
 CHARACTER IDENTITY (CRITICAL — USE EXACTLY AS PROVIDED, DO NOT MODIFY):
 ${charBlock}
 
 CRITICAL RULES FOR THIS GENERATION:
 1. INSTRUCTION [LOCKED]: Start with the exact INSTRUCTION [LOCKED] block from the template. Never modify its wording.
-2. CORE AESTHETIC: Must read "Photorealistic authentic lifestyle snapshot of..." — never "studio", "editorial", "stock".
+2. CORE AESTHETIC: Must read "Photorealistic authentic lifestyle snapshot of... in ${idea.location}" — never "studio", "editorial", "stock".
 3. SUBJECT IDENTITY & STYLING: Hairstyling line references "the provided target reference image". Exact face line references "the provided target reference image". Clothing expands to 30+ words. Wearable Accessories lists body/head/face items.
 4. POSE AND ACTION: Full anatomical WITH-chain tracking each arm/hand/finger. Micro-expression 15+ words. End with "All other hands and limbs hidden from view. Cropped exactly at ${cropPoint}."
 5. ENVIRONMENT & LIGHTING — THE SOUL OF THE IMAGE:
-   - Start with "${idea.location}" as the full real location name
-   - Write 80+ words of ALIVE, NATURAL environment:
+   - Start with "${idea.location}" as the full real location name — do NOT change or replace this with another city or country
+   - Write 80+ words of ALIVE, NATURAL environment that accurately describes THIS specific location:
      * PUBLIC TOURIST SPOTS (observation decks, landmarks, markets, plazas): MUST describe other visitors — walking, taking photos, chatting in groups, couples, families. Include their approximate positions and activities. A famous place should NEVER look empty.
      * NATURE (mountains, beaches, forests, parks): Include visible wildlife (birds, insects), other hikers/visitors in the distance, movement of vegetation.
      * URBAN STREETS: Include pedestrians, cyclists, cars, shop activity, street vendors.
@@ -685,7 +746,7 @@ CRITICAL RULES FOR THIS GENERATION:
    - Describe lighting with direction, quality, shadows, ambient fill
    - End with "Overall scene features a [vibe] color palette of [6-9 specific named colors]."
 6. CAMERA & TECHNICAL SPECS: Must name a REAL film stock. Describe its color science in one sentence. Specify ISO, grain.
-7. NEGATIVE PROMPT: Include "empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects" — famous public places must NOT look empty.
+7. NEGATIVE PROMPT: Include "empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects, wrong location, different city, different country, relocated scene" — famous public places must NOT look empty.
 8. Follow the structural template EXACTLY. No extra commentary or markdown.`;
 
     try {
@@ -722,6 +783,75 @@ CRITICAL RULES FOR THIS GENERATION:
 
     setResults(taskList);
     taskList.forEach(task => launchSingleTask(task.taskKey, task, fullSystemPrompt));
+  };
+
+  // ─── REMIX / STYLE VARIATIONS ──────────────────────────────────────────────
+  const handleRemix = async (taskKey) => {
+    if (!activeConfig?.apiKey) { triggerToast("API Key not set."); return; }
+
+    const task = results.find(r => r.taskKey === taskKey);
+    if (!task || task.status !== 'success') return;
+
+    const selectedAspects = Object.entries(remixAspects)
+      .filter(([, on]) => on)
+      .map(([key]) => REMIX_ASPECTS.find(a => a.key === key)?.label)
+      .filter(Boolean);
+
+    if (selectedAspects.length === 0) {
+      triggerToast("Select at least one aspect to vary.");
+      return;
+    }
+
+    setRemixLoading(true);
+    setRemixVariations(prev => ({ ...prev, [taskKey]: [] }));
+
+    const charBlock = buildCharacterBlock(task.apiType);
+    const location = task.idea.location;
+
+    const remixSystemPrompt = `You are an elite AI photography creative director and prompt engineer. You will receive an EXISTING fully-written image generation prompt and must create STYLE VARIATIONS of it.
+
+ABSOLUTE RULES:
+1. INSTRUCTION [LOCKED] block: Copy it VERBATIM from the original. Do NOT modify a single word.
+2. CHARACTER IDENTITY: Copy the Subject Identity & Styling section VERBATIM from the original — same hair, same face description, same clothing/accessories — UNLESS "Outfit & Styling" is one of the aspects being varied. In that case, generate NEW outfit/accessories but keep hair and face lines identical.
+3. LOCATION IS FROZEN: The location "${location}" must appear EXACTLY as-is in the Core Aesthetic line AND the Environment & Lighting section. Do NOT change city, country, or landmark. The environment description should describe the SAME place but may adjust lighting/time of day if "Mood & Lighting" is being varied.
+4. VARY ONLY the selected aspects. Everything else stays identical to the original.
+5. Each variation must feel like a DISTINCTLY DIFFERENT photo of the same people at the same place — not a minor tweak.
+6. Follow the same structural template format. No extra commentary or markdown.
+7. Output each variation separated by a line containing only "===VARIATION===" (including the first one).`;
+
+    const aspectList = selectedAspects.join(", ");
+    const directiveBlock = remixDirective.trim()
+      ? `\nUSER STYLE DIRECTIVE [HIGHEST PRIORITY]: ${remixDirective.trim()}\nApply this directive to EVERY variation. This overrides any default choices for the varied aspects. For example, if the directive says "selfie style", all variations must be framed as POV selfie shots with smartphone camera specs, appropriate arm positioning, and close-up perspective.\n`
+      : '';
+
+    const userMsg = `Here is the original prompt. Generate exactly ${remixCount} style variations, varying ONLY these aspects: ${aspectList}.
+${directiveBlock}
+ASPECTS TO VARY — guidance:
+${remixAspects.camera ? "- CAMERA & LENS: Change lens focal length, angle, film stock, depth of field, camera type (smartphone vs premium). Each variation should feel like a completely different photographer shot it.\n" : ""}${remixAspects.pose ? "- POSE & ACTION: Change body angle, arm/hand positions, expression, interaction type. Each variation should show a different moment captured at the same place.\n" : ""}${remixAspects.outfit ? "- OUTFIT & STYLING: Change clothing completely — different fabric, color, cut, layering. Keep hair and face lines identical. Accessories may change.\n" : ""}${remixAspects.mood ? "- MOOD & LIGHTING: Change time of day, weather, lighting direction/quality, emotional vibe. Describe the SAME location under different conditions.\n" : ""}${remixAspects.genre ? "- GENRE & AESTHETIC: Change the photographic genre — street photography, cinematic film still, travel editorial, golden hour portrait, etc.\n" : ""}${remixAspects.crop ? "- FRAMING & CROP: Change shot type (close-up, medium, full body, etc.) and crop point.\n" : ""}ASPECTS TO KEEP IDENTICAL: Everything not listed above — especially INSTRUCTION [LOCKED], character identity (hair/face), location, and the negative prompt.
+
+CHARACTER IDENTITY (use exactly as-is unless outfit is being varied):
+${charBlock}
+
+ORIGINAL PROMPT:
+${task.resultText}
+
+Generate ${remixCount} variations now. Separate each with "===VARIATION===". Start the first variation immediately after this line.`;
+
+    try {
+      const res = await fetchFromLLM(activeConfig, userMsg, remixSystemPrompt, false, []);
+      if (!res) throw new Error("Empty response.");
+
+      const cleaned = res.replace(/^```[\s\S]*?\n/, '').replace(/```$/, '').trim();
+      const parts = cleaned.split("===VARIATION===").map(p => p.trim()).filter(p => p.length > 50);
+
+      setRemixVariations(prev => ({ ...prev, [taskKey]: parts }));
+      triggerToast(`Generated ${parts.length} variations!`);
+    } catch (err) {
+      triggerToast("Remix failed: " + err.message);
+      setRemixVariations(prev => ({ ...prev, [taskKey]: [] }));
+    } finally {
+      setRemixLoading(false);
+    }
   };
 
   const resetAll = () => {
@@ -967,7 +1097,7 @@ CRITICAL RULES FOR THIS GENERATION:
                 className="w-full h-28 resize-none p-4 bg-(--surface) border border-(--border) rounded-xl text-(--text-1) text-sm outline-none focus:border-(--accent) transition-colors"
                 value={userDirectives}
                 onChange={e => setUserDirectives(e.target.value)}
-                placeholder="e.g. Korean mountain and coastal locations, golden hour, cinematic / or: surprise me with real places / or: add Jeju Island and Busan scenes"
+                placeholder="e.g. Tower Bridge Walkway, London / or: Korean mountain and coastal locations, golden hour, cinematic / or: surprise me with real places / TIP: specify a location name to LOCK it — AI will not change the place"
               />
             </div>
 
@@ -1103,7 +1233,12 @@ CRITICAL RULES FOR THIS GENERATION:
                     results.filter(r => r.status === 'success').forEach(r => {
                       const g = r.typeDisplay.includes('COUPLE') ? 'COUPLE' : r.typeDisplay.includes('Female') || r.typeDisplay.includes('SOLO F') ? 'SOLO FEMALE' : 'SOLO MALE';
                       if (!grouped[g]) grouped[g] = [];
-                      grouped[g].push(`============= PROMPT ${grouped[g].length + 1} =============\n${r.resultText}`);
+                      let text = `============= PROMPT ${grouped[g].length + 1} =============\n${r.resultText}`;
+                      const vars = remixVariations[r.taskKey];
+                      if (vars?.length > 0) {
+                        vars.forEach((v, vi) => { text += `\n\n\n============= VARIATION ${vi + 1} =============\n${v}`; });
+                      }
+                      grouped[g].push(text);
                     });
                     navigator.clipboard.writeText(Object.entries(grouped).map(([g, p]) => `${g}\n${p.join('\n\n\n')}`).join('\n\n\n'));
                     triggerToast("Copied All!");
@@ -1124,13 +1259,90 @@ CRITICAL RULES FOR THIS GENERATION:
                     </div>
                     <div>
                       {task.status === 'loading' && <span className="text-(--accent) text-[13px] animate-pulse">Generating...</span>}
-                      {task.status === 'success' && <button className="text-(--accent) bg-transparent border-none cursor-pointer font-semibold" onClick={() => { navigator.clipboard.writeText(task.resultText); triggerToast("Copied!"); }}>Copy</button>}
+                      {task.status === 'success' && (
+                        <div className="flex items-center gap-3">
+                          <button className="text-(--accent) bg-transparent border-none cursor-pointer font-semibold" onClick={() => { navigator.clipboard.writeText(task.resultText); triggerToast("Copied!"); }}>Copy</button>
+                          <button
+                            className={`text-[12px] px-2.5 py-1 rounded-md cursor-pointer border font-semibold transition-colors ${remixTaskKey === task.taskKey ? 'bg-(--accent) text-(--bg) border-(--accent)' : 'bg-transparent text-(--text-2) border-(--border) hover:border-(--accent) hover:text-(--accent)'}`}
+                            onClick={() => setRemixTaskKey(remixTaskKey === task.taskKey ? null : task.taskKey)}
+                          >Remix</button>
+                        </div>
+                      )}
                       {task.status === 'error' && <button className="text-(--error) bg-transparent border-none cursor-pointer font-semibold" onClick={() => launchSingleTask(task.taskKey, task, `${templates.system}\n\n${templates.couple}\n\n${templates.solo_f}\n\n${templates.solo_m}`)}>Retry</button>}
                     </div>
                   </div>
                   {task.status === 'loading' && <div className="skeleton m-5" />}
                   {task.status === 'success' && <div className="p-5 font-mono text-[13px] whitespace-pre-wrap text-(--text-2) leading-relaxed">{task.resultText}</div>}
                   {task.status === 'error' && <div className="p-5 text-(--error) font-mono text-[13px]">Failed: {task.resultText}</div>}
+
+                  {/* REMIX PANEL */}
+                  {task.status === 'success' && remixTaskKey === task.taskKey && (
+                    <div className="border-t border-(--border)">
+                      <div className="p-4 bg-(--surface-2) flex flex-col gap-3">
+                        <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent-dim) font-semibold">Remix — Choose what to vary</div>
+                        <div className="flex flex-wrap gap-2">
+                          {REMIX_ASPECTS.map(a => (
+                            <button
+                              key={a.key}
+                              onClick={() => setRemixAspects(prev => ({ ...prev, [a.key]: !prev[a.key] }))}
+                              className={`px-3 py-1.5 rounded-md text-xs font-semibold border cursor-pointer transition-colors ${remixAspects[a.key] ? 'bg-(--accent) text-(--bg) border-(--accent)' : 'bg-transparent text-(--text-2) border-(--border) hover:border-(--accent)'}`}
+                              title={a.desc}
+                            >{a.label}</button>
+                          ))}
+                        </div>
+                        <div className="flex flex-col gap-1.5">
+                          <label className="text-[11px] text-(--accent) font-semibold uppercase tracking-wider">Style Directive</label>
+                          <input
+                            type="text"
+                            className="w-full bg-(--surface) border border-(--border) text-(--text-1) p-2.5 rounded-lg text-sm outline-none focus:border-(--accent) transition-colors"
+                            placeholder='e.g. selfie style / paparazzi shot from behind / cinematic film noir / golden hour backlit / over-the-shoulder whisper'
+                            value={remixDirective}
+                            onChange={e => setRemixDirective(e.target.value)}
+                          />
+                          <div className="text-[10px] text-(--text-3)">Type any style, camera angle, or mood — it overrides all variations</div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <label className="text-[12px] text-(--text-3)">Variations:</label>
+                          <select
+                            className="csel"
+                            value={remixCount}
+                            onChange={e => setRemixCount(parseInt(e.target.value))}
+                          >
+                            {[2, 3, 4, 5].map(n => <option key={n} value={n}>{n}</option>)}
+                          </select>
+                          <div className="flex-1" />
+                          <button
+                            onClick={() => handleRemix(task.taskKey)}
+                            disabled={remixLoading || Object.values(remixAspects).every(v => !v)}
+                            className="bg-(--accent) text-(--bg) px-4 py-2 rounded-md cursor-pointer border-none font-semibold text-[13px] hover:bg-(--accent-hover) transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                          >{remixLoading ? "Generating..." : "Generate Variations"}</button>
+                        </div>
+                      </div>
+
+                      {/* VARIATION RESULTS */}
+                      {remixLoading && remixTaskKey === task.taskKey && (
+                        <div className="p-4 border-t border-(--border)">
+                          <div className="skeleton" style={{ height: '120px' }} />
+                        </div>
+                      )}
+                      {remixVariations[task.taskKey]?.length > 0 && (
+                        <div className="border-t border-(--border)">
+                          {remixVariations[task.taskKey].map((v, vi) => (
+                            <div key={vi} className={vi > 0 ? 'border-t border-(--border)' : ''}>
+                              <div className="flex justify-between items-center px-4 py-2 bg-(--bg)">
+                                <span className="text-[11px] text-(--accent) font-semibold">Variation {vi + 1}</span>
+                                <button
+                                  className="text-(--accent) bg-transparent border-none cursor-pointer text-[12px] font-semibold"
+                                  onClick={() => { navigator.clipboard.writeText(v); triggerToast(`Variation ${vi + 1} copied!`); }}
+                                >Copy</button>
+                              </div>
+                              <div className="px-4 py-3 font-mono text-[12px] whitespace-pre-wrap text-(--text-2) leading-relaxed max-h-80 overflow-y-auto">{v}</div>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
