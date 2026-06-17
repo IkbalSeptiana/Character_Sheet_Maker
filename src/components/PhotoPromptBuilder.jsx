@@ -14,7 +14,9 @@ ABSOLUTE RULES:
    a. Start with the SPECIFIC REAL LOCATION full name.
    b. PHYSICAL ACCURACY [HIGHEST PRIORITY — NON-NEGOTIABLE]:
       Every material, surface, texture, architectural element, flooring, wall, railing, vegetation, and structural detail you describe MUST be factually correct for this specific real-world location. DO NOT FABRICATE, GUESS, OR INVENT any physical attribute.
-      - Used web search about the location to gather accurate information.
+      - If you do not know the exact material of the floor/walls/railing, describe what is VISIBLE in general terms ("paved walkway", "metal railing") rather than inventing a specific but wrong material ("wooden planks" when it is actually concrete or metal).
+      - WRONG: "wooden-planked pedestrian walkway" at Tower Bridge (the walkway is actually concrete/steel with glass floor sections).
+      - RIGHT: "concrete and steel pedestrian walkway with glass floor panels" at Tower Bridge.
       - This applies to EVERYTHING: flooring materials, wall surfaces, railing types, roof materials, vegetation species, water body colors, street surfaces, bridge construction materials, stair materials, window types, fence types, bench materials.
       - When uncertain about a specific material, use general but CORRECT descriptions ("stone paving", "metal walkway", "concrete path", "steel railing", "glass panels") rather than specific but WRONG ones ("wooden planks", "marble floor", "cobblestone").
    c. Write 80+ words of SPECIFIC, ALIVE environment detail:
@@ -183,6 +185,25 @@ Return ONLY a valid JSON object:
   "hands": "nail shape, length, color, hand skin tone from hand detail panel"
 }`;
 
+// Analisis environment/location reference photo — extract ONLY verifiable physical facts
+const SYSTEM_ANALYZE_ENVIRONMENT = `You are an expert location scout and environment analyst. You are looking at a REAL PHOTOGRAPH of a specific real-world location.
+
+Your job is to extract ONLY what you can DIRECTLY OBSERVE in this photo. Do NOT guess, infer, or supplement from general knowledge. Every detail must be visible in the image.
+
+Return ONLY a valid JSON object:
+{
+  "locationName": "name of location if identifiable from visible signage or landmarks, else empty string",
+  "flooringSurface": "describe EXACTLY what you see underfoot — material, color, texture, condition, markings. e.g. 'gray concrete/asphalt pavement with slight sheen', 'dark grey paving stones with regular joint lines', 'smooth tarmac with red painted lane markings'",
+  "wallsOrRailings": "describe any walls, fences, barriers, or railings visible — material, color, construction. e.g. 'blue-painted steel tube railings, medium height, spaced evenly', 'stone parapet wall with carved decorative panels'",
+  "structuralElements": "any distinctive architectural or structural elements visible — bridge cables, columns, arches, tower facades, overhead structures. Only what is directly visible.",
+  "lightingConditions": "describe the light quality, direction, and sky conditions as seen in this photo. e.g. 'late afternoon blue-hour light with soft long shadows', 'bright overcast diffused light, flat shadows, pale sky'",
+  "colorPalette": "list 6-8 specific color names actually visible in the scene — surfaces, structures, sky, clothing of people if present",
+  "activityLevel": "describe the human activity visible — approximate crowd density, what people are doing, approximate clothing colors of background figures",
+  "notableDetails": "any other physically distinct elements visible: signage, vehicles, vegetation, water, transport, specific textures or materials that make this place recognizable"
+}
+
+CRITICAL: Only describe what is VISIBLE in the photo. If something is not clearly visible, leave that field as an empty string. Never fabricate or supplement with assumed knowledge about this place.`;
+
 // Detect if user directives contain a specific named location
 const detectLockedLocation = (directives) => {
   if (!directives?.trim()) return null;
@@ -227,7 +248,8 @@ const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis, e
     ? `\n\nLOCATION LOCK [HIGHEST PRIORITY]: The user specified this exact location: "${lockedLocation}".
 ALL 15 ideas MUST use this EXACT location. Do NOT change the city, country, or landmark.
 Vary ONLY: mood, outfit, pose, camera angle, time of day, weather, and specific SPOTS within this location (e.g. different areas, viewpoints, rooms, floors of the same place).
-The "location" field in EVERY object MUST contain "${lockedLocation}" or a sub-area of it.
+For example, if the location is "Tower Bridge Walkway, London", vary across: the glass floor walkway, the north tower staircase, the south tower viewing platform, the engine room, the pedestrian walkway at sunset, etc. — but NEVER leave London or Tower Bridge.
+The "location" field in EVERY object MUST contain "${lockedLocation}" or a sub-area of it (e.g. "${lockedLocation} - Glass Floor Walkway").
 NEVER place the scene in a different city, country, or landmark. This is a strict constraint.`
     : '';
 
@@ -399,14 +421,30 @@ export default function PhotoPromptBuilder() {
   const [remixLoading, setRemixLoading] = useState(false);
   const [remixDirective, setRemixDirective] = useState("");
 
+  // Environment reference photo
+  const [envRefImage, setEnvRefImage] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_envRef");
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  });
+  const [envAnalysis, setEnvAnalysis] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_envAnalysis");
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  });
+
   // Drag states
   const [isDraggingStyle, setIsDraggingStyle] = useState(false);
   const [isDraggingCharF, setIsDraggingCharF] = useState(false);
   const [isDraggingCharM, setIsDraggingCharM] = useState(false);
+  const [isDraggingEnv, setIsDraggingEnv] = useState(false);
 
   const styleInputRef = useRef(null);
   const charFInputRef = useRef(null);
   const charMInputRef = useRef(null);
+  const envRefInputRef = useRef(null);
 
   const [templates, setTemplates] = useState(() => {
     const saved = localStorage.getItem("pb_templates_v5");
@@ -428,6 +466,10 @@ export default function PhotoPromptBuilder() {
   useEffect(() => { localStorage.setItem("pb_styleAnalysis", JSON.stringify(styleAnalysis)); }, [styleAnalysis]);
   useEffect(() => { localStorage.setItem("pb_charSheetF", JSON.stringify(charSheetF)); }, [charSheetF]);
   useEffect(() => { localStorage.setItem("pb_charSheetM", JSON.stringify(charSheetM)); }, [charSheetM]);
+  useEffect(() => {
+    try { localStorage.setItem("pb_envRef", JSON.stringify(envRefImage)); } catch { /* quota */ }
+  }, [envRefImage]);
+  useEffect(() => { localStorage.setItem("pb_envAnalysis", JSON.stringify(envAnalysis)); }, [envAnalysis]);
   useEffect(() => { localStorage.setItem("pb_ideas", JSON.stringify(ideas)); }, [ideas]);
   useEffect(() => { localStorage.setItem("pb_selections", JSON.stringify(selections)); }, [selections]);
   useEffect(() => { localStorage.setItem("pb_cardSettings", JSON.stringify(cardSettings)); }, [cardSettings]);
@@ -524,6 +566,33 @@ export default function PhotoPromptBuilder() {
       if (gender === 'female') setCharSheetF(prev => ({ ...prev, analyzing: false, error: e.message }));
       else setCharSheetM(prev => ({ ...prev, analyzing: false, error: e.message }));
       triggerToast("Failed to analyze character: " + e.message);
+    }
+  };
+
+  // ─── ENVIRONMENT REFERENCE ────────────────────────────────────────────────
+  const handleEnvFile = async (files) => {
+    const file = Array.from(files).find(f => f.type.startsWith("image/"));
+    if (!file) return;
+    const img = await readFile(file);
+    setEnvRefImage({ ...img, analyzing: true });
+    setEnvAnalysis(null);
+
+    try {
+      if (!activeConfig?.apiKey) { triggerToast("Set API Key first."); setEnvRefImage({ ...img, analyzing: false }); return; }
+      const raw = await fetchFromLLM(
+        activeConfig,
+        "Analyze this real-world location photo. Extract only what you can directly observe.",
+        SYSTEM_ANALYZE_ENVIRONMENT,
+        true,
+        [img]
+      );
+      const parsed = JSON.parse(raw.replace(/```json/g, '').replace(/```/g, '').trim());
+      setEnvRefImage({ ...img, analyzing: false });
+      setEnvAnalysis(parsed);
+      triggerToast("Location analyzed — physical details extracted");
+    } catch (e) {
+      setEnvRefImage(prev => ({ ...prev, analyzing: false, error: e.message }));
+      triggerToast("Environment analysis failed: " + e.message);
     }
   };
 
@@ -715,6 +784,20 @@ VISUAL STYLE REFERENCE — CAMERA & FILM ONLY (DO NOT let this influence locatio
 APPLY TO: exact film stock name, color science sentence, lighting feel, grain in Camera & Technical Specs ONLY.
 ` : '';
 
+    const envBlock = envAnalysis ? `
+ENVIRONMENT REFERENCE DATA [HIGHEST PRIORITY — USE THESE EXACT PHYSICAL FACTS]:
+A real photograph of "${idea.location}" was analyzed. The following are VERIFIED, DIRECTLY OBSERVED physical details. Use them EXACTLY. Do NOT substitute, replace, or augment with assumed or imagined details.
+- Flooring/Surface: ${envAnalysis.flooringSurface || 'not specified'}
+- Walls/Railings/Barriers: ${envAnalysis.wallsOrRailings || 'not specified'}
+- Structural Elements: ${envAnalysis.structuralElements || 'not specified'}
+- Lighting (as observed): ${envAnalysis.lightingConditions || 'not specified'}
+- Color Palette (actual): ${envAnalysis.colorPalette || 'not specified'}
+- Activity/People (as observed): ${envAnalysis.activityLevel || 'not specified'}
+- Notable Details: ${envAnalysis.notableDetails || 'not specified'}
+
+In the Environment & Lighting section, build your description from these verified facts ONLY. Do NOT describe any material, surface, or structural element that was not listed above. If something is not in this list, use only general terms or omit it.
+` : '';
+
     const envHint = idea.locationEnvironmentHint ? `\nLocation Hint: ${idea.locationEnvironmentHint}` : '';
 
     const userMsg = `Generate a prompt for this scene.
@@ -729,6 +812,7 @@ Shot Type: ${shotType}
 Crop Point: ${cropPoint}
 Genre: ${genre}
 ${styleBlock}
+${envBlock}
 LOCATION INTEGRITY [CRITICAL]: The location for this scene is "${idea.location}". You MUST use this EXACT location. Do NOT substitute, change, relocate, or replace it with a different city, country, or landmark. The environment description must accurately describe THIS specific place.
 
 CHARACTER IDENTITY (CRITICAL — USE EXACTLY AS PROVIDED, DO NOT MODIFY):
@@ -741,15 +825,15 @@ CRITICAL RULES FOR THIS GENERATION:
 4. POSE AND ACTION: Full anatomical WITH-chain tracking each arm/hand/finger. Micro-expression 15+ words. End with "All other hands and limbs hidden from view. Cropped exactly at ${cropPoint}."
 5. ENVIRONMENT & LIGHTING — THE SOUL OF THE IMAGE:
    - Start with "${idea.location}" as the full real location name — do NOT change or replace this with another city or country
-   - PHYSICAL ACCURACY [HIGHEST PRIORITY — NON-NEGOTIABLE]: Every material, surface, texture, flooring, wall, railing, roof, vegetation, and architectural detail you describe MUST be factually correct for "${idea.location}". DO NOT fabricate, guess, or invent any physical attribute. If you do not know the exact material, use general but correct terms ("metal walkway", "stone paving", "steel railing", "concrete path", "glass panels") rather than specific but WRONG ones ("wooden planks", "marble floor", "cobblestone"). This rule applies to ALL surfaces: flooring, walls, railings, roofs, stairs, fences, benches, vegetation species, water colors, bridge materials.
+   ${envAnalysis ? `- ENVIRONMENT REFERENCE VERIFIED DATA: Build environment from these OBSERVED FACTS ONLY. Flooring: "${envAnalysis.flooringSurface}". Barriers/Railings: "${envAnalysis.wallsOrRailings}". Structures: "${envAnalysis.structuralElements}". Lighting (observed): "${envAnalysis.lightingConditions}". Notable details: "${envAnalysis.notableDetails}". DO NOT describe any surface or material NOT listed here.` : `- PHYSICAL ACCURACY: Every material, surface, and structural detail MUST be factually correct for "${idea.location}". Use general correct terms when uncertain ("metal walkway", "stone paving", "steel railing") rather than specific wrong ones.`}
    - Write 80+ words of ALIVE, NATURAL environment that accurately describes THIS specific location:
-     * PUBLIC TOURIST SPOTS (observation decks, landmarks, markets, plazas): MUST describe other visitors — walking, taking photos, chatting in groups, couples, families. Include their approximate positions and activities. A famous place should NEVER look empty.
-     * NATURE (mountains, beaches, forests, parks): Include visible wildlife (birds, insects), other hikers/visitors in the distance, movement of vegetation.
+     * PUBLIC TOURIST SPOTS: MUST describe other visitors — walking, taking photos, chatting in groups, couples, families. A famous place should NEVER look empty.
+     * NATURE: Include visible wildlife (birds, insects), other hikers/visitors in the distance, movement of vegetation.
      * URBAN STREETS: Include pedestrians, cyclists, cars, shop activity, street vendors.
-     * INDOOR VENUES (cafes, museums, malls): Include other patrons, staff, ambient activity.
+     * INDOOR VENUES: Include other patrons, staff, ambient activity.
    - Use the location hint "${idea.locationEnvironmentHint}" to understand the crowd/activity level
    - Describe lighting with direction, quality, shadows, ambient fill
-   - End with "Overall scene features a [vibe] color palette of [6-9 specific named colors]."
+   - End with "Overall scene features a [vibe] color palette of ${envAnalysis ? `${envAnalysis.colorPalette || '[6-9 specific named colors from reference].'}` : '[6-9 specific named colors].'}"
 6. CAMERA & TECHNICAL SPECS: Must name a REAL film stock. Describe its color science in one sentence. Specify ISO, grain.
 7. NEGATIVE PROMPT: Include "empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects, wrong location, different city, different country, relocated scene, fabricated materials, wrong flooring, incorrect architecture, invented surfaces" — famous public places must NOT look empty and all materials must be factually accurate.
 8. Follow the structural template EXACTLY. No extra commentary or markdown.`;
@@ -1105,6 +1189,58 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
               )}
             </div>
 
+            {/* Environment Reference Photo */}
+            <div>
+              <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent-dim) mb-1.5">Location Reference Photo <span className="text-(--text-3) normal-case tracking-normal font-normal">(optional)</span></div>
+              <div className="text-(--text-3) text-xs mb-3">Upload a real photo of your target location. The AI will extract ONLY verified physical details (flooring, railings, materials, lighting) from this image — preventing hallucinated or wrong environment descriptions.</div>
+              <input ref={envRefInputRef} type="file" accept="image/*" className="hidden" onChange={e => handleEnvFile(e.target.files)} />
+              {envRefImage ? (
+                <div className="flex gap-3 items-start">
+                  <div className="relative flex-shrink-0">
+                    <img src={envRefImage.url} className="w-20 h-20 object-cover rounded-lg border border-(--border)" alt="env ref" />
+                    <button
+                      onClick={() => { setEnvRefImage(null); setEnvAnalysis(null); localStorage.removeItem("pb_envRef"); localStorage.removeItem("pb_envAnalysis"); }}
+                      className="absolute -top-1.5 -right-1.5 bg-(--error) text-white border-none rounded-full w-5 h-5 cursor-pointer flex items-center justify-center text-xs"
+                    >x</button>
+                  </div>
+                  {envRefImage.analyzing && (
+                    <div className="text-(--text-2) text-sm animate-pulse pt-2">Extracting physical details from photo...</div>
+                  )}
+                  {envAnalysis && !envRefImage.analyzing && (
+                    <div className="flex-1 p-3 bg-(--surface) border border-(--success) rounded-lg text-[12px] text-(--text-2) flex flex-col gap-1">
+                      <div className="text-(--success) text-[10px] font-semibold uppercase tracking-wider">Location Verified — Physical Facts Extracted</div>
+                      {envAnalysis.flooringSurface && <div><span className="text-(--text-3)">Floor:</span> {envAnalysis.flooringSurface}</div>}
+                      {envAnalysis.wallsOrRailings && <div><span className="text-(--text-3)">Railings:</span> {envAnalysis.wallsOrRailings}</div>}
+                      {envAnalysis.lightingConditions && <div><span className="text-(--text-3)">Lighting:</span> {envAnalysis.lightingConditions}</div>}
+                      {envAnalysis.activityLevel && <div><span className="text-(--text-3)">Activity:</span> {envAnalysis.activityLevel}</div>}
+                      {envAnalysis.colorPalette && <div><span className="text-(--text-3)">Palette:</span> {envAnalysis.colorPalette}</div>}
+                      <button onClick={() => envRefInputRef.current?.click()} className="mt-1 text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--accent) text-xs text-left">Replace photo</button>
+                    </div>
+                  )}
+                  {envRefImage.error && !envRefImage.analyzing && (
+                    <div className="flex-1 p-3 bg-(--danger-faint) border border-(--error) rounded-lg text-[12px] text-(--error)">
+                      Analysis failed: {envRefImage.error}
+                      <button onClick={() => envRefInputRef.current?.click()} className="block mt-1 text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--accent) text-xs">Try again</button>
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <DragDropZone
+                  onDrop={handleEnvFile}
+                  isDragging={isDraggingEnv}
+                  setIsDragging={setIsDraggingEnv}
+                  className="border-[1.5px] border-dashed border-(--border-hover) rounded-lg p-5 text-center cursor-pointer hover:border-(--success) transition-colors bg-(--surface)"
+                  activeClassName="border-(--success) bg-(--accent-faint)"
+                >
+                  <div onClick={() => envRefInputRef.current?.click()}>
+                    <div className="text-xl mb-1">Drag location photo here</div>
+                    <div className="text-(--text-2) text-sm">or click to upload a real photo of your target location</div>
+                    <div className="text-(--text-3) text-xs mt-1">Materials, railings, flooring, lighting will be extracted and used verbatim in the prompt</div>
+                  </div>
+                </DragDropZone>
+              )}
+            </div>
+
             {/* Directives */}
             <div>
               <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent-dim) mb-3">Directives / Ideas</div>
@@ -1154,6 +1290,27 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
                 </div>
               </div>
             )}
+            {/* Env Analysis Summary Bar */}
+            {envAnalysis && (
+              <div className="mb-5 p-4 bg-(--surface) border border-(--success) border-opacity-40 rounded-xl">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex-1">
+                    <div className="text-[11px] tracking-[1.5px] uppercase text-(--success) mb-2 font-semibold">Location Reference — Physical Facts Locked</div>
+                    <div className="flex flex-wrap gap-x-6 gap-y-2 text-[12px]">
+                      {envAnalysis.flooringSurface && <div><span className="text-(--text-3)">Floor:</span> <span className="text-(--text-1)">{envAnalysis.flooringSurface}</span></div>}
+                      {envAnalysis.wallsOrRailings && <div><span className="text-(--text-3)">Railings:</span> <span className="text-(--text-1)">{envAnalysis.wallsOrRailings}</span></div>}
+                      {envAnalysis.lightingConditions && <div><span className="text-(--text-3)">Lighting:</span> <span className="text-(--text-1)">{envAnalysis.lightingConditions}</span></div>}
+                      {envAnalysis.colorPalette && <div><span className="text-(--text-3)">Palette:</span> <span className="text-(--text-1)">{envAnalysis.colorPalette}</span></div>}
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-3 flex-shrink-0">
+                    {envRefImage?.url && <img src={envRefImage.url} className="w-12 h-12 object-cover rounded-md border border-(--border)" alt="env ref" />}
+                    <button onClick={() => { setEnvAnalysis(null); setEnvRefImage(null); triggerToast("Location reference cleared"); }} className="text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs">Clear</button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {ideas.map(idea => {
                 const isSelected = !!selections[idea.id];
