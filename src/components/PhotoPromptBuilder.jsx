@@ -12,21 +12,14 @@ ABSOLUTE RULES:
 4. POSE AND ACTION: Use "WITH" chains for body mechanics. Track every arm, forearm, hand, and finger individually. Specify torso angle, head angle, expression (15+ word micro-expression), eye contact direction, and crop point. End with "All other hands and limbs completely hidden from view out of frame. Cropped exactly at [crop point]."
 5. ENVIRONMENT & LIGHTING — THE SOUL OF THE IMAGE:
    a. Start with the SPECIFIC REAL LOCATION full name.
-   b. PHYSICAL ACCURACY [HIGHEST PRIORITY — NON-NEGOTIABLE]:
-      Every material, surface, texture, architectural element, flooring, wall, railing, vegetation, and structural detail you describe MUST be factually correct for this specific real-world location. DO NOT FABRICATE, GUESS, OR INVENT any physical attribute.
-      - If you do not know the exact material of the floor/walls/railing, describe what is VISIBLE in general terms ("paved walkway", "metal railing") rather than inventing a specific but wrong material ("wooden planks" when it is actually concrete or metal).
-      - WRONG: "wooden-planked pedestrian walkway" at Tower Bridge (the walkway is actually concrete/steel with glass floor sections).
-      - RIGHT: "concrete and steel pedestrian walkway with glass floor panels" at Tower Bridge.
-      - This applies to EVERYTHING: flooring materials, wall surfaces, railing types, roof materials, vegetation species, water body colors, street surfaces, bridge construction materials, stair materials, window types, fence types, bench materials.
-      - When uncertain about a specific material, use general but CORRECT descriptions ("stone paving", "metal walkway", "concrete path", "steel railing", "glass panels") rather than specific but WRONG ones ("wooden planks", "marble floor", "cobblestone").
-   c. Write 80+ words of SPECIFIC, ALIVE environment detail:
+   b. Write 80+ words of SPECIFIC, ALIVE environment detail:
       - PUBLIC PLACES (tourist spots, observation decks, markets, plazas, landmarks): MUST include natural human activity — other visitors walking, taking photos, couples, families, groups of friends. Describe their approximate positions, activities, clothing colors. A famous place should NEVER look empty.
       - NATURE (mountains, beaches, forests, parks): Include visible wildlife (birds, insects), other hikers/visitors in the distance, movement of vegetation in wind.
       - URBAN STREETS: Include pedestrians, cyclists, cars, shop activity, street vendors.
       - INDOOR VENUES (cafes, museums, malls): Include other patrons, staff, ambient activity.
-   d. Describe lighting with direction, quality, shadows, ambient fill.
-   e. End with "Overall scene features a [vibe] color palette of [exactly 6-9 specific named colors]."
-   f. CRITICAL: Empty famous landmarks feel wrong. Shibuya Sky without other visitors, Louvre without crowds, beach without people — these look fake. Add natural human presence appropriate to the location's popularity and time of day.
+   c. Describe lighting with direction, quality, shadows, ambient fill.
+   d. End with "Overall scene features a [vibe] color palette of [exactly 6-9 specific named colors]."
+   e. MANDATORY BACKGROUND ACTIVITY: You MUST describe at least 2-3 specific groups of background people with clothing colors, positions, and activities. "A couple of tourists leaning over the railing snapping photos on their phones, a group of school children in matching jackets walking past, a jogger in a red hoodie in the far background" — this level of detail is REQUIRED. An empty scene is a failure. Do NOT write "quiet", "deserted", "peaceful empty", "secluded". Always include natural human presence scaled to the location type.
 6. CAMERA & TECHNICAL SPECS: Must include:
    - Camera type (smartphone / premium interchangeable optic)
    - Shot framing and angle
@@ -49,30 +42,30 @@ Core Aesthetic: Photorealistic authentic lifestyle snapshot of two subjects in [
 Subject Identity & Styling (Female): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement or adjustment]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern, how fabric interacts with body. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Subject Identity & Styling (Male): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement if any]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Pose and Action (Shared Interaction): Two subjects [spatial proximity description]. Female [torso angle + 20-word anatomical WITH-chain tracking each arm and hand individually]. Female exhibiting [15-word micro-expression with eye contact direction]. Male [torso angle + 20-word anatomical WITH-chain tracking each arm and hand individually]. Male exhibiting [15-word micro-expression with eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
-Environment & Lighting: [LOCATION FULL REAL NAME], [PHYSICAL ACCURACY: Describe ONLY materials, surfaces, textures, and architectural details that ACTUALLY exist at this location. Do NOT fabricate or guess materials — if unsure, use general correct terms ("metal walkway", "stone paving", "steel railing") instead of specific wrong ones ("wooden planks", "marble floor"). Every flooring, wall, railing, roof, vegetation, and structural detail must be factually accurate], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
+Environment & Lighting: [LOCATION FULL REAL NAME], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
 Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
 Negative Prompt:
-Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects, floating limbs, disconnected arms, amputated hands, professional retouching, [context-specific: glossy skin / artificial bounce light / on camera flash / direct flash / harsh shadows / flash glare], [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], wide room, landscape, shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, [selfie-specific if POV: missing shoulder connection / disembodied selfie arm / camera floating in air / amputated limb / finger over lens / holding device / camera in frame / third person view / photographer visible], both shoulders raised, self-touching, ghost hand, third arm, extra wrist, hand passing through body, fused bodies, floating hand, watermark, fabricated materials, wrong flooring, incorrect surfaces, invented textures.`;
+Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects, floating limbs, disconnected arms, amputated hands, professional retouching, [context-specific: glossy skin / artificial bounce light / on camera flash / direct flash / harsh shadows / flash glare], [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], wide room, landscape, shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, [selfie-specific if POV: missing shoulder connection / disembodied selfie arm / camera floating in air / amputated limb / finger over lens / holding device / camera in frame / third person view / photographer visible], both shoulders raised, self-touching, ghost hand, third arm, extra wrist, hand passing through body, fused bodies, floating hand, watermark.`;
 
 const DEFAULT_TPL_SOLO_F = `INSTRUCTION [LOCKED]: Use the provided reference image as the primary visual guide. Maintain an extremely strong and accurate resemblance to the subject shown in the reference. Preserve facial features, facial structure, hairstyle, skin tone, eye shape, nose, lips, and distinctive facial markers. Do not stylize, exaggerate, or significantly modify the core identity, bone structure, or proportions. Allow only small natural variations typical of real photography, lighting, and pose.
 Positive Prompt:
 Core Aesthetic: Photorealistic authentic lifestyle snapshot of one female subject in [SPECIFIC REAL LOCATION], [2-3 WORD MOOD/VIBE].
 Subject Identity & Styling (Female): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement or adjustment]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern, how fabric interacts with body. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Pose and Action (Female): One subject [position/stance]. [Torso angle + 25-word anatomical WITH-chain tracking each arm and hand individually]. Female exhibiting [15-word micro-expression with eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
-Environment & Lighting: [LOCATION FULL REAL NAME], [PHYSICAL ACCURACY: Describe ONLY materials, surfaces, textures, and architectural details that ACTUALLY exist at this location. Do NOT fabricate or guess materials — if unsure, use general correct terms ("metal walkway", "stone paving", "steel railing") instead of specific wrong ones ("wooden planks", "marble floor"). Every flooring, wall, railing, roof, vegetation, and structural detail must be factually accurate], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
+Environment & Lighting: [LOCATION FULL REAL NAME], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
 Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
 Negative Prompt:
-Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subject, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, arms, hands, fingers, [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, fabricated materials, wrong flooring, incorrect surfaces, invented textures.`;
+Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subject, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, arms, hands, fingers, [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation.`;
 
 const DEFAULT_TPL_SOLO_M = `INSTRUCTION [LOCKED]: Use the provided reference image as the primary visual guide. Maintain an extremely strong and accurate resemblance to the subject shown in the reference. Preserve facial features, facial structure, hairstyle, skin tone, eye shape, nose, lips, and distinctive facial markers. Do not stylize, exaggerate, or significantly modify the core identity, bone structure, or proportions. Allow only small natural variations typical of real photography, lighting, and pose.
 Positive Prompt:
 Core Aesthetic: Photorealistic authentic lifestyle snapshot of one male subject in [SPECIFIC REAL LOCATION], [2-3 WORD MOOD/VIBE].
 Subject Identity & Styling (Male): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement if any]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern, how fabric interacts with body. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Pose and Action (Male): One subject [position/stance]. [Torso angle + 25-word anatomical WITH-chain tracking each arm and hand individually]. Male exhibiting [15-word micro-expression with eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
-Environment & Lighting: [LOCATION FULL REAL NAME], [PHYSICAL ACCURACY: Describe ONLY materials, surfaces, textures, and architectural details that ACTUALLY exist at this location. Do NOT fabricate or guess materials — if unsure, use general correct terms ("metal walkway", "stone paving", "steel railing") instead of specific wrong ones ("wooden planks", "marble floor"). Every flooring, wall, railing, roof, vegetation, and structural detail must be factually accurate], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
+Environment & Lighting: [LOCATION FULL REAL NAME], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
 Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
 Negative Prompt:
-Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subject, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, [crop-specific exclusions: lower legs / footwear / feet / ground / floor / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, on camera flash, flash glare, self-touching, ghost hand, third arm, extra wrist, hand passing through body, floating hand, object fused to body, fabricated materials, wrong flooring, incorrect surfaces, invented textures.`;
+Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subject, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, [crop-specific exclusions: lower legs / footwear / feet / ground / floor / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, on camera flash, flash glare, self-touching, ghost hand, third arm, extra wrist, hand passing through body, floating hand, object fused to body.`;
 
 // ─── OPTIONS ──────────────────────────────────────────────────────────────────
 const SHOT_TYPES = [
@@ -115,35 +108,6 @@ const REMIX_ASPECTS = [
 
 // ─── PROMPTS ──────────────────────────────────────────────────────────────────
 
-// Analisis foto style — extract both scenario pattern AND camera aesthetic
-const SYSTEM_ANALYZE_STYLE = `You are an expert photography AI analyst and creative director. Analyze the uploaded photo(s).
-
-Extract TWO things:
-
-A. PHOTOGRAPHIC STYLE (camera, light, color — for film stock selection):
-- Overall visual aesthetic and feel
-- Camera technique: lens feel, angle, depth of field
-- Color grading, film stock character, grain
-- Lighting setup and mood palette
-
-B. SCENE SCENARIO (what's happening — for generating scene idea variations):
-- What is the interaction type between subjects? (e.g. lying together looking at camera, walking side by side, facing each other)
-- What is the pose/framing concept? (e.g. overhead high-angle close-up, straight-on eye-level waist-up)
-- What is the emotional vibe and intimacy level?
-- Is it a multi-panel/grid format? If so, how many panels and what varies between them?
-
-Return ONLY a valid JSON object:
-{
-  "styleAnalysis": "2-3 sentence description of the photo's aesthetic and visual style",
-  "inferredCameraStyle": "inferred lens mm, aperture feel, film stock or digital look",
-  "inferredMoodPalette": "dominant mood and exactly 5-6 specific color names visible in the photo",
-  "suggestedGenre": "one of: Lifestyle snapshot | Cinematic film still | Street photography | Travel editorial | Acubi / Korean aesthetic | Golden hour portrait",
-  "locationContext": "if a specific place is identifiable, name it with country, else empty string",
-  "scenarioPattern": "describe the SCENE TYPE and INTERACTION: what subjects are doing, how they're positioned, the emotional dynamic. Used as a template for variations.",
-  "framingConcept": "shot framing and angle: e.g. 'high-angle overhead close-up, faces filling the frame, visible shoulders only'",
-  "panelFormat": "if multi-panel: describe the grid format and how expressions/poses vary across panels. If single image, write 'single image'"
-}`;
-
 // Analisis character sheet — extract identitas penuh dari sheet
 const SYSTEM_ANALYZE_CHARACTER = (gender) => `You are an expert AI character analyst. You are looking at a CHARACTER REFERENCE SHEET for a ${gender} character.
 
@@ -185,24 +149,41 @@ Return ONLY a valid JSON object:
   "hands": "nail shape, length, color, hand skin tone from hand detail panel"
 }`;
 
-// Analisis environment/location reference photo — extract ONLY verifiable physical facts
-const SYSTEM_ANALYZE_ENVIRONMENT = `You are an expert location scout and environment analyst. You are looking at a REAL PHOTOGRAPH of a specific real-world location.
+// ONE combined request: analyze reference images AND generate ideas simultaneously
+const SYSTEM_GENERATE_ALL = `You are an elite AI photography creative director and prompt engineer. In ONE single response you will:
+1. Analyze GROUP A (Style Reference) images if attached.
+2. Analyze GROUP B (Location Reference) images if attached.
+3. Generate exactly 15 scene ideas following ALL rules in the user message.
 
-Your job is to extract ONLY what you can DIRECTLY OBSERVE in this photo. Do NOT guess, infer, or supplement from general knowledge. Every detail must be visible in the image.
+SMART AUTO-CATEGORIZATION FOR GROUP A:
+- If GROUP A images contain human subjects posing or interacting → extract styleAnalysis (scenarioPattern, framingConcept, camera aesthetic, etc.)
+- If GROUP A images contain NO human subjects and show only a location, landscape, architecture, or environment → automatically reclassify as location reference. Set styleAnalysis to null. Extract locationAnalysis from these images instead (physical facts: floor, railings, lighting, palette, verifiedFacts). This lets users drop a location photo into either slot and get the right result.
 
-Return ONLY a valid JSON object:
+Return ONLY a single valid JSON object:
 {
-  "locationName": "name of location if identifiable from visible signage or landmarks, else empty string",
-  "flooringSurface": "describe EXACTLY what you see underfoot — material, color, texture, condition, markings. e.g. 'gray concrete/asphalt pavement with slight sheen', 'dark grey paving stones with regular joint lines', 'smooth tarmac with red painted lane markings'",
-  "wallsOrRailings": "describe any walls, fences, barriers, or railings visible — material, color, construction. e.g. 'blue-painted steel tube railings, medium height, spaced evenly', 'stone parapet wall with carved decorative panels'",
-  "structuralElements": "any distinctive architectural or structural elements visible — bridge cables, columns, arches, tower facades, overhead structures. Only what is directly visible.",
-  "lightingConditions": "describe the light quality, direction, and sky conditions as seen in this photo. e.g. 'late afternoon blue-hour light with soft long shadows', 'bright overcast diffused light, flat shadows, pale sky'",
-  "colorPalette": "list 6-8 specific color names actually visible in the scene — surfaces, structures, sky, clothing of people if present",
-  "activityLevel": "describe the human activity visible — approximate crowd density, what people are doing, approximate clothing colors of background figures",
-  "notableDetails": "any other physically distinct elements visible: signage, vehicles, vegetation, water, transport, specific textures or materials that make this place recognizable"
+  "styleAnalysis": {
+    "styleAnalysis": "2-3 sentence description of the photo's aesthetic and visual style",
+    "inferredCameraStyle": "inferred lens mm, aperture feel, film stock or digital look",
+    "inferredMoodPalette": "dominant mood and exactly 5-6 specific color names visible in the photo",
+    "suggestedGenre": "one of: Lifestyle snapshot | Cinematic film still | Street photography | Travel editorial | Acubi / Korean aesthetic | Golden hour portrait",
+    "locationContext": "if a specific place is identifiable, name it with country, else empty string",
+    "scenarioPattern": "describe the SCENE TYPE and INTERACTION: what subjects are doing, how they're positioned, the emotional dynamic.",
+    "framingConcept": "shot framing and angle: e.g. 'eye-level close-up, heads filling upper half of frame, shoulders visible'",
+    "panelFormat": "if multi-panel: describe the grid format. If single image, write 'single image'"
+  },
+  "locationAnalysis": {
+    "floor": "exact floor/ground surface description as seen in the photo",
+    "railings": "any railings, barriers, or structural elements clearly visible",
+    "lighting": "natural lighting conditions observed",
+    "activity": "type and level of human activity visible",
+    "palette": "exact color names seen in this environment",
+    "verifiedFacts": "2-3 sentence factual summary of ONLY what is clearly visible in the location photo"
+  },
+  "ideas": [array of exactly 15 scene idea objects as specified in the user message]
 }
 
-CRITICAL: Only describe what is VISIBLE in the photo. If something is not clearly visible, leave that field as an empty string. Never fabricate or supplement with assumed knowledge about this place.`;
+If no style images or auto-reclassified as location: set styleAnalysis to null.
+If no location images and GROUP A was not reclassified: set locationAnalysis to null.`;
 
 // Detect if user directives contain a specific named location
 const detectLockedLocation = (directives) => {
@@ -227,7 +208,7 @@ const detectLockedLocation = (directives) => {
 };
 
 // Generate ideas — now emphasizing REAL locations with ALIVE atmosphere
-const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis, existingLocations = []) => {
+const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis, locationAnalysis, existingLocations = []) => {
   const hasFemale = !!charFemale;
   const hasMale = !!charMale;
   const useScenarioMode = !!styleAnalysis?.scenarioPattern && !userDirectives?.trim();
@@ -257,6 +238,23 @@ NEVER place the scene in a different city, country, or landmark. This is a stric
     ? `4. LOCATION IS LOCKED: Do NOT vary location. All 15 ideas use "${lockedLocation}" or specific sub-areas within it. Vary mood, outfit, pose, angle, time of day, and specific spot within the location instead.`
     : `4. VARY LOCATIONS AGGRESSIVELY: Different countries, continents, settings. Mix outdoor/indoor, nature/urban, coastal/mountain.`;
 
+  const locationFactsBlock = locationAnalysis ? `
+LOCATION REFERENCE — PHYSICAL FACTS LOCKED (use these in generated prompts for accurate environment descriptions):
+- Floor: ${locationAnalysis.floor}
+- Railings/Structures: ${locationAnalysis.railings}
+- Lighting: ${locationAnalysis.lighting}
+- Activity: ${locationAnalysis.activity}
+- Palette: ${locationAnalysis.palette}
+- Summary: ${locationAnalysis.verifiedFacts}
+Use these facts when writing locationEnvironmentHint — they describe the ACTUAL place, not a generic version.` : '';
+
+  const stylePatternBlock = styleAnalysis?.scenarioPattern ? `
+STYLE REFERENCE — POSE & FRAMING TEMPLATE [REQUIRED]:
+- Scenario Pattern: ${styleAnalysis.scenarioPattern}
+- Framing Concept: ${styleAnalysis.framingConcept}
+- Panel Format: ${styleAnalysis.panelFormat}
+CRITICAL: All 15 ideas MUST follow this same pose/interaction type and framing concept. Vary only outfit, mood, time of day${lockedLocation ? '' : ', and location'} — but keep the same physical pose pattern and framing.` : '';
+
   if (useScenarioMode) {
     return `You are an elite photography creative director specializing in ALIVE, NATURAL lifestyle scenes at AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
 
@@ -265,6 +263,7 @@ SCENE REFERENCE (uploaded by user — generate 15 variations of this scenario ty
 - Framing Concept: ${styleAnalysis.framingConcept}
 - Panel Format: ${styleAnalysis.panelFormat}
 - Genre Feel: ${styleAnalysis.suggestedGenre}
+${locationFactsBlock}
 
 YOUR JOB: Keep the SAME interaction type, pose pattern, and framing concept — but change outfit, time of day, mood${lockedLocation ? '' : ', location, country'} across 15 ideas.
 ${locationLockBlock}
@@ -272,7 +271,7 @@ ${exclusionBlock}
 
 CRITICAL RULES FOR NATURAL, ALIVE SCENES:
 1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. NEVER use generic names.
-2. ALIVE ATMOSPHERE: Famous tourist spots, observation decks, landmarks MUST feel populated. Describe what other visitors would be doing. Nature locations have birds, insects, hikers in distance. Urban streets have pedestrians, cars, shop activity.
+2. ALIVE ATMOSPHERE [NON-NEGOTIABLE]: Famous landmarks, tourist spots, and bridges are ALWAYS populated — never empty. The locationEnvironmentHint MUST describe the specific crowd type (tourists, locals, commuters, etc.) and density. This hint will be used to enforce real human presence in the final generated prompt.
 3. OUTFIT ONLY: The "clothing" field = SHORT outfit concept max 15 words. NO hair/face/skin.
 ${varyRule}
 5. CAMERA: Keep the same framing concept as the reference.
@@ -284,7 +283,7 @@ Return ONLY a valid JSON array of exactly 15 objects:
     "id": 1,
     "sceneName": "max 5-word evocative title",
     "location": "Specific Real Place Name, City/Region, Country",
-    "locationEnvironmentHint": "3-5 word hint about what makes this place visually unique (terrain, vegetation, landmark, AND activity level — busy/quiet)",
+    "locationEnvironmentHint": "10-15 word description: what makes this place visually unique + SPECIFIC crowd/activity level (e.g. 'blue steel railings, moderate tourist foot traffic, clear afternoon sky')",
     "mood": "atmospheric mood, max 10 words",
     "clothing": "BRIEF outfit concept only, max 15 words",
     "pose": "brief action/pose following the same scenario pattern as reference, max 20 words",
@@ -299,12 +298,14 @@ Return ONLY a valid JSON array of exactly 15 objects:
   return `You are an elite photography creative director specializing in ALIVE, NATURAL lifestyle scenes at AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
 
 USER DIRECTIVES: ${userDirectives}
+${stylePatternBlock}
+${locationFactsBlock}
 ${locationLockBlock}
 ${exclusionBlock}
 
 CRITICAL RULES FOR NATURAL, ALIVE SCENES:
 1. REAL WORLD ONLY: Every location must be a SPECIFIC NAMED REAL PLACE with city/region and country. NEVER use generic names.
-2. ALIVE ATMOSPHERE: Famous tourist spots, observation decks, landmarks MUST feel populated. Describe what other visitors would be doing. Nature locations have birds, insects, hikers in distance. Urban streets have pedestrians, cars, shop activity.
+2. ALIVE ATMOSPHERE [NON-NEGOTIABLE]: Famous landmarks, tourist spots, and bridges are ALWAYS populated — never empty. The locationEnvironmentHint MUST describe the specific crowd type (tourists, locals, commuters, etc.) and density. This hint will be used to enforce real human presence in the final generated prompt.
 3. OUTFIT ONLY: The "clothing" field = SHORT outfit concept max 15 words. NO hair/face/skin.
 ${lockedLocation
     ? `4. LOCATION IS LOCKED: All 15 ideas MUST use "${lockedLocation}" or sub-areas within it. Vary mood, outfit, pose, angle, time of day, and specific spot within the location instead. Do NOT change the city, country, or landmark.`
@@ -317,10 +318,10 @@ Return ONLY a valid JSON array of exactly 15 objects:
     "id": 1,
     "sceneName": "max 5-word evocative title",
     "location": "Specific Real Place Name, City/Region, Country",
-    "locationEnvironmentHint": "3-5 word hint about visual uniqueness AND activity level (busy/quiet)",
+    "locationEnvironmentHint": "10-15 word description: visual uniqueness + SPECIFIC crowd/activity level (e.g. 'blue steel railings, moderate tourist foot traffic, clear afternoon sky')",
     "mood": "atmospheric mood, max 10 words",
     "clothing": "BRIEF outfit concept only, max 15 words",
-    "pose": "brief action/pose, max 20 words",
+    "pose": "brief action/pose following the same scenario pattern as reference, max 20 words",
     "cameraStyle": "lens concept and angle only — no film stock",
     "suggestedShotType": "one of: Close-up (chin to crown) | Medium close-up (chest up) | Medium shot (waist up) | Full body | POV selfie | Over-the-shoulder",
     "suggestedCrop": "one of: lower chest | mid-torso | waist | mid-thigh | knees",
@@ -343,16 +344,20 @@ export default function PhotoPromptBuilder() {
     return saved || "";
   });
 
-  // Style reference photos (untuk aesthetic/mood/ideas)
-  const [styleImages, setStyleImages] = useState(() => {
-    try {
-      const saved = localStorage.getItem("pb_styleImages");
-      return saved ? JSON.parse(saved) : [];
-    } catch { return []; }
-  });
+  // Style reference photos — NOT persisted to localStorage (large b64 data)
+  const [styleImages, setStyleImages] = useState([]);
   const [styleAnalysis, setStyleAnalysis] = useState(() => {
     try {
       const saved = localStorage.getItem("pb_styleAnalysis");
+      return saved ? JSON.parse(saved) : null;
+    } catch { return null; }
+  });
+
+  // Location reference photos — NOT persisted to localStorage (large b64 data)
+  const [locationImages, setLocationImages] = useState([]);
+  const [locationAnalysis, setLocationAnalysis] = useState(() => {
+    try {
+      const saved = localStorage.getItem("pb_locationAnalysis");
       return saved ? JSON.parse(saved) : null;
     } catch { return null; }
   });
@@ -421,30 +426,16 @@ export default function PhotoPromptBuilder() {
   const [remixLoading, setRemixLoading] = useState(false);
   const [remixDirective, setRemixDirective] = useState("");
 
-  // Environment reference photo
-  const [envRefImage, setEnvRefImage] = useState(() => {
-    try {
-      const saved = localStorage.getItem("pb_envRef");
-      return saved ? JSON.parse(saved) : null;
-    } catch { return null; }
-  });
-  const [envAnalysis, setEnvAnalysis] = useState(() => {
-    try {
-      const saved = localStorage.getItem("pb_envAnalysis");
-      return saved ? JSON.parse(saved) : null;
-    } catch { return null; }
-  });
-
   // Drag states
   const [isDraggingStyle, setIsDraggingStyle] = useState(false);
+  const [isDraggingLocation, setIsDraggingLocation] = useState(false);
   const [isDraggingCharF, setIsDraggingCharF] = useState(false);
   const [isDraggingCharM, setIsDraggingCharM] = useState(false);
-  const [isDraggingEnv, setIsDraggingEnv] = useState(false);
 
   const styleInputRef = useRef(null);
+  const locationInputRef = useRef(null);
   const charFInputRef = useRef(null);
   const charMInputRef = useRef(null);
-  const envRefInputRef = useRef(null);
 
   const [templates, setTemplates] = useState(() => {
     const saved = localStorage.getItem("pb_templates_v5");
@@ -458,18 +449,26 @@ export default function PhotoPromptBuilder() {
 
   const triggerToast = (msg) => { setToast(msg); setTimeout(() => setToast(null), 3000); };
 
+  // Prevent browser from navigating to dropped files outside drop zones
+  useEffect(() => {
+    const prevent = (e) => e.preventDefault();
+    document.addEventListener('dragover', prevent);
+    document.addEventListener('drop', prevent);
+    return () => {
+      document.removeEventListener('dragover', prevent);
+      document.removeEventListener('drop', prevent);
+    };
+  }, []);
+
   // ─── SAVE TO LOCALSTORAGE ON CHANGE ───────────────────────────────────────────
   // Persist workflow state
   useEffect(() => { localStorage.setItem("pb_stage", stage); }, [stage]);
   useEffect(() => { localStorage.setItem("pb_directives", userDirectives); }, [userDirectives]);
-  useEffect(() => { localStorage.setItem("pb_styleImages", JSON.stringify(styleImages)); }, [styleImages]);
+  // styleImages and locationImages are NOT persisted — they're large b64 data
   useEffect(() => { localStorage.setItem("pb_styleAnalysis", JSON.stringify(styleAnalysis)); }, [styleAnalysis]);
+  useEffect(() => { localStorage.setItem("pb_locationAnalysis", JSON.stringify(locationAnalysis)); }, [locationAnalysis]);
   useEffect(() => { localStorage.setItem("pb_charSheetF", JSON.stringify(charSheetF)); }, [charSheetF]);
   useEffect(() => { localStorage.setItem("pb_charSheetM", JSON.stringify(charSheetM)); }, [charSheetM]);
-  useEffect(() => {
-    try { localStorage.setItem("pb_envRef", JSON.stringify(envRefImage)); } catch { /* quota */ }
-  }, [envRefImage]);
-  useEffect(() => { localStorage.setItem("pb_envAnalysis", JSON.stringify(envAnalysis)); }, [envAnalysis]);
   useEffect(() => { localStorage.setItem("pb_ideas", JSON.stringify(ideas)); }, [ideas]);
   useEffect(() => { localStorage.setItem("pb_selections", JSON.stringify(selections)); }, [selections]);
   useEffect(() => { localStorage.setItem("pb_cardSettings", JSON.stringify(cardSettings)); }, [cardSettings]);
@@ -540,6 +539,13 @@ export default function PhotoPromptBuilder() {
   const handleStyleFiles = async (files) => {
     const imgs = await Promise.all(Array.from(files).filter(f => f.type.startsWith("image/")).map(readFile));
     setStyleImages(prev => [...prev, ...imgs]);
+    setStyleAnalysis(null); // Clear cached analysis when new images are uploaded
+  };
+
+  const handleLocationFiles = async (files) => {
+    const imgs = await Promise.all(Array.from(files).filter(f => f.type.startsWith("image/")).map(readFile));
+    setLocationImages(prev => [...prev, ...imgs]);
+    setLocationAnalysis(null); // Clear cached analysis when new images are uploaded
   };
 
   const handleCharFile = async (files, gender) => {
@@ -569,37 +575,12 @@ export default function PhotoPromptBuilder() {
     }
   };
 
-  // ─── ENVIRONMENT REFERENCE ────────────────────────────────────────────────
-  const handleEnvFile = async (files) => {
-    const file = Array.from(files).find(f => f.type.startsWith("image/"));
-    if (!file) return;
-    const img = await readFile(file);
-    setEnvRefImage({ ...img, analyzing: true });
-    setEnvAnalysis(null);
-
-    try {
-      if (!activeConfig?.apiKey) { triggerToast("Set API Key first."); setEnvRefImage({ ...img, analyzing: false }); return; }
-      const raw = await fetchFromLLM(
-        activeConfig,
-        "Analyze this real-world location photo. Extract only what you can directly observe.",
-        SYSTEM_ANALYZE_ENVIRONMENT,
-        true,
-        [img]
-      );
-      const parsed = JSON.parse(raw.replace(/```json/g, '').replace(/```/g, '').trim());
-      setEnvRefImage({ ...img, analyzing: false });
-      setEnvAnalysis(parsed);
-      triggerToast("Location analyzed — physical details extracted");
-    } catch (e) {
-      setEnvRefImage(prev => ({ ...prev, analyzing: false, error: e.message }));
-      triggerToast("Environment analysis failed: " + e.message);
-    }
-  };
-
   // ─── GENERATE IDEAS ───────────────────────────────────────────────────────
   const handleGenerateIdeas = async () => {
-    if (styleImages.length === 0 && !userDirectives.trim()) {
-      triggerToast("Upload a style reference photo, or fill in Directives.");
+    const hasStyleImages = styleImages.length > 0;
+    const hasLocationImages = locationImages.length > 0;
+    if (!hasStyleImages && !hasLocationImages && !userDirectives.trim()) {
+      triggerToast("Upload a style/location reference photo, or fill in Directives.");
       return;
     }
     if (!activeConfig?.apiKey) { triggerToast("API Key not set."); return; }
@@ -607,36 +588,49 @@ export default function PhotoPromptBuilder() {
     setStage("LOADING_IDEAS");
 
     try {
-      let sAnalysis = styleAnalysis;
-      if (styleImages.length > 0 && !sAnalysis) {
+      const allImages = [...styleImages, ...locationImages];
+      const hasImages = allImages.length > 0;
+
+      // Build ideas rules (with whatever cached analysis we have as text context)
+      const ideasRules = buildIdeasPrompt(
+        charSheetF?.analysis, charSheetM?.analysis,
+        userDirectives, styleAnalysis, locationAnalysis, []
+      );
+
+      let finalIdeas;
+
+      if (hasImages) {
+        // ONE combined call: analyze images + generate ideas simultaneously
+        const imageGroupDesc = [
+          hasStyleImages ? `- GROUP A (Style Reference): First ${styleImages.length} image(s). Analyze these for scenarioPattern, framingConcept, styleAnalysis, inferredCameraStyle, inferredMoodPalette, suggestedGenre, panelFormat. Use this pose/framing pattern as the REQUIRED template for all 15 ideas.` : null,
+          hasLocationImages ? `- GROUP B (Location Reference): Last ${locationImages.length} image(s). Extract ONLY verified physical facts: floor surface, railings/structures, lighting conditions, human activity level, color palette. Use these facts in the ideas' locationEnvironmentHint.` : null,
+        ].filter(Boolean).join('\n');
+
+        const combinedUserMsg = `REFERENCE IMAGES ATTACHED:
+${imageGroupDesc}
+
+${ideasRules}
+
+FINAL OUTPUT: Return the combined JSON with styleAnalysis${hasStyleImages ? ' (extracted from GROUP A images)' : ': null'}, locationAnalysis${hasLocationImages ? ' (extracted from GROUP B images)' : ': null'}, and ideas array.`;
+
+        const raw = await fetchFromLLM(activeConfig, combinedUserMsg, SYSTEM_GENERATE_ALL, true, allImages);
+        const result = JSON.parse(raw.replace(/```json/g, '').replace(/```/g, '').trim());
+
+        if (result.styleAnalysis) setStyleAnalysis(result.styleAnalysis);
+        if (result.locationAnalysis) setLocationAnalysis(result.locationAnalysis);
+        finalIdeas = Array.isArray(result.ideas) ? result.ideas : result;
+      } else {
+        // No images — text-only ideas generation (one call, no analysis needed)
         const raw = await fetchFromLLM(activeConfig,
-          "Analyze this photo for scene scenario pattern and photographic style.",
-          SYSTEM_ANALYZE_STYLE,
-          true,
-          styleImages
+          "Generate 15 scene ideas with specific real-world locations.",
+          ideasRules, true, []
         );
-        sAnalysis = JSON.parse(raw.replace(/```json/g, '').replace(/```/g, '').trim());
-        setStyleAnalysis(sAnalysis);
+        const cleaned = raw.replace(/```json/g, '').replace(/```/g, '').trim();
+        const parsed = JSON.parse(cleaned);
+        finalIdeas = Array.isArray(parsed) ? parsed : (parsed.ideas || parsed);
       }
 
-      const ideasPrompt = buildIdeasPrompt(
-        charSheetF?.analysis,
-        charSheetM?.analysis,
-        userDirectives,
-        sAnalysis,
-        [] // No existing locations for first generation
-      );
-      const rawIdeas = await fetchFromLLM(activeConfig,
-        "Generate 15 scene ideas with specific real-world locations.",
-        ideasPrompt,
-        true,
-        []
-      );
-      const cleaned = rawIdeas.replace(/```json/g, '').replace(/```/g, '').trim();
-      let parsed = JSON.parse(cleaned);
-      if (!Array.isArray(parsed) && parsed.ideas) parsed = parsed.ideas;
-
-      setIdeas(parsed.map((p, idx) => ({
+      setIdeas(finalIdeas.map((p, idx) => ({
         ...p,
         id: idx + 1,
         clothing: p.clothing || "Casual everyday wear",
@@ -672,6 +666,7 @@ export default function PhotoPromptBuilder() {
         charSheetM?.analysis,
         userDirectives,
         sAnalysis,
+        locationAnalysis,
         existingLocations
       );
       const rawIdeas = await fetchFromLLM(activeConfig,
@@ -784,18 +779,14 @@ VISUAL STYLE REFERENCE — CAMERA & FILM ONLY (DO NOT let this influence locatio
 APPLY TO: exact film stock name, color science sentence, lighting feel, grain in Camera & Technical Specs ONLY.
 ` : '';
 
-    const envBlock = envAnalysis ? `
-ENVIRONMENT REFERENCE DATA [HIGHEST PRIORITY — USE THESE EXACT PHYSICAL FACTS]:
-A real photograph of "${idea.location}" was analyzed. The following are VERIFIED, DIRECTLY OBSERVED physical details. Use them EXACTLY. Do NOT substitute, replace, or augment with assumed or imagined details.
-- Flooring/Surface: ${envAnalysis.flooringSurface || 'not specified'}
-- Walls/Railings/Barriers: ${envAnalysis.wallsOrRailings || 'not specified'}
-- Structural Elements: ${envAnalysis.structuralElements || 'not specified'}
-- Lighting (as observed): ${envAnalysis.lightingConditions || 'not specified'}
-- Color Palette (actual): ${envAnalysis.colorPalette || 'not specified'}
-- Activity/People (as observed): ${envAnalysis.activityLevel || 'not specified'}
-- Notable Details: ${envAnalysis.notableDetails || 'not specified'}
-
-In the Environment & Lighting section, build your description from these verified facts ONLY. Do NOT describe any material, surface, or structural element that was not listed above. If something is not in this list, use only general terms or omit it.
+    const locationBlock = locationAnalysis ? `
+LOCATION PHYSICAL FACTS [VERIFIED — DO NOT CONTRADICT]:
+- Floor/Ground: ${locationAnalysis.floor}
+- Railings/Structures: ${locationAnalysis.railings}
+- Lighting Conditions: ${locationAnalysis.lighting}
+- Activity Level: ${locationAnalysis.activity}
+- Environment Palette: ${locationAnalysis.palette}
+Use these EXACT physical facts in the Environment & Lighting section. Do NOT invent different flooring, railings, or materials.
 ` : '';
 
     const envHint = idea.locationEnvironmentHint ? `\nLocation Hint: ${idea.locationEnvironmentHint}` : '';
@@ -811,8 +802,7 @@ Camera Style: ${idea.cameraStyle}
 Shot Type: ${shotType}
 Crop Point: ${cropPoint}
 Genre: ${genre}
-${styleBlock}
-${envBlock}
+${styleBlock}${locationBlock}
 LOCATION INTEGRITY [CRITICAL]: The location for this scene is "${idea.location}". You MUST use this EXACT location. Do NOT substitute, change, relocate, or replace it with a different city, country, or landmark. The environment description must accurately describe THIS specific place.
 
 CHARACTER IDENTITY (CRITICAL — USE EXACTLY AS PROVIDED, DO NOT MODIFY):
@@ -823,19 +813,19 @@ CRITICAL RULES FOR THIS GENERATION:
 2. CORE AESTHETIC: Must read "Photorealistic authentic lifestyle snapshot of... in ${idea.location}" — never "studio", "editorial", "stock".
 3. SUBJECT IDENTITY & STYLING: Hairstyling line references "the provided target reference image". Exact face line references "the provided target reference image". Clothing expands to 30+ words. Wearable Accessories lists body/head/face items.
 4. POSE AND ACTION: Full anatomical WITH-chain tracking each arm/hand/finger. Micro-expression 15+ words. End with "All other hands and limbs hidden from view. Cropped exactly at ${cropPoint}."
-5. ENVIRONMENT & LIGHTING — THE SOUL OF THE IMAGE:
+5. ENVIRONMENT & LIGHTING — THE SOUL OF THE IMAGE [MOST CRITICAL RULE]:
    - Start with "${idea.location}" as the full real location name — do NOT change or replace this with another city or country
-   ${envAnalysis ? `- ENVIRONMENT REFERENCE VERIFIED DATA: Build environment from these OBSERVED FACTS ONLY. Flooring: "${envAnalysis.flooringSurface}". Barriers/Railings: "${envAnalysis.wallsOrRailings}". Structures: "${envAnalysis.structuralElements}". Lighting (observed): "${envAnalysis.lightingConditions}". Notable details: "${envAnalysis.notableDetails}". DO NOT describe any surface or material NOT listed here.` : `- PHYSICAL ACCURACY: Every material, surface, and structural detail MUST be factually correct for "${idea.location}". Use general correct terms when uncertain ("metal walkway", "stone paving", "steel railing") rather than specific wrong ones.`}
-   - Write 80+ words of ALIVE, NATURAL environment that accurately describes THIS specific location:
-     * PUBLIC TOURIST SPOTS: MUST describe other visitors — walking, taking photos, chatting in groups, couples, families. A famous place should NEVER look empty.
-     * NATURE: Include visible wildlife (birds, insects), other hikers/visitors in the distance, movement of vegetation.
-     * URBAN STREETS: Include pedestrians, cyclists, cars, shop activity, street vendors.
-     * INDOOR VENUES: Include other patrons, staff, ambient activity.
-   - Use the location hint "${idea.locationEnvironmentHint}" to understand the crowd/activity level
-   - Describe lighting with direction, quality, shadows, ambient fill
-   - End with "Overall scene features a [vibe] color palette of ${envAnalysis ? `${envAnalysis.colorPalette || '[6-9 specific named colors from reference].'}` : '[6-9 specific named colors].'}"
-6. CAMERA & TECHNICAL SPECS: Must name a REAL film stock. Describe its color science in one sentence. Specify ISO, grain.
-7. NEGATIVE PROMPT: Include "empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects, wrong location, different city, different country, relocated scene, fabricated materials, wrong flooring, incorrect architecture, invented surfaces" — famous public places must NOT look empty and all materials must be factually accurate.
+   - Write 100+ words of ALIVE, SPECIFIC, REAL-WORLD environment. THIS IS NOT OPTIONAL.
+   - MANDATORY HUMAN ACTIVITY — YOU MUST INCLUDE THIS IN EVERY SINGLE PROMPT:
+     * FAMOUS LANDMARKS / TOURIST SPOTS (bridges, observation decks, piazzas, markets): Describe 3-4 groups of other people. Example: "several tourist couples pausing to photograph the steel structure with their phones, a group of school children in matching yellow vests walking in a line, a jogger in a grey hoodie passing on the outer edge of the walkway, two women in summer dresses leaning against the blue railing taking a selfie". The main subjects are NOT ALONE.
+     * URBAN STREETS / NEIGHBORHOODS: Describe passing pedestrians, nearby café tables with patrons, parked scooters, shop signage visible in background, cars at traffic lights.
+     * NATURE / PARKS: Describe distant hikers on the same trail, birds flying overhead, leaves moving in the breeze, another couple visible far in the background.
+     * INDOOR VENUES (cafes, lobbies, malls): Describe other tables occupied, staff behind the counter, ambient chatter, warm interior lighting sources.
+   - ⚠ FAILURE CONDITION: If your Environment & Lighting section describes the location as empty, quiet, deserted, isolated, or without other people — the prompt is WRONG. Rewrite it with natural human presence.
+   - Describe lighting: direction (front/side/back), quality (soft/harsh/diffused), color temperature, shadows cast, ambient fill.
+   - End with: "Overall scene features a [vibe] color palette of [exactly 6-9 specific named colors]."
+6. CAMERA & TECHNICAL SPECS: Must name a REAL film stock (Kodak Portra 400, Fujifilm Pro 400H, etc.). One sentence color science. Specific ISO and grain description.
+7. NEGATIVE PROMPT: Must include "empty scene, deserted location, no bystanders, ghost town, no pedestrians, isolated subjects, abandoned feel, wrong location, different country, relocated scene, no background activity, studio backdrop, fake background".
 8. Follow the structural template EXACTLY. No extra commentary or markdown.`;
 
     try {
@@ -851,6 +841,10 @@ CRITICAL RULES FOR THIS GENERATION:
 
   const handleGeneratePrompts = () => {
     setStage("GENERATING");
+    setRemixTaskKey(null);
+    setRemixVariations({});
+    setRemixAspects({});
+    setRemixDirective("");
     const fullSystemPrompt = `${templates.system}\n\n${templates.couple}\n\n${templates.solo_f}\n\n${templates.solo_m}`;
     const taskList = [];
 
@@ -906,17 +900,7 @@ ABSOLUTE RULES:
 4. VARY ONLY the selected aspects. Everything else stays identical to the original.
 5. Each variation must feel like a DISTINCTLY DIFFERENT photo of the same people at the same place — not a minor tweak.
 6. Follow the same structural template format. No extra commentary or markdown.
-7. Output each variation separated by a line containing only "===VARIATION===" (including the first one).
-
-MANDATORY DIFFERENTIATION — PREVENTING SAME-LOOKING VARIATIONS:
-If you generate multiple variations, you MUST make each one VISUALLY and STRUCTURALLY distinct. Follow these rules:
-- If varying CAMERA: Each variation must have a DIFFERENT lens focal length (e.g. 24mm wide, 85mm portrait, 135mm tele), a DIFFERENT angle (e.g. eye-level, low-angle, bird's-eye), and a DIFFERENT film stock. No two variations can share the same lens or angle.
-- If varying POSE: Each variation must have a COMPLETELY different body orientation (e.g. front-facing, profile, three-quarter, over-shoulder), different arm/hand placement, and a different expression (e.g. laughing, pensive, bold, gentle).
-- If varying OUTFIT: Each variation must wear a COMPLETELY different outfit — different garment type, different color family, different fabric. Not just a color swap of the same item.
-- If varying MOOD: Each variation must have a DIFFERENT time of day (e.g. golden hour, midday, blue hour, overcast morning, night) and DIFFERENT lighting direction (e.g. side-lit, backlit, overhead, diffused window light).
-- If varying GENRE: Each variation must be a DIFFERENT genre entirely (e.g. Lifestyle snapshot, Cinematic film still, Street photography, Golden hour portrait, Travel editorial). No two can share the same genre.
-- If varying CROP: Each variation must have a substantially different framing (e.g. extreme close-up, medium shot, full body, over-the-shoulder, cowboy shot).
-- GENERAL RULE: If any two variations could be mistaken for the same photo with minor adjustments, you have FAILED. Make them look like they were taken by different photographers on different days.`;
+7. Output each variation separated by a line containing only "===VARIATION===" (including the first one).`;
 
     const aspectList = selectedAspects.join(", ");
     const directiveBlock = remixDirective.trim()
@@ -925,8 +909,12 @@ If you generate multiple variations, you MUST make each one VISUALLY and STRUCTU
 
     const userMsg = `Here is the original prompt. Generate exactly ${remixCount} style variations, varying ONLY these aspects: ${aspectList}.
 ${directiveBlock}
-ASPECTS TO VARY — guidance (each variation MUST use a DIFFERENT option within each aspect):
-${remixAspects.camera ? "- CAMERA & LENS: Variation 1 uses one lens/angle/film stock, Variation 2 uses a COMPLETELY different one (e.g. if V1 is 85mm eye-level Kodak Portra, V2 must be something like 24mm low-angle Fujifilm Velvia). Each variation must feel like a completely different photographer shot it.\n" : ""}${remixAspects.pose ? "- POSE & ACTION: Each variation shows a DIFFERENT moment and body configuration. Not just 'head tilted differently' — different torso angle, different arm/hand placement, different interaction. Example: V1 = facing camera arms crossed, V2 = turned away looking over shoulder, V3 = leaning against railing looking down.\n" : ""}${remixAspects.outfit ? "- OUTFIT & STYLING: Each variation wears a COMPLETELY different outfit — not the same item in a different color. Different garment category (e.g. V1 = trench coat + turtleneck, V2 = leather jacket + tee, V3 = blazer + silk camisole). Keep hair and face lines identical. Accessories may change.\n" : ""}${remixAspects.mood ? "- MOOD & LIGHTING: Each variation has a DIFFERENT time of day AND different weather/lighting quality. Not just 'slightly warmer' — actually different time (golden hour vs overcast noon vs blue hour dusk). Describe the SAME location under these different conditions.\n" : ""}${remixAspects.genre ? "- GENRE & AESTHETIC: Each variation is a COMPLETELY different photographic genre. One might be 'Street photography', another 'Cinematic film still', another 'Travel editorial'. Not minor style shifts — entirely different visual languages.\n" : ""}${remixAspects.crop ? "- FRAMING & CROP: Each variation has a substantially different shot type and crop point. Not just 'slightly tighter' — actually different framing (e.g. close-up face only vs medium shot waist-up vs full body).\n" : ""}ASPECTS TO KEEP IDENTICAL: Everything not listed above — especially INSTRUCTION [LOCKED], character identity (hair/face), location, and the negative prompt.
+TITLE REQUIREMENT: Each variation must begin with a single line in this exact format:
+VARIATION TITLE: [2-5 word descriptive label that captures what makes THIS variation unique — e.g. "Rainy Night Silhouette" or "Overhead Intimate Close-up" or "Film Noir Street Mood"]
+Do NOT use generic labels like "Variation 1" or "Version A". The title should describe the specific visual feel of that variation.
+
+ASPECTS TO VARY — guidance:
+${remixAspects.camera ? "- CAMERA & LENS: Change lens focal length, angle, film stock, depth of field, camera type (smartphone vs premium). Each variation should feel like a completely different photographer shot it.\n" : ""}${remixAspects.pose ? "- POSE & ACTION: Change body angle, arm/hand positions, expression, interaction type. Each variation should show a different moment captured at the same place.\n" : ""}${remixAspects.outfit ? "- OUTFIT & STYLING: Change clothing completely — different fabric, color, cut, layering. Keep hair and face lines identical. Accessories may change.\n" : ""}${remixAspects.mood ? "- MOOD & LIGHTING: Change time of day, weather, lighting direction/quality, emotional vibe. Describe the SAME location under different conditions.\n" : ""}${remixAspects.genre ? "- GENRE & AESTHETIC: Change the photographic genre — street photography, cinematic film still, travel editorial, golden hour portrait, etc.\n" : ""}${remixAspects.crop ? "- FRAMING & CROP: Change shot type (close-up, medium, full body, etc.) and crop point.\n" : ""}ASPECTS TO KEEP IDENTICAL: Everything not listed above — especially INSTRUCTION [LOCKED], character identity (hair/face), location, and the negative prompt.
 
 CHARACTER IDENTITY (use exactly as-is unless outfit is being varied):
 ${charBlock}
@@ -941,7 +929,16 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
       if (!res) throw new Error("Empty response.");
 
       const cleaned = res.replace(/^```[\s\S]*?\n/, '').replace(/```$/, '').trim();
-      const parts = cleaned.split("===VARIATION===").map(p => p.trim()).filter(p => p.length > 50);
+      const rawParts = cleaned.split("===VARIATION===").map(p => p.trim()).filter(p => p.length > 50);
+      const parts = rawParts.map((part, i) => {
+        const firstNewline = part.indexOf('\n');
+        const firstLine = firstNewline > -1 ? part.slice(0, firstNewline).trim() : part.trim();
+        const titleMatch = firstLine.match(/^VARIATION TITLE:\s*(.+)$/i);
+        if (titleMatch) {
+          return { title: titleMatch[1].trim(), body: part.slice(firstNewline).trim() };
+        }
+        return { title: null, body: part };
+      });
 
       setRemixVariations(prev => ({ ...prev, [taskKey]: parts }));
       triggerToast(`Generated ${parts.length} variations!`);
@@ -955,6 +952,7 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
 
   const resetAll = () => {
     setStage("INPUT"); setUserDirectives(""); setStyleImages([]); setStyleAnalysis(null);
+    setLocationImages([]); setLocationAnalysis(null);
     setCharSheetF(null); setCharSheetM(null);
     setIdeas([]); setSelections({}); setCardSettings({}); setResults([]);
     // Clear localStorage
@@ -962,6 +960,8 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
     localStorage.removeItem("pb_directives");
     localStorage.removeItem("pb_styleImages");
     localStorage.removeItem("pb_styleAnalysis");
+    localStorage.removeItem("pb_locationImages");
+    localStorage.removeItem("pb_locationAnalysis");
     localStorage.removeItem("pb_charSheetF");
     localStorage.removeItem("pb_charSheetM");
     localStorage.removeItem("pb_ideas");
@@ -971,11 +971,12 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
   };
 
   // ─── DRAG DROP ZONE COMPONENT ─────────────────────────────────────────────
-  const DragDropZone = ({ onDrop, isDragging, setIsDragging, children, className = "", activeClassName = "" }) => (
+  const DragDropZone = ({ onDrop, isDragging, setIsDragging, onClick, children, className = "", activeClassName = "" }) => (
     <div
       className={`${className} ${isDragging ? activeClassName : ''}`}
+      onClick={onClick}
       onDragOver={e => { e.preventDefault(); setIsDragging(true); }}
-      onDragLeave={() => setIsDragging(false)}
+      onDragLeave={e => { if (!e.currentTarget.contains(e.relatedTarget)) setIsDragging(false); }}
       onDrop={e => { e.preventDefault(); setIsDragging(false); onDrop(e.dataTransfer.files); }}
     >
       {children}
@@ -1164,6 +1165,7 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
                   onDrop={handleStyleFiles}
                   isDragging={isDraggingStyle}
                   setIsDragging={setIsDraggingStyle}
+                  onClick={() => styleInputRef.current?.click()}
                   className="border-[1.5px] border-dashed border-(--border-hover) rounded-lg p-6 text-center cursor-pointer hover:border-(--accent) transition-colors bg-(--surface)"
                   activeClassName="border-(--accent) bg-(--accent-faint)"
                 >
@@ -1189,55 +1191,50 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
               )}
             </div>
 
-            {/* Environment Reference Photo */}
+            {/* Location Reference Photo */}
             <div>
-              <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent-dim) mb-1.5">Location Reference Photo <span className="text-(--text-3) normal-case tracking-normal font-normal">(optional)</span></div>
-              <div className="text-(--text-3) text-xs mb-3">Upload a real photo of your target location. The AI will extract ONLY verified physical details (flooring, railings, materials, lighting) from this image — preventing hallucinated or wrong environment descriptions.</div>
-              <input ref={envRefInputRef} type="file" accept="image/*" className="hidden" onChange={e => handleEnvFile(e.target.files)} />
-              {envRefImage ? (
-                <div className="flex gap-3 items-start">
-                  <div className="relative flex-shrink-0">
-                    <img src={envRefImage.url} className="w-20 h-20 object-cover rounded-lg border border-(--border)" alt="env ref" />
-                    <button
-                      onClick={() => { setEnvRefImage(null); setEnvAnalysis(null); localStorage.removeItem("pb_envRef"); localStorage.removeItem("pb_envAnalysis"); }}
-                      className="absolute -top-1.5 -right-1.5 bg-(--error) text-white border-none rounded-full w-5 h-5 cursor-pointer flex items-center justify-center text-xs"
-                    >x</button>
-                  </div>
-                  {envRefImage.analyzing && (
-                    <div className="text-(--text-2) text-sm animate-pulse pt-2">Extracting physical details from photo...</div>
-                  )}
-                  {envAnalysis && !envRefImage.analyzing && (
-                    <div className="flex-1 p-3 bg-(--surface) border border-(--success) rounded-lg text-[12px] text-(--text-2) flex flex-col gap-1">
-                      <div className="text-(--success) text-[10px] font-semibold uppercase tracking-wider">Location Verified — Physical Facts Extracted</div>
-                      {envAnalysis.flooringSurface && <div><span className="text-(--text-3)">Floor:</span> {envAnalysis.flooringSurface}</div>}
-                      {envAnalysis.wallsOrRailings && <div><span className="text-(--text-3)">Railings:</span> {envAnalysis.wallsOrRailings}</div>}
-                      {envAnalysis.lightingConditions && <div><span className="text-(--text-3)">Lighting:</span> {envAnalysis.lightingConditions}</div>}
-                      {envAnalysis.activityLevel && <div><span className="text-(--text-3)">Activity:</span> {envAnalysis.activityLevel}</div>}
-                      {envAnalysis.colorPalette && <div><span className="text-(--text-3)">Palette:</span> {envAnalysis.colorPalette}</div>}
-                      <button onClick={() => envRefInputRef.current?.click()} className="mt-1 text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--accent) text-xs text-left">Replace photo</button>
+              <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent-dim) mb-1.5">
+                Location Reference Photo <span className="text-(--text-3) normal-case tracking-normal">(optional)</span>
+              </div>
+              <div className="text-(--text-3) text-xs mb-3">
+                Upload a real photo of your target location. The AI will extract ONLY verified physical details (flooring, railings, materials, lighting) from this image — preventing hallucinated or wrong environment descriptions.
+              </div>
+              <input ref={locationInputRef} type="file" accept="image/*" multiple className="hidden" onChange={e => handleLocationFiles(e.target.files)} />
+              {locationImages.length > 0 && (
+                <div className="flex gap-2 flex-wrap mb-3">
+                  {locationImages.map((img, i) => (
+                    <div key={i} className="relative">
+                      <img src={img.url} className="w-16 h-16 object-cover rounded-lg border border-(--border)" alt="location" />
+                      <button onClick={() => { setLocationImages(prev => prev.filter((_, j) => j !== i)); setLocationAnalysis(null); }} className="absolute -top-1.5 -right-1.5 bg-(--error) text-white border-none rounded-full w-5 h-5 cursor-pointer flex items-center justify-center text-xs">x</button>
                     </div>
-                  )}
-                  {envRefImage.error && !envRefImage.analyzing && (
-                    <div className="flex-1 p-3 bg-(--danger-faint) border border-(--error) rounded-lg text-[12px] text-(--error)">
-                      Analysis failed: {envRefImage.error}
-                      <button onClick={() => envRefInputRef.current?.click()} className="block mt-1 text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--accent) text-xs">Try again</button>
-                    </div>
-                  )}
+                  ))}
+                  <div className="w-16 h-16 border border-dashed border-(--border-hover) rounded-lg flex items-center justify-center cursor-pointer hover:border-(--accent) transition-colors text-xl text-(--text-3)" onClick={() => locationInputRef.current?.click()}>+</div>
                 </div>
-              ) : (
+              )}
+              {locationImages.length === 0 && (
                 <DragDropZone
-                  onDrop={handleEnvFile}
-                  isDragging={isDraggingEnv}
-                  setIsDragging={setIsDraggingEnv}
-                  className="border-[1.5px] border-dashed border-(--border-hover) rounded-lg p-5 text-center cursor-pointer hover:border-(--success) transition-colors bg-(--surface)"
-                  activeClassName="border-(--success) bg-(--accent-faint)"
+                  onDrop={handleLocationFiles}
+                  isDragging={isDraggingLocation}
+                  setIsDragging={setIsDraggingLocation}
+                  onClick={() => locationInputRef.current?.click()}
+                  className="border-[1.5px] border-dashed border-(--border-hover) rounded-lg p-6 text-center cursor-pointer hover:border-(--accent) transition-colors bg-(--surface)"
+                  activeClassName="border-(--accent) bg-(--accent-faint)"
                 >
-                  <div onClick={() => envRefInputRef.current?.click()}>
-                    <div className="text-xl mb-1">Drag location photo here</div>
-                    <div className="text-(--text-2) text-sm">or click to upload a real photo of your target location</div>
-                    <div className="text-(--text-3) text-xs mt-1">Materials, railings, flooring, lighting will be extracted and used verbatim in the prompt</div>
-                  </div>
+                  <div className="text-xl mb-1">Drag location photo here</div>
+                  <div className="text-(--text-2) text-sm">or click to upload</div>
+                  <div className="text-(--text-3) text-xs mt-1">AI extracts physical facts only — no hallucinations</div>
                 </DragDropZone>
+              )}
+              {locationAnalysis && (
+                <div className="mt-2 p-3 bg-(--surface) border border-[#10b981]/40 rounded-lg text-[12px] text-(--text-2) flex flex-col gap-1.5">
+                  <div className="text-[#10b981] text-[10px] font-semibold uppercase tracking-wider">Location Verified — Physical Facts Extracted</div>
+                  <div><span className="text-(--text-3)">Floor:</span> {locationAnalysis.floor}</div>
+                  <div><span className="text-(--text-3)">Railings:</span> {locationAnalysis.railings}</div>
+                  <div><span className="text-(--text-3)">Lighting:</span> {locationAnalysis.lighting}</div>
+                  <div><span className="text-(--text-3)">Activity:</span> {locationAnalysis.activity}</div>
+                  <div><span className="text-(--text-3)">Palette:</span> {locationAnalysis.palette}</div>
+                  <button onClick={() => { setLocationAnalysis(null); setLocationImages([]); }} className="mt-1 text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs text-left">Replace photo</button>
+                </div>
               )}
             </div>
 
@@ -1265,7 +1262,11 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
         {stage === "LOADING_IDEAS" && (
           <div className="text-center py-20">
             <div className="text-2xl text-(--accent) mb-3 animate-pulse">Generating ideas...</div>
-            <div className="text-(--text-3) text-sm">{styleImages.length > 0 ? "Analyzing style reference, then" : ""} generating 15 scene ideas with real-world locations</div>
+            <div className="text-(--text-3) text-sm">
+            {styleImages.length > 0 || locationImages.length > 0
+              ? "Reading reference photos and generating 15 ideas in one request..."
+              : "Generating 15 scene ideas with real-world locations..."}
+          </div>
           </div>
         )}
 
@@ -1273,44 +1274,44 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
         {stage === "SELECT" && (
           <div className="pb-24">
             {/* Style Analysis Summary Bar */}
-            {styleAnalysis && (
-              <div className="mb-5 p-4 bg-(--surface) border border-(--accent-faint) rounded-xl">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent) mb-2 font-semibold">Reference Style Analysis</div>
-                    <div className="text-(--text-2) text-[13px] leading-relaxed">{styleAnalysis.styleAnalysis}</div>
-                  </div>
-                  <button onClick={() => { setStyleAnalysis(null); setStyleImages([]); triggerToast("Style cleared"); }} className="text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs flex-shrink-0">Clear</button>
-                </div>
-                <div className="flex flex-wrap gap-x-6 gap-y-2 mt-3 text-[12px]">
-                  <div><span className="text-(--text-3)">Scenario:</span> <span className="text-(--text-1)">{styleAnalysis.scenarioPattern}</span></div>
-                  <div><span className="text-(--text-3)">Framing:</span> <span className="text-(--text-1)">{styleAnalysis.framingConcept}</span></div>
-                  <div><span className="text-(--text-3)">Film feel:</span> <span className="text-(--text-1)">{styleAnalysis.inferredCameraStyle}</span></div>
-                  <div><span className="text-(--text-3)">Palette:</span> <span className="text-(--text-1)">{styleAnalysis.inferredMoodPalette}</span></div>
-                </div>
-              </div>
-            )}
-            {/* Env Analysis Summary Bar */}
-            {envAnalysis && (
-              <div className="mb-5 p-4 bg-(--surface) border border-(--success) border-opacity-40 rounded-xl">
-                <div className="flex items-start justify-between gap-4">
-                  <div className="flex-1">
-                    <div className="text-[11px] tracking-[1.5px] uppercase text-(--success) mb-2 font-semibold">Location Reference — Physical Facts Locked</div>
-                    <div className="flex flex-wrap gap-x-6 gap-y-2 text-[12px]">
-                      {envAnalysis.flooringSurface && <div><span className="text-(--text-3)">Floor:</span> <span className="text-(--text-1)">{envAnalysis.flooringSurface}</span></div>}
-                      {envAnalysis.wallsOrRailings && <div><span className="text-(--text-3)">Railings:</span> <span className="text-(--text-1)">{envAnalysis.wallsOrRailings}</span></div>}
-                      {envAnalysis.lightingConditions && <div><span className="text-(--text-3)">Lighting:</span> <span className="text-(--text-1)">{envAnalysis.lightingConditions}</span></div>}
-                      {envAnalysis.colorPalette && <div><span className="text-(--text-3)">Palette:</span> <span className="text-(--text-1)">{envAnalysis.colorPalette}</span></div>}
+            {(styleAnalysis || locationAnalysis) && (
+              <div className="mb-5 flex flex-col gap-3">
+                {styleAnalysis && (
+                  <div className="p-4 bg-(--surface) border border-(--accent-faint) rounded-xl">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="text-[11px] tracking-[1.5px] uppercase text-(--accent) mb-2 font-semibold">Reference Style Analysis</div>
+                        <div className="text-(--text-2) text-[13px] leading-relaxed">{styleAnalysis.styleAnalysis}</div>
+                      </div>
+                      <button onClick={() => { setStyleAnalysis(null); setStyleImages([]); triggerToast("Style cleared"); }} className="text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs flex-shrink-0">Clear</button>
+                    </div>
+                    <div className="flex flex-wrap gap-x-6 gap-y-2 mt-3 text-[12px]">
+                      <div><span className="text-(--text-3)">Scenario:</span> <span className="text-(--text-1)">{styleAnalysis.scenarioPattern}</span></div>
+                      <div><span className="text-(--text-3)">Framing:</span> <span className="text-(--text-1)">{styleAnalysis.framingConcept}</span></div>
+                      <div><span className="text-(--text-3)">Film feel:</span> <span className="text-(--text-1)">{styleAnalysis.inferredCameraStyle}</span></div>
+                      <div><span className="text-(--text-3)">Palette:</span> <span className="text-(--text-1)">{styleAnalysis.inferredMoodPalette}</span></div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3 flex-shrink-0">
-                    {envRefImage?.url && <img src={envRefImage.url} className="w-12 h-12 object-cover rounded-md border border-(--border)" alt="env ref" />}
-                    <button onClick={() => { setEnvAnalysis(null); setEnvRefImage(null); triggerToast("Location reference cleared"); }} className="text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs">Clear</button>
+                )}
+                {locationAnalysis && (
+                  <div className="p-4 bg-(--surface) border border-[#10b981]/30 rounded-xl">
+                    <div className="flex items-start justify-between gap-4">
+                      <div className="flex-1">
+                        <div className="text-[11px] tracking-[1.5px] uppercase text-[#10b981] mb-2 font-semibold">Location Reference — Physical Facts Locked</div>
+                        <div className="text-(--text-2) text-[13px] leading-relaxed">{locationAnalysis.verifiedFacts}</div>
+                      </div>
+                      <button onClick={() => { setLocationAnalysis(null); setLocationImages([]); triggerToast("Location cleared"); }} className="text-(--text-3) bg-transparent border-none cursor-pointer hover:text-(--error) text-xs flex-shrink-0">Clear</button>
+                    </div>
+                    <div className="flex flex-wrap gap-x-6 gap-y-2 mt-3 text-[12px]">
+                      <div><span className="text-(--text-3)">Floor:</span> <span className="text-(--text-1)">{locationAnalysis.floor}</span></div>
+                      <div><span className="text-(--text-3)">Railings:</span> <span className="text-(--text-1)">{locationAnalysis.railings}</span></div>
+                      <div><span className="text-(--text-3)">Lighting:</span> <span className="text-(--text-1)">{locationAnalysis.lighting}</span></div>
+                      <div><span className="text-(--text-3)">Palette:</span> <span className="text-(--text-1)">{locationAnalysis.palette}</span></div>
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             )}
-
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {ideas.map(idea => {
                 const isSelected = !!selections[idea.id];
@@ -1408,7 +1409,7 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
                       let text = `============= PROMPT ${grouped[g].length + 1} =============\n${r.resultText}`;
                       const vars = remixVariations[r.taskKey];
                       if (vars?.length > 0) {
-                        vars.forEach((v, vi) => { text += `\n\n\n============= VARIATION ${vi + 1} =============\n${v}`; });
+                        vars.forEach((v) => { text += `\n\n\n============= ${v.title || 'VARIATION'} =============\n${v.body}`; });
                       }
                       grouped[g].push(text);
                     });
@@ -1433,14 +1434,18 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
                       {task.status === 'loading' && <span className="text-(--accent) text-[13px] animate-pulse">Generating...</span>}
                       {task.status === 'success' && (
                         <div className="flex items-center gap-3">
+                          <button className="text-(--text-2) bg-transparent border-none cursor-pointer text-[13px] hover:text-(--text-1) transition-colors" title="Regenerate this prompt" onClick={() => launchSingleTask(task.taskKey, task, `${templates.system}\n\n${templates.couple}\n\n${templates.solo_f}\n\n${templates.solo_m}`)}>Regen</button>
                           <button className="text-(--accent) bg-transparent border-none cursor-pointer font-semibold" onClick={() => { navigator.clipboard.writeText(task.resultText); triggerToast("Copied!"); }}>Copy</button>
                           <button
-                            className="text-[12px] px-2.5 py-1 rounded-md cursor-pointer border font-semibold transition-colors bg-transparent text-(--text-2) border-(--border) hover:border-(--success) hover:text-(--success)"
-                            onClick={() => { setRemixVariations(prev => { const n = {...prev}; delete n[task.taskKey]; return n; }); launchSingleTask(task.taskKey, task, `${templates.system}\n\n${templates.couple}\n\n${templates.solo_f}\n\n${templates.solo_m}`); }}
-                          >Regenerate</button>
-                          <button
                             className={`text-[12px] px-2.5 py-1 rounded-md cursor-pointer border font-semibold transition-colors ${remixTaskKey === task.taskKey ? 'bg-(--accent) text-(--bg) border-(--accent)' : 'bg-transparent text-(--text-2) border-(--border) hover:border-(--accent) hover:text-(--accent)'}`}
-                            onClick={() => setRemixTaskKey(remixTaskKey === task.taskKey ? null : task.taskKey)}
+                            onClick={() => {
+                              if (remixTaskKey !== task.taskKey) {
+                                setRemixAspects({});
+                                setRemixDirective("");
+                                setRemixCount(3);
+                              }
+                              setRemixTaskKey(remixTaskKey === task.taskKey ? null : task.taskKey);
+                            }}
                           >Remix</button>
                         </div>
                       )}
@@ -1505,14 +1510,14 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
                         <div className="border-t border-(--border)">
                           {remixVariations[task.taskKey].map((v, vi) => (
                             <div key={vi} className={vi > 0 ? 'border-t border-(--border)' : ''}>
-                              <div className="flex justify-between items-center px-4 py-2 bg-(--bg)">
-                                <span className="text-[11px] text-(--accent) font-semibold">Variation {vi + 1}</span>
+                              <div className="flex justify-between items-center px-4 py-2.5 bg-(--bg)">
+                                <span className="text-[12px] text-(--accent) font-semibold">{v.title || `Variation ${vi + 1}`}</span>
                                 <button
                                   className="text-(--accent) bg-transparent border-none cursor-pointer text-[12px] font-semibold"
-                                  onClick={() => { navigator.clipboard.writeText(v); triggerToast(`Variation ${vi + 1} copied!`); }}
+                                  onClick={() => { navigator.clipboard.writeText(v.body); triggerToast("Copied!"); }}
                                 >Copy</button>
                               </div>
-                              <div className="px-4 py-3 font-mono text-[12px] whitespace-pre-wrap text-(--text-2) leading-relaxed max-h-80 overflow-y-auto">{v}</div>
+                              <div className="px-4 py-3 font-mono text-[12px] whitespace-pre-wrap text-(--text-2) leading-relaxed max-h-80 overflow-y-auto">{v.body}</div>
                             </div>
                           ))}
                         </div>
