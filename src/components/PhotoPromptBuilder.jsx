@@ -10,6 +10,11 @@ ABSOLUTE RULES:
 2. CORE AESTHETIC: First line must be "Photorealistic authentic lifestyle snapshot of [subject count] [gender] subject(s) in [specific real location], [2-3 word mood/vibe]." NEVER write "studio", "editorial", or "stock".
 3. SUBJECT IDENTITY & STYLING: Split into "Hairstyling" line + "Exact face" line + "Clothing:" line + "Wearable Accessories:" line. Clothing must be 30+ words: exact fabric, color, cut, fit, layering, wear pattern. Accessories are body/head/face items only. NEVER re-describe hair color, eye color, skin tone, or facial features in clothing/accessories — those are locked in INSTRUCTION and the hairstyling/face lines.
 4. POSE AND ACTION: Use "WITH" chains for body mechanics. Track every arm, forearm, hand, and finger individually. Specify torso angle, head angle, expression (15+ word micro-expression), eye contact direction, and crop point. End with "All other hands and limbs completely hidden from view out of frame. Cropped exactly at [crop point]."
+   ⚠ CRITICAL EXCEPTION — POV SELFIE SHOT TYPE: When the shot type is "POV selfie", this image IS the selfie photo itself — it is shot FROM the smartphone camera's perspective looking at the subjects. Therefore:
+   - DO NOT describe any subject holding a phone, smartphone, or camera. No arm extended. No device in hand.
+   - Subjects face the camera naturally at close range with arms in relaxed, natural positions (by sides, in pockets, touching partner, etc.).
+   - The "selfie" framing is established ONLY in the Camera & Technical Specs section (wide-angle lens, close distance, smartphone camera, slight upward or eye-level angle).
+   - The Negative Prompt MUST include: "phone visible in frame, hand holding phone, arm extended toward camera, visible smartphone, device in frame, camera in hand, selfie arm, disembodied arm, arm reaching toward lens".
 5. ENVIRONMENT & LIGHTING — THE SOUL OF THE IMAGE:
    a. Start with the SPECIFIC REAL LOCATION full name.
    b. Write 80+ words of SPECIFIC, ALIVE environment detail:
@@ -21,14 +26,19 @@ ABSOLUTE RULES:
    d. End with "Overall scene features a [vibe] color palette of [exactly 6-9 specific named colors]."
    e. MANDATORY BACKGROUND ACTIVITY: You MUST describe at least 2-3 specific groups of background people with clothing colors, positions, and activities. "A couple of tourists leaning over the railing snapping photos on their phones, a group of school children in matching jackets walking past, a jogger in a red hoodie in the far background" — this level of detail is REQUIRED. An empty scene is a failure. Do NOT write "quiet", "deserted", "peaceful empty", "secluded". Always include natural human presence scaled to the location type.
 6. CAMERA & TECHNICAL SPECS: Must include:
-   - Camera type (smartphone / premium interchangeable optic)
+   - SPECIFIC REAL CAMERA MODEL — NEVER write "modern smartphone", "high-end camera", or any generic description. Always name the actual device. Examples by use case:
+     * POV selfie / lifestyle: "iPhone 16 Pro Max", "Samsung Galaxy S25 Ultra", "Google Pixel 9 Pro", "iPhone 15 Pro"
+     * Street / travel candid: "Fujifilm X100VI", "Fujifilm X-T5 + 56mm f/1.2 XF", "Sony A7C II + 35mm f/1.8"
+     * Cinematic / editorial: "Sony A7 IV + 85mm f/1.4 G Master", "Canon EOS R5 + 50mm f/1.2L", "Leica Q3 28mm f/1.7"
+     * Golden hour / portrait: "Nikon Z6 III + 50mm f/1.2 S", "Canon EOS R6 Mark II + 85mm f/1.8", "Leica M11 + 50mm Summilux f/1.4"
+     * If "Camera Device" is specified in the user message — use that EXACT model verbatim, no substitution.
    - Shot framing and angle
    - Perspective description
    - Exact lens mm, f/stop, shutter speed
    - Depth of field description
    - ISO
-   - REAL NAMED FILM STOCK (Fujifilm Velvia 50, Fujifilm Pro 400H, Kodak Portra 400/800, Kodak Ektar 100, etc.)
-   - One sentence describing the color science outcome
+   - REAL NAMED FILM STOCK (Fujifilm Velvia 50, Fujifilm Pro 400H, Kodak Portra 400/800, Kodak Ektar 100, Fujifilm Superia 400, Kodak Gold 200, Ilford HP5)
+   - One sentence describing the color science outcome tied to that specific film stock
    - Grain description
 7. NEGATIVE PROMPT: Comprehensive list preventing AI artifacts, empty scenes, studio look.
 8. OUTPUT FORMAT: Follow the structural template EXACTLY. No extra commentary, no markdown, no code blocks. Start output directly with "INSTRUCTION [LOCKED]:".`;
@@ -43,9 +53,9 @@ Subject Identity & Styling (Female): Hairstyling matching the provided target re
 Subject Identity & Styling (Male): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement if any]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Pose and Action (Shared Interaction): Two subjects [spatial proximity description]. Female [torso angle + 20-word anatomical WITH-chain tracking each arm and hand individually]. Female exhibiting [15-word micro-expression with eye contact direction]. Male [torso angle + 20-word anatomical WITH-chain tracking each arm and hand individually]. Male exhibiting [15-word micro-expression with eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
 Environment & Lighting: [LOCATION FULL REAL NAME], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
-Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
+Camera & Technical Specs: Shot on [SPECIFIC camera model — e.g. iPhone 16 Pro Max / Sony A7 IV + 85mm f/1.4 GM / Fujifilm X-T5 + 56mm f/1.2 XF]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
 Negative Prompt:
-Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects, floating limbs, disconnected arms, amputated hands, professional retouching, [context-specific: glossy skin / artificial bounce light / on camera flash / direct flash / harsh shadows / flash glare], [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], wide room, landscape, shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, [selfie-specific if POV: missing shoulder connection / disembodied selfie arm / camera floating in air / amputated limb / finger over lens / holding device / camera in frame / third person view / photographer visible], both shoulders raised, self-touching, ghost hand, third arm, extra wrist, hand passing through body, fused bodies, floating hand, watermark.`;
+Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subjects, floating limbs, disconnected arms, amputated hands, professional retouching, [context-specific: glossy skin / artificial bounce light / on camera flash / direct flash / harsh shadows / flash glare], [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], wide room, landscape, shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, [selfie-specific if POV: phone visible in frame, hand holding phone, smartphone visible, arm extended toward camera, device in hand, camera in frame, third person view, photographer visible, disembodied selfie arm, camera floating in air, amputated limb, finger over lens], both shoulders raised, self-touching, ghost hand, third arm, extra wrist, hand passing through body, fused bodies, floating hand, watermark.`;
 
 const DEFAULT_TPL_SOLO_F = `INSTRUCTION [LOCKED]: Use the provided reference image as the primary visual guide. Maintain an extremely strong and accurate resemblance to the subject shown in the reference. Preserve facial features, facial structure, hairstyle, skin tone, eye shape, nose, lips, and distinctive facial markers. Do not stylize, exaggerate, or significantly modify the core identity, bone structure, or proportions. Allow only small natural variations typical of real photography, lighting, and pose.
 Positive Prompt:
@@ -53,7 +63,7 @@ Core Aesthetic: Photorealistic authentic lifestyle snapshot of one female subjec
 Subject Identity & Styling (Female): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement or adjustment]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern, how fabric interacts with body. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Pose and Action (Female): One subject [position/stance]. [Torso angle + 25-word anatomical WITH-chain tracking each arm and hand individually]. Female exhibiting [15-word micro-expression with eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
 Environment & Lighting: [LOCATION FULL REAL NAME], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
-Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
+Camera & Technical Specs: Shot on [SPECIFIC camera model — e.g. iPhone 16 Pro Max / Sony A7 IV + 85mm f/1.4 GM / Fujifilm X-T5 + 56mm f/1.2 XF]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
 Negative Prompt:
 Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subject, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, arms, hands, fingers, [crop-specific exclusions: torso / waist down / bottom-wear / legwear / footwear / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation.`;
 
@@ -63,7 +73,7 @@ Core Aesthetic: Photorealistic authentic lifestyle snapshot of one male subject 
 Subject Identity & Styling (Male): Hairstyling matching the provided target reference image, [wind/pose-specific hair movement if any]. Exact face matching the provided target reference image. Clothing: [30+ word hyper-specific expansion — exact fabric, color, cut, fit, layering, wear pattern, how fabric interacts with body. NO hair/face/skin re-description]. Wearable Accessories: [Body/head/face accessories only with specific detail, or "No accessories"].
 Pose and Action (Male): One subject [position/stance]. [Torso angle + 25-word anatomical WITH-chain tracking each arm and hand individually]. Male exhibiting [15-word micro-expression with eye contact direction]. All other hands and limbs completely hidden from view out of frame. Cropped exactly at [CROP POINT].
 Environment & Lighting: [LOCATION FULL REAL NAME], [80+ words of ALIVE environment: terrain, vegetation, sky, landmarks — AND natural human/wildlife activity appropriate to this location's popularity. Tourist spots have visitors. Streets have pedestrians. Nature has birds/insects. Make it feel lived-in and real]. [Lighting: direction, quality, shadows, ambient fill]. Overall scene features a [vibe] color palette of [6-9 specific named colors].
-Camera & Technical Specs: Shot on [smartphone / premium interchangeable optic]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
+Camera & Technical Specs: Shot on [SPECIFIC camera model — e.g. iPhone 16 Pro Max / Sony A7 IV + 85mm f/1.4 GM / Fujifilm X-T5 + 56mm f/1.2 XF]. Framed as [shot type] from [angle description]. [Perspective description], [depth of field description], [lens mm], f/[aperture], [shutter speed], ISO [number]. [Real film stock name], [one sentence color science outcome], [grain description].
 Negative Prompt:
 Semirealism, CGI, 3d render, airbrushed skin, doll face, wax figure, plastic skin, perfect symmetry, magazine editorial, stock photography, extra fingers, studio lighting, empty scene, abandoned feel, ghost town, no people, deserted, isolated subject, floating limbs, disconnected arms, amputated hands, professional retouching, glossy skin, artificial bounce light, rim light, [crop-specific exclusions: lower legs / footwear / feet / ground / floor / full body as appropriate], shallow depth of field, bokeh, blurred background, portrait mode, tilt shift, macro, soft focus, subject separation, on camera flash, flash glare, self-touching, ghost hand, third arm, extra wrist, hand passing through body, floating hand, object fused to body.`;
 
@@ -95,6 +105,32 @@ const GENRES = [
   "Music video still", "K-pop idol concept", "J-drama still",
   "Anime-inspired", "Indie film aesthetic", "New retro",
   "Y2K aesthetic", "Cyberpunk neon", "Dreamy ethereal"
+];
+
+const CAMERAS = [
+  // Smartphones
+  "iPhone 16 Pro Max (48MP Fusion camera)",
+  "iPhone 15 Pro (48MP main, f/1.78)",
+  "iPhone 13 (12MP main, warm cinematic rendering)",
+  "Samsung Galaxy S25 Ultra (200MP, f/1.7)",
+  "Samsung Galaxy S24 Ultra (200MP, f/1.7, vivid punchy colors)",
+  "Google Pixel 9 Pro (50MP, computational photography, clean clinical look)",
+  "Google Pixel 8 Pro (50MP, hyper-realistic AI processing)",
+  "Huawei P60 Pro (48MP XMAGE, variable aperture f/1.4–f/4.0)",
+  "OnePlus 12 Pro (50MP Hasselblad-tuned, natural color science)",
+  // Mirrorless / Interchangeable
+  "Sony A7 IV + 85mm f/1.4 G Master (full-frame, creamy bokeh, neutral color science)",
+  "Sony A7C II + 35mm f/1.8 (compact full-frame, street-friendly, natural rendering)",
+  "Canon EOS R5 + 50mm f/1.2L (full-frame, smooth Canon color science, warm tones)",
+  "Canon EOS R6 Mark II + 85mm f/1.8 (clean ISO, soft natural rendering)",
+  "Nikon Z6 III + 50mm f/1.2 S (full-frame, sharp micro-contrast, neutral skin tones)",
+  "Fujifilm X-T5 + 56mm f/1.2 XF (APS-C, strong film simulation, vintage organic rendering)",
+  "Fujifilm X100VI (fixed 23mm f/2, compact candid, strong Classic Chrome simulation)",
+  "Leica Q3 (28mm f/1.7 Summilux, signature Leica color rendering, micro-contrast)",
+  "Leica M11 + 50mm Summilux f/1.4 (rangefinder, ultra-thin depth of field, analog warmth)",
+  // DSLR
+  "Canon EOS 5D Mark IV + 50mm f/1.4 (classic full-frame DSLR, rich shadow rolloff)",
+  "Nikon D850 + 85mm f/1.4G (high-resolution, razor-sharp, warm golden rendering)",
 ];
 
 const REMIX_ASPECTS = [
@@ -185,27 +221,75 @@ Return ONLY a single valid JSON object:
 If no style images or auto-reclassified as location: set styleAnalysis to null.
 If no location images and GROUP A was not reclassified: set locationAnalysis to null.`;
 
-// Detect if user directives contain a specific named location
+// Detect if user directives contain a specific named location (smart parsing)
 const detectLockedLocation = (directives) => {
   if (!directives?.trim()) return null;
-  // Pattern: "Location: Place, City, Country" or "at Place, City" or "Place, City, Country" after keywords
-  const locationKeywords = /(?:location|place|at|in|set\s+(?:at|in)|scene\s+(?:at|in)|shot\s+(?:at|in))[:\s]+/i;
-  const match = directives.match(locationKeywords);
-  if (match) {
-    const after = directives.slice(match.index + match[0].length).trim();
-    // Take until newline or end — this is the locked location
-    const loc = after.split(/[\n\r]/)[0].trim().replace(/[.,;]?\s*$/, '');
-    if (loc.length > 3) return loc;
+
+  const text = directives.trim();
+
+  // Style/camera keywords that are NOT part of location
+  const styleKeywords = /style|shot|lens|camera|angle|framing|close-up|wide|portrait|lighting|mood|pose|aesthetic|film|vibe|pov|selfie|over-the-shoulder|dutch|bird'?s|worm'?s/i;
+
+  // Pattern 1: Explicit location preposition with following geographic content
+  // e.g. "POV selfie style, in London" → extracts "London"
+  // e.g. "casual look, at Tower Bridge, London" → extracts "Tower Bridge, London"
+  const locationPrepositionMatch = text.match(/(?:^|,\s*|\s+)(?:location|place|at|in|on|near|by|set\s+(?:at|in)|scene\s+(?:at|in)|shot\s+(?:at|in))[:\s]+([^,\n]+(?:,\s*[^,\n]+)?)/i);
+  if (locationPrepositionMatch) {
+    const loc = locationPrepositionMatch[1].trim();
+    // Don't return if the extracted part itself is a style keyword
+    if (loc.length > 2 && !styleKeywords.test(loc)) {
+      return loc;
+    }
   }
-  // Also detect if the directive itself IS a location (e.g. "Tower Bridge Walkway, London")
-  // Heuristic: contains a comma and a known country/city pattern, or user explicitly named a place
-  const commaCount = (directives.match(/,/g) || []).length;
-  if (commaCount >= 1 && directives.trim().length < 200 && !directives.toLowerCase().includes('surprise') && !directives.toLowerCase().includes('any')) {
-    // Likely a location directive — use the whole thing as locked location
-    return directives.trim();
+
+  // Pattern 2: Directive looks like a pure geographic string (no style keywords in front)
+  // e.g. "Tower Bridge, London, UK" → valid location
+  // e.g. "POV selfie style, London" → INVALID (has style keyword at start)
+  const hasStylePrefix = styleKeywords.test(text.split(',')[0] || '');
+
+  if (!hasStylePrefix) {
+    // Check if it looks like a location (comma + city/country pattern)
+    const commaCount = (text.match(/,/g) || []).length;
+    const looksLikeLocation = commaCount >= 1 &&
+      text.length < 200 &&
+      !text.toLowerCase().includes('surprise') &&
+      !text.toLowerCase().includes('any') &&
+      !text.toLowerCase().includes('style');
+
+    if (looksLikeLocation) {
+      return text;
+    }
   }
+
+  // Pattern 3: Extract geographic entity at end of directive after comma
+  // e.g. "POV selfie style, London" → "London"
+  // e.g. "romantic mood, Paris, France" → "Paris, France"
+  if (hasStylePrefix) {
+    const parts = text.split(',');
+    // Find the first part that doesn't contain style keywords
+    for (let i = 1; i < parts.length; i++) {
+      const candidate = parts.slice(i).join(',').trim();
+      if (candidate.length > 2 && !styleKeywords.test(candidate)) {
+        return candidate;
+      }
+    }
+  }
+
   return null;
 };
+
+// Extract style directive from user input (removes location part if detected)
+const extractStyleDirective = (directives, lockedLocation) => {
+  if (!directives?.trim()) return '';
+  if (!lockedLocation) return directives.trim();
+
+  // Remove the location portion from the directive
+  const stylePart = directives.replace(new RegExp(`,?\\s*${escapeRegExp(lockedLocation)}\\.?\\s*$`, 'i'), '').trim();
+  return stylePart;
+};
+
+// Helper to escape regex special characters
+const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
 // Generate ideas — now emphasizing REAL locations with ALIVE atmosphere
 const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis, locationAnalysis, existingLocations = []) => {
@@ -219,6 +303,7 @@ const buildIdeasPrompt = (charFemale, charMale, userDirectives, styleAnalysis, l
     : "lifestyle subjects";
 
   const lockedLocation = detectLockedLocation(userDirectives);
+  const styleDirective = extractStyleDirective(userDirectives, lockedLocation);
 
   const exclusionBlock = existingLocations.length > 0
     ? `\n\nCRITICAL: DO NOT reuse these already-generated locations. Generate COMPLETELY DIFFERENT locations:\n${existingLocations.map((loc, i) => `${i + 1}. ${loc}`).join('\n')}`
@@ -255,6 +340,14 @@ STYLE REFERENCE — POSE & FRAMING TEMPLATE [REQUIRED]:
 - Panel Format: ${styleAnalysis.panelFormat}
 CRITICAL: All 15 ideas MUST follow this same pose/interaction type and framing concept. Vary only outfit, mood, time of day${lockedLocation ? '' : ', and location'} — but keep the same physical pose pattern and framing.` : '';
 
+  // Style directive from user input (camera style, shot type, mood preferences)
+  const styleDirectiveBlock = styleDirective ? `
+USER STYLE DIRECTIVE [HIGH PRIORITY]: ${styleDirective}
+Apply this style directive to ALL 15 variations. This influences cameraStyle, suggestedShotType, and overall aesthetic.
+For "POV selfie": all variations should use POV selfie shot type with smartphone-style framing (arm extended, close-up, wide-angle lens).
+For "cinematic": use film-like camera specs, dramatic lighting.
+For specific moods: maintain that emotional tone across variations.` : '';
+
   if (useScenarioMode) {
     return `You are an elite photography creative director specializing in ALIVE, NATURAL lifestyle scenes at AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
 
@@ -282,7 +375,7 @@ Return ONLY a valid JSON array of exactly 15 objects:
   {
     "id": 1,
     "sceneName": "max 5-word evocative title",
-    "location": "Specific Real Place Name, City/Region, Country",
+    "location": "PLACE NAME ONLY — no style words like 'POV selfie'. Format: 'Place Name, City/Region, Country'",
     "locationEnvironmentHint": "10-15 word description: what makes this place visually unique + SPECIFIC crowd/activity level (e.g. 'blue steel railings, moderate tourist foot traffic, clear afternoon sky')",
     "mood": "atmospheric mood, max 10 words",
     "clothing": "BRIEF outfit concept only, max 15 words",
@@ -297,7 +390,7 @@ Return ONLY a valid JSON array of exactly 15 objects:
 
   return `You are an elite photography creative director specializing in ALIVE, NATURAL lifestyle scenes at AUTHENTIC REAL-WORLD locations. Generate exactly 15 VARIED scene ideas for ${genderCtx}.
 
-USER DIRECTIVES: ${userDirectives}
+${styleDirectiveBlock}
 ${stylePatternBlock}
 ${locationFactsBlock}
 ${locationLockBlock}
@@ -317,7 +410,7 @@ Return ONLY a valid JSON array of exactly 15 objects:
   {
     "id": 1,
     "sceneName": "max 5-word evocative title",
-    "location": "Specific Real Place Name, City/Region, Country",
+    "location": "PLACE NAME ONLY — no style words like 'POV selfie'. Format: 'Place Name, City/Region, Country'",
     "locationEnvironmentHint": "10-15 word description: visual uniqueness + SPECIFIC crowd/activity level (e.g. 'blue steel railings, moderate tourist foot traffic, clear afternoon sky')",
     "mood": "atmospheric mood, max 10 words",
     "clothing": "BRIEF outfit concept only, max 15 words",
@@ -768,6 +861,7 @@ FINAL OUTPUT: Return the combined JSON with styleAnalysis${hasStyleImages ? ' (e
     const shotType = settings.shotType !== undefined ? settings.shotType : (idea.suggestedShotType || "Medium close-up (chest up)");
     const cropPoint = settings.crop !== undefined ? settings.crop : (idea.suggestedCrop || "lower chest");
     const genre = settings.genre !== undefined ? settings.genre : (idea.genre || "Lifestyle snapshot");
+    const cameraDevice = settings.camera && settings.camera.trim() ? settings.camera.trim() : null;
 
     const charBlock = buildCharacterBlock(targetTask.apiType);
 
@@ -791,6 +885,8 @@ Use these EXACT physical facts in the Environment & Lighting section. Do NOT inv
 
     const envHint = idea.locationEnvironmentHint ? `\nLocation Hint: ${idea.locationEnvironmentHint}` : '';
 
+    const cameraDeviceLine = cameraDevice ? `Camera Device: ${cameraDevice}` : '';
+
     const userMsg = `Generate a prompt for this scene.
 Type: ${targetTask.apiType}
 Scene Name: ${idea.sceneName}
@@ -802,6 +898,7 @@ Camera Style: ${idea.cameraStyle}
 Shot Type: ${shotType}
 Crop Point: ${cropPoint}
 Genre: ${genre}
+${cameraDeviceLine}
 ${styleBlock}${locationBlock}
 LOCATION INTEGRITY [CRITICAL]: The location for this scene is "${idea.location}". You MUST use this EXACT location. Do NOT substitute, change, relocate, or replace it with a different city, country, or landmark. The environment description must accurately describe THIS specific place.
 
@@ -824,7 +921,9 @@ CRITICAL RULES FOR THIS GENERATION:
    - ⚠ FAILURE CONDITION: If your Environment & Lighting section describes the location as empty, quiet, deserted, isolated, or without other people — the prompt is WRONG. Rewrite it with natural human presence.
    - Describe lighting: direction (front/side/back), quality (soft/harsh/diffused), color temperature, shadows cast, ambient fill.
    - End with: "Overall scene features a [vibe] color palette of [exactly 6-9 specific named colors]."
-6. CAMERA & TECHNICAL SPECS: Must name a REAL film stock (Kodak Portra 400, Fujifilm Pro 400H, etc.). One sentence color science. Specific ISO and grain description.
+6. CAMERA & TECHNICAL SPECS: ${cameraDevice
+  ? `CAMERA DEVICE IS LOCKED — you MUST use exactly "${cameraDevice}". Do not substitute or generalize it. Write the model name verbatim in "Shot on [model]".`
+  : `Choose a SPECIFIC real camera model — NOT "smartphone" or "modern camera". Pick from: iPhone 16 Pro Max, iPhone 15 Pro, Samsung Galaxy S25 Ultra, Google Pixel 9 Pro (for POV selfie / lifestyle), OR Sony A7 IV + 85mm f/1.4 GM, Canon EOS R5 + 50mm f/1.2L, Fujifilm X-T5 + 56mm f/1.2 XF (for editorial / cinematic / street). Match the camera to the genre and shot type.`} Must also name a REAL film stock (Kodak Portra 400, Fujifilm Pro 400H, Fujifilm Velvia 50, etc.). One sentence color science outcome. Specific ISO and grain description.
 7. NEGATIVE PROMPT: Must include "empty scene, deserted location, no bystanders, ghost town, no pedestrians, isolated subjects, abandoned feel, wrong location, different country, relocated scene, no background activity, studio backdrop, fake background".
 8. Follow the structural template EXACTLY. No extra commentary or markdown.`;
 
@@ -1371,6 +1470,18 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
                       />
                       <datalist id="genres">
                         {GENRES.map(g => <option key={g} value={g} />)}
+                      </datalist>
+                      <input
+                        type="text"
+                        list="cameras"
+                        className="csel w-full"
+                        placeholder="Camera / Device..."
+                        value={settings.camera !== undefined ? settings.camera : ""}
+                        onChange={e => updateCardSetting(idea.id, 'camera', e.target.value)}
+                        onClick={e => e.stopPropagation()}
+                      />
+                      <datalist id="cameras">
+                        {CAMERAS.map(c => <option key={c} value={c} />)}
                       </datalist>
                     </div>
                     {isSelected && (
