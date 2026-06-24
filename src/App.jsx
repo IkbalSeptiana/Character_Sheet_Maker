@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-do
 import { ApiProvider, ApiContext } from './context/ApiContext';
 import CharRefGenerator from './components/CharRefGenerator';
 import PhotoPromptBuilder from './components/PhotoPromptBuilder';
+import CharacterFileGenerator from './components/CharacterFileGenerator';
 
 // ─── KOMPONEN GLOBAL API MODAL ───────────────────────────────────────────────
 function GlobalApiModal() {
@@ -194,6 +195,7 @@ function AppShell() {
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link to="/" style={linkStyle('/')}>👤 Character Reference</Link>
           <Link to="/photo-prompt" style={linkStyle('/photo-prompt')}>◈ Photo Prompt Builder</Link>
+          <Link to="/character-file" style={linkStyle('/character-file')}>📝 Character File</Link>
         </div>
 
         <button 
@@ -211,6 +213,7 @@ function AppShell() {
         <Routes>
           <Route path="/" element={<CharRefGenerator />} />
           <Route path="/photo-prompt" element={<PhotoPromptBuilder />} />
+          <Route path="/character-file" element={<CharacterFileGenerator />} />
         </Routes>
       </main>
 
