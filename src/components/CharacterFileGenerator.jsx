@@ -181,14 +181,28 @@ const toArray = (val) => Array.isArray(val) ? val : (typeof val === 'string' ? v
 
 const extractJson = (response) => {
   if (!response) throw new Error("Empty response from AI");
-  const text = response.trim();
-  const firstBrace = text.indexOf('{');
-  const lastBrace = text.lastIndexOf('}');
-  if (firstBrace === -1 || lastBrace === -1 || lastBrace <= firstBrace) {
-    throw new Error("No valid JSON object found in response");
+
+  let text = response.trim();
+  // Strip markdown code blocks
+  text = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim();
+
+  // Find the outermost balanced JSON object by tracking brace depth
+  let firstBrace = -1;
+  let depth = 0;
+  for (let i = 0; i < text.length; i++) {
+    if (text[i] === '{' && depth === 0) {
+      firstBrace = i;
+    }
+    if (text[i] === '{') depth++;
+    if (text[i] === '}') depth--;
+    if (firstBrace !== -1 && depth === 0) {
+      // Found complete balanced JSON object
+      const json = text.substring(firstBrace, i + 1);
+      return JSON.parse(json);
+    }
   }
-  const json = text.substring(firstBrace, lastBrace + 1);
-  return JSON.parse(json);
+
+  throw new Error("No valid JSON object found in response");
 };
 
 export default function CharacterFileGenerator() {
@@ -337,7 +351,8 @@ export default function CharacterFileGenerator() {
         userMsg,
         SYSTEM_PROMPT,
         true,
-        []
+        [],
+        16384
       );
       const data = extractJson(response);
       

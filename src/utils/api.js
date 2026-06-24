@@ -1,5 +1,4 @@
-export async function fetchFromLLM(config, userMessage, systemPrompt, isJson = false, images = []) {
-  // 🔥 TIMER 60 DETIK
+export async function fetchFromLLM(config, userMessage, systemPrompt, isJson = false, images = [], maxTokens = 4096) {
   const controller = new AbortController();
   const timeoutId = setTimeout(() => controller.abort(), 60000);
 
@@ -13,23 +12,23 @@ export async function fetchFromLLM(config, userMessage, systemPrompt, isJson = f
 
       const body = {
         contents: [{ role: "user", parts: parts }],
-        generationConfig: { temperature: 0.9, maxOutputTokens: 8192 }
+        generationConfig: { temperature: 0.9, maxOutputTokens: maxTokens }
       };
       if (isJson) body.generationConfig.responseMimeType = "application/json";
 
-      const res = await fetch(endpoint, { 
-        method: 'POST', 
-        headers: { 'Content-Type': 'application/json' }, 
+      const res = await fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
-        signal: controller.signal // <-- Pasang alat pemutus di sini
+        signal: controller.signal
       });
-      
-      clearTimeout(timeoutId); // Sukses? Matikan bom waktunya
-      
+
+      clearTimeout(timeoutId);
+
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || "Google API Error");
       return data.candidates[0].content.parts[0].text;
-      
+
     } else {
       const contentArray = images.map(img => ({ type: "image_url", image_url: { url: `data:${img.type};base64,${img.b64}` } }));
       contentArray.push({ type: "text", text: userMessage });
@@ -41,27 +40,27 @@ export async function fetchFromLLM(config, userMessage, systemPrompt, isJson = f
           { role: "user", content: contentArray }
         ],
         temperature: 0.9,
-        max_tokens: 4096
+        max_tokens: maxTokens
       };
       if (isJson && config.model.toLowerCase().includes('gpt')) {
         body.response_format = { type: "json_object" };
       }
 
-      const headers = { 
+      const headers = {
         'Content-Type': 'application/json',
-        'HTTP-Referer': window.location.href, 
+        'HTTP-Referer': window.location.href,
         'X-Title': 'Karakter Maker App'
       };
       if (config.apiKey) headers['Authorization'] = `Bearer ${config.apiKey}`;
 
-      const res = await fetch(config.url, { 
-        method: 'POST', 
-        headers: headers, 
+      const res = await fetch(config.url, {
+        method: 'POST',
+        headers: headers,
         body: JSON.stringify(body),
-        signal: controller.signal // <-- Pasang alat pemutus di sini
+        signal: controller.signal
       });
-      
-      clearTimeout(timeoutId); // Sukses? Matikan bom waktunya
+
+      clearTimeout(timeoutId);
 
       const data = await res.json();
       if (!res.ok) throw new Error(data.error?.message || data.error?.metadata?.raw || "Proxy API Error");
@@ -69,7 +68,6 @@ export async function fetchFromLLM(config, userMessage, systemPrompt, isJson = f
     }
   } catch (err) {
     clearTimeout(timeoutId);
-    // 🔥 CEGAT ERROR TIMEOUT
     if (err.name === 'AbortError') {
       throw new Error("Timeout 60 detik. Server AI kepenuhan atau menolak prompt.");
     }
