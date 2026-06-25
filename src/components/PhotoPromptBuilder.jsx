@@ -530,6 +530,17 @@ export default function PhotoPromptBuilder() {
   const charFInputRef = useRef(null);
   const charMInputRef = useRef(null);
 
+  // AbortController for cancellable LLM requests
+  const abortRef = useRef(null);
+  const [isCancelling, setIsCancelling] = useState(false);
+
+  const cancelOngoing = () => {
+    if (abortRef.current) {
+      setIsCancelling(true);
+      abortRef.current.abort();
+    }
+  };
+
   const [templates, setTemplates] = useState(() => {
     const saved = localStorage.getItem("pb_templates_v5");
     return saved ? JSON.parse(saved) : {
@@ -679,6 +690,9 @@ export default function PhotoPromptBuilder() {
     if (!activeConfig?.apiKey) { triggerToast("API Key not set."); return; }
 
     setStage("LOADING_IDEAS");
+    setIsCancelling(false);
+    abortRef.current = new AbortController();
+    const { signal } = abortRef.current;
 
     try {
       const allImages = [...styleImages, ...locationImages];
@@ -706,7 +720,7 @@ ${ideasRules}
 
 FINAL OUTPUT: Return the combined JSON with styleAnalysis${hasStyleImages ? ' (extracted from GROUP A images)' : ': null'}, locationAnalysis${hasLocationImages ? ' (extracted from GROUP B images)' : ': null'}, and ideas array.`;
 
-        const raw = await fetchFromLLM(activeConfig, combinedUserMsg, SYSTEM_GENERATE_ALL, true, allImages);
+        const raw = await fetchFromLLM(activeConfig, combinedUserMsg, SYSTEM_GENERATE_ALL, true, allImages, { signal });
         const result = JSON.parse(raw.replace(/```json/g, '').replace(/```/g, '').trim());
 
         if (result.styleAnalysis) setStyleAnalysis(result.styleAnalysis);
@@ -716,7 +730,7 @@ FINAL OUTPUT: Return the combined JSON with styleAnalysis${hasStyleImages ? ' (e
         // No images — text-only ideas generation (one call, no analysis needed)
         const raw = await fetchFromLLM(activeConfig,
           "Generate 15 scene ideas with specific real-world locations.",
-          ideasRules, true, []
+          ideasRules, true, [], { signal }
         );
         const cleaned = raw.replace(/```json/g, '').replace(/```/g, '').trim();
         const parsed = JSON.parse(cleaned);
@@ -739,8 +753,15 @@ FINAL OUTPUT: Return the combined JSON with styleAnalysis${hasStyleImages ? ' (e
       setCardSettings({});
       setStage("SELECT");
     } catch (err) {
-      triggerToast("Failed: " + err.message);
+      if (signal.aborted) {
+        triggerToast("Cancelled.");
+      } else {
+        triggerToast("Failed: " + err.message);
+      }
       setStage("INPUT");
+    } finally {
+      abortRef.current = null;
+      setIsCancelling(false);
     }
   };
 
@@ -928,7 +949,7 @@ CRITICAL RULES FOR THIS GENERATION:
 8. Follow the structural template EXACTLY. No extra commentary or markdown.`;
 
     try {
-      const res = await fetchFromLLM(activeConfig, userMsg, fullSystemPrompt, false, []);
+      const res = await fetchFromLLM(activeConfig, userMsg, fullSystemPrompt, false, [], { signal: abortRef.current?.signal });
       if (!res) throw new Error("Empty response.");
       setResults(prev => prev.map(r => r.taskKey === taskKey
         ? { ...r, status: 'success', resultText: res.replace(/^```[\s\S]*?\n/, '').replace(/```$/, '').trim() }
@@ -940,6 +961,8 @@ CRITICAL RULES FOR THIS GENERATION:
 
   const handleGeneratePrompts = () => {
     setStage("GENERATING");
+    setIsCancelling(false);
+    abortRef.current = new AbortController();
     setRemixTaskKey(null);
     setRemixVariations({});
     setRemixAspects({});
@@ -986,6 +1009,7 @@ CRITICAL RULES FOR THIS GENERATION:
 
     setRemixLoading(true);
     setRemixVariations(prev => ({ ...prev, [taskKey]: [] }));
+    abortRef.current = new AbortController();
 
     const charBlock = buildCharacterBlock(task.apiType);
     const location = task.idea.location;
@@ -1024,7 +1048,7 @@ ${task.resultText}
 Generate ${remixCount} variations now. Separate each with "===VARIATION===". Start the first variation immediately after this line.`;
 
     try {
-      const res = await fetchFromLLM(activeConfig, userMsg, remixSystemPrompt, false, []);
+      const res = await fetchFromLLM(activeConfig, userMsg, remixSystemPrompt, false, [], { signal: abortRef.current?.signal });
       if (!res) throw new Error("Empty response.");
 
       const cleaned = res.replace(/^```[\s\S]*?\n/, '').replace(/```$/, '').trim();
@@ -1046,6 +1070,8 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
       setRemixVariations(prev => ({ ...prev, [taskKey]: [] }));
     } finally {
       setRemixLoading(false);
+      abortRef.current = null;
+      setIsCancelling(false);
     }
   };
 
@@ -1366,6 +1392,13 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
               ? "Reading reference photos and generating 15 ideas in one request..."
               : "Generating 15 scene ideas with real-world locations..."}
           </div>
+          <button
+            onClick={cancelOngoing}
+            disabled={isCancelling}
+            className="mt-6 px-5 py-2.5 rounded-lg cursor-pointer text-sm font-semibold bg-(--error) text-white border-none hover:opacity-90 transition-opacity disabled:opacity-50 disabled:cursor-wait"
+          >
+            {isCancelling ? "Cancelling..." : "✕ Cancel"}
+          </button>
           </div>
         )}
 
@@ -1510,6 +1543,13 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
                 <div className="text-(--text-1) text-xl font-semibold">{results.filter(r => r.status === 'success').length} / {results.length} complete</div>
               </div>
               <div className="flex gap-3">
+                <button
+                  onClick={cancelOngoing}
+                  disabled={isCancelling}
+                  className="bg-(--error) text-white px-4 py-2 rounded-md cursor-pointer text-sm font-semibold border-none hover:opacity-90 disabled:opacity-50 disabled:cursor-wait"
+                >
+                  {isCancelling ? "Cancelling..." : "✕ Cancel"}
+                </button>
                 <button onClick={() => setStage("SELECT")} className="bg-transparent border border-(--border-hover) text-(--text-2) px-4 py-2 rounded-md cursor-pointer text-sm">Back</button>
                 <button
                   onClick={() => {
@@ -1615,6 +1655,15 @@ Generate ${remixCount} variations now. Separate each with "===VARIATION===". Sta
                       {remixLoading && remixTaskKey === task.taskKey && (
                         <div className="p-4 border-t border-(--border)">
                           <div className="skeleton" style={{ height: '120px' }} />
+                          <div className="text-center mt-3">
+                            <button
+                              onClick={cancelOngoing}
+                              disabled={isCancelling}
+                              className="bg-(--error) text-white px-4 py-2 rounded-md cursor-pointer text-sm font-semibold border-none hover:opacity-90 disabled:opacity-50 disabled:cursor-wait"
+                            >
+                              {isCancelling ? "Cancelling..." : "✕ Cancel"}
+                            </button>
+                          </div>
                         </div>
                       )}
                       {remixVariations[task.taskKey]?.length > 0 && (
