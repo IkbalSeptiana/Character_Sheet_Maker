@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-do
 import { ApiProvider, ApiContext } from './context/ApiContext';
 import CharRefGenerator from './components/CharRefGenerator';
 import PhotoPromptBuilder from './components/PhotoPromptBuilder';
-import CharacterFileGenerator from './components/CharacterFileGenerator';
 
 // ─── KOMPONEN GLOBAL API MODAL ───────────────────────────────────────────────
 function GlobalApiModal() {
@@ -36,6 +35,7 @@ function GlobalApiModal() {
     'gemini-3.5-flash',
     'gemini-3-flash-preview',
     'gemini-3.1-flash-lite',
+    'gemini-2.5-pro',
     'gemini-2.5-flash',
     'gemini-2.5-flash-lite',
     'gemma-4-31b-it',
@@ -196,7 +196,6 @@ function AppShell() {
         <div style={{ display: 'flex', gap: '8px' }}>
           <Link to="/" style={linkStyle('/')}>👤 Character Reference</Link>
           <Link to="/photo-prompt" style={linkStyle('/photo-prompt')}>◈ Photo Prompt Builder</Link>
-          <Link to="/character-file" style={linkStyle('/character-file')}>📝 Character File</Link>
         </div>
 
         <button 
@@ -214,7 +213,6 @@ function AppShell() {
         <Routes>
           <Route path="/" element={<CharRefGenerator />} />
           <Route path="/photo-prompt" element={<PhotoPromptBuilder />} />
-          <Route path="/character-file" element={<CharacterFileGenerator />} />
         </Routes>
       </main>
 
